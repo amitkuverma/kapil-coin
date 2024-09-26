@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { UsersService } from '../../services/users.service';
+import { PaymentService } from '../../services/payment.service';
 
 @Component({
   selector: 'app-payment-table',
@@ -9,16 +9,16 @@ import { UsersService } from '../../services/users.service';
   styleUrls: ['./payment-table.component.scss']
 })
 export class PaymentTableComponent {
-  displayedColumns: string[] = ['userId', 'name', 'email', 'mobile', 'emailVerified', 'referralCode', 'createdAt'];
+  displayedColumns: string[] = ['paymentId', 'userId', 'totalAmount', 'paymentMethod', 'transactionId', 'status', 'createdAt'];
   dataSource = new MatTableDataSource<any>();
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private usersService: UsersService) {}
+  constructor(private paymentService: PaymentService) {}
 
   ngOnInit(): void {
 
-    this.usersService.getUsers().subscribe(
+    this.paymentService.getAllReferUser().subscribe(
       (response:any) => {
         this.dataSource.data = response;
         this.dataSource.paginator = this.paginator; // Set the paginator

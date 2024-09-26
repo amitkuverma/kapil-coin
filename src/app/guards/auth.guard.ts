@@ -8,15 +8,28 @@ import { CookieService } from '../services/cookie.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router, private cookiesService: CookieService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cookiesService: CookieService
+  ) {}
 
   canActivate(): boolean {
     const token = this.cookiesService.getCookie('token');
-    console.log(token);
     
-    if (this.cookiesService.decodeToken().status === 'completed' || !this.cookiesService.isAdmin()) {
-      return true;
+    // Check if token exists
+    if (!token) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+
+    const decodedToken = this.cookiesService.decodeToken();
+
+    // Check if the user is admin and the profile status is 'completed'
+    if (decodedToken && (decodedToken.status === 'completed' || this.cookiesService.isAdmin())) {
+      return true;  // Allow access
     } else {
+      // Redirect to login page if not authorized
       this.router.navigate(['/login']);
       return false;
     }

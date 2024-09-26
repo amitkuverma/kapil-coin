@@ -31,6 +31,10 @@ import { CompletePaymentComponent } from './components/complete-payment/complete
 import { MatOptionModule } from '@angular/material/core';
 import { PaymentTableComponent } from './components/payment-table/payment-table.component';
 import { PaymentComponent } from './components/payment/payment.component'; // Import MatOptionModule explicitly
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';  // Import MatProgressSpinnerModule
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 @NgModule({
@@ -66,7 +70,14 @@ import { PaymentComponent } from './components/payment/payment.component'; // Im
     MatPaginatorModule,
     MatCardModule,
     MatGridListModule,
-    MatOptionModule
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,  // Optional: Toast display time in milliseconds
+      positionClass: 'toast-bottom-right',  // Optional: Toast position
+      preventDuplicates: true,  // Prevent multiple duplicate toasts
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

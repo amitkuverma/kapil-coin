@@ -41,11 +41,18 @@
   
     <div *ngIf="paymentSubmitted">
       <h3>Upload Receipt</h3>
-      <mat-form-field appearance="fill">
-        <mat-label>Receipt (optional)</mat-label>
-        <input type="file" (change)="onFileSelected($event)" accept="image/*">
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="uploadReceipt()" [disabled]="!selectedFile">Upload Receipt</button>
+      
+      <!-- Label and input for file upload -->
+      <label for="fileInput">Receipt (optional)</label>
+      
+      <!-- File input without mat-form-field -->
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*">
+    
+      <!-- Button to upload receipt -->
+      <button mat-raised-button color="primary" (click)="uploadReceipt()" [disabled]="!selectedFile">
+        Upload Receipt
+      </button>
     </div>
+    
   </div>
   

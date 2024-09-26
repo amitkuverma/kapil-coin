@@ -1,0 +1,21 @@
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+  
+  @media (max-width: 768px) {
+    /* Hide certain columns on smaller screens */
+    .hide-on-mobile {
+      display: none;
+    }
+  
+    /* Adjust table font size and padding for mobile view */
+    table {
+      font-size: 12px;
+    }
+  
+    th, td {
+      padding: 8px;
+    }
+  }
+  

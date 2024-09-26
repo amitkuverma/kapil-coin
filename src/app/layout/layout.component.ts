@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CookieService } from '../services/cookie.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -7,5 +8,13 @@ import { CookieService } from '../services/cookie.service';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
-  constructor(public cookiesService:CookieService){}
+  constructor(private router: Router, public cookieService: CookieService) {}
+
+  logout(): void {
+    // Clear the token or any session data from cookies
+    this.cookieService.deleteCookie('token'); 
+
+    // Navigate back to the login page
+    this.router.navigate(['/login']);
+  }
 }

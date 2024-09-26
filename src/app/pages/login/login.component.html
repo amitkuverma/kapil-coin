@@ -23,14 +23,15 @@
       </mat-form-field>
 
       <!-- Agree to Terms Checkbox -->
-      <!-- <mat-checkbox formControlName="agreeToTerms" class="terms-checkbox">I agree to the terms and conditions</mat-checkbox>
+      <mat-checkbox formControlName="agreeToTerms" class="terms-checkbox">I agree to the terms and conditions</mat-checkbox>
       <mat-error *ngIf="loginForm.get('agreeToTerms')?.invalid && loginForm.get('agreeToTerms')?.touched">
         You must agree to the terms to proceed.
-      </mat-error> -->
+      </mat-error>
 
-      <!-- Submit Button -->
-      <button mat-raised-button color="primary" class="submit-btn" type="submit" [disabled]="loginForm.invalid">
-        Login
+      <!-- Submit Button with Loader -->
+      <button mat-raised-button color="primary" class="submit-btn" type="submit" [disabled]="loginForm.invalid || isLoading">
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        <span *ngIf="!isLoading">Login</span>
       </button>
 
       <!-- Links -->

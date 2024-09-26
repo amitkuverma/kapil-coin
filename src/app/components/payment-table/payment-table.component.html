@@ -1,55 +1,51 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <!-- User ID Column -->
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Payment ID Column (Always visible) -->
+    <ng-container matColumnDef="paymentId">
+      <th mat-header-cell *matHeaderCellDef> Payment ID </th>
+      <td mat-cell *matCellDef="let payment"> {{ payment.paymentId }} </td>
+    </ng-container>
+
+    <!-- User ID Column (Visible on larger screens) -->
     <ng-container matColumnDef="userId">
-      <th mat-header-cell *matHeaderCellDef> User ID </th>
-      <td mat-cell *matCellDef="let user"> {{ user.userId }} </td>
+      <th mat-header-cell *matHeaderCellDef class="hide-on-mobile"> User ID </th>
+      <td mat-cell *matCellDef="let payment" class="hide-on-mobile"> {{ payment.userId }} </td>
     </ng-container>
-  
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let user"> {{ user.name }} </td>
+
+    <!-- Total Amount Column (Always visible) -->
+    <ng-container matColumnDef="totalAmount">
+      <th mat-header-cell *matHeaderCellDef> Total Amount </th>
+      <td mat-cell *matCellDef="let payment"> {{ payment.totalAmount }} </td>
     </ng-container>
-  
-    <!-- Email Column -->
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let user"> {{ user.email }} </td>
+
+    <!-- Payment Method Column (Visible on larger screens) -->
+    <ng-container matColumnDef="paymentMethod">
+      <th mat-header-cell *matHeaderCellDef class="hide-on-mobile"> Payment Method </th>
+      <td mat-cell *matCellDef="let payment" class="hide-on-mobile"> {{ payment.paymentMethod }} </td>
     </ng-container>
-  
-    <!-- Mobile Column -->
-    <ng-container matColumnDef="mobile">
-      <th mat-header-cell *matHeaderCellDef> Mobile </th>
-      <td mat-cell *matCellDef="let user"> {{ user.mobile }} </td>
+
+    <!-- Transaction ID Column (Visible on larger screens) -->
+    <ng-container matColumnDef="transactionId">
+      <th mat-header-cell *matHeaderCellDef class="hide-on-mobile"> Transaction ID </th>
+      <td mat-cell *matCellDef="let payment" class="hide-on-mobile"> {{ payment.transactionId }} </td>
     </ng-container>
-  
-    <!-- Email Verified Column -->
-    <ng-container matColumnDef="emailVerified">
-      <th mat-header-cell *matHeaderCellDef> Email Verified </th>
-      <td mat-cell *matCellDef="let user"> {{ user.emailVerified }} </td>
+
+    <!-- Status Column (Always visible) -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let payment"> {{ payment.status }} </td>
     </ng-container>
-  
-    <!-- Mobile Verified Column -->
-    <ng-container matColumnDef="mobileVerified">
-      <th mat-header-cell *matHeaderCellDef> Mobile Verified </th>
-      <td mat-cell *matCellDef="let user"> {{ user.mobileVerified }} </td>
-    </ng-container>
-  
-    <!-- Referral Code Column -->
-    <ng-container matColumnDef="referralCode">
-      <th mat-header-cell *matHeaderCellDef> Referral Code </th>
-      <td mat-cell *matCellDef="let user"> {{ user.referralCode }} </td>
-    </ng-container>
-  
-    <!-- Created At Column -->
+
+    <!-- Created At Column (Visible on larger screens) -->
     <ng-container matColumnDef="createdAt">
-      <th mat-header-cell *matHeaderCellDef> Created At </th>
-      <td mat-cell *matCellDef="let user"> {{ user.createdAt | date:'short' }} </td>
+      <th mat-header-cell *matHeaderCellDef class="hide-on-mobile"> Created At </th>
+      <td mat-cell *matCellDef="let payment" class="hide-on-mobile"> {{ payment.createdAt | date: 'short' }} </td>
     </ng-container>
-  
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  
+
   <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-  
+</div>

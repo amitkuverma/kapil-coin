@@ -14,7 +14,7 @@ export class CompletePaymentComponent {
   paymentSubmitted = false;
   selectedFile: File | null = null;
 
-  constructor(private fb: FormBuilder, private paymentService:PaymentService, private cookiesService:CookieService) {}
+  constructor(private fb: FormBuilder, private paymentService: PaymentService, private cookiesService: CookieService) { }
 
   ngOnInit(): void {
     this.paymentForm = this.fb.group({
@@ -25,10 +25,10 @@ export class CompletePaymentComponent {
     });
   }
 
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file; // Store the selected file
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.selectedFile = input.files[0];
     }
   }
 

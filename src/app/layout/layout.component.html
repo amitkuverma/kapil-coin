@@ -18,7 +18,7 @@
         <mat-icon>groups</mat-icon>
         <span *ngIf="sidenav.opened">User network</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'manage-account'" *ngIf="cookiesService.isAdmin()">
+      <mat-list-item [routerLink]="'manage-account'" *ngIf="cookieService.isAdmin()">
         <mat-icon>manage-account</mat-icon>
         <span *ngIf="sidenav.opened">Manage account</span>
       </mat-list-item>
@@ -48,7 +48,7 @@
           <mat-icon>settings</mat-icon>
           <span>Manage Account</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="logout()">
           <mat-icon>exit_to_app</mat-icon>
           <span>Logout</span>
         </button>
