@@ -26,7 +26,12 @@ export class LoginComponent {
         (response: any) => {
           if (response) {
             this.cookiesService.setCookie('token', response.token, 1);
-            this.router.navigate(['/dashboard']);
+            
+            if(this.cookiesService.decodeToken().status == "completed"){
+              this.router.navigate(['/dashboard']);
+            }else{
+              this.router.navigate(['/complete-payment']);
+            }
           }
         },
         (error: any) => {

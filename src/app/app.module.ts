@@ -26,6 +26,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { UserNetworkTreeComponent } from './components/user-network-tree/user-network-tree.component';
 import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { CompletePaymentComponent } from './components/complete-payment/complete-payment.component';
+import { MatOptionModule } from '@angular/material/core';
+import { PaymentTableComponent } from './components/payment-table/payment-table.component';
+import { PaymentComponent } from './components/payment/payment.component'; // Import MatOptionModule explicitly
 
 
 @NgModule({
@@ -37,7 +42,10 @@ import { MatCardModule } from '@angular/material/card';
     DashboardComponent,
     UsersComponent,
     ManageAccountComponent,
-    UserNetworkTreeComponent
+    UserNetworkTreeComponent,
+    CompletePaymentComponent,
+    PaymentTableComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +64,9 @@ import { MatCardModule } from '@angular/material/card';
     MatTreeModule,
     MatTableModule,
     MatPaginatorModule,
-    MatCardModule
+    MatCardModule,
+    MatGridListModule,
+    MatOptionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -12,7 +12,9 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean {
     const token = this.cookiesService.getCookie('token');
-    if (token) {
+    console.log(token);
+    
+    if (this.cookiesService.decodeToken().status === 'completed' || !this.cookiesService.isAdmin()) {
       return true;
     } else {
       this.router.navigate(['/login']);
