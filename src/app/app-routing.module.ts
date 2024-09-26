@@ -4,9 +4,10 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LayoutComponent } from './layout/layout.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { UsersComponent } from './users/users.component';
-import { UserNetworkTreeComponent } from './user-network-tree/user-network-tree.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UsersComponent } from './components/users/users.component';
+import { UserNetworkTreeComponent } from './components/user-network-tree/user-network-tree.component';
+import { ManageAccountComponent } from './components/manage-account/manage-account.component';
 
 const routes: Routes = [
   {
@@ -15,8 +16,8 @@ const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
-      { path: 'user-networks', component: UserNetworkTreeComponent, canActivate: [AuthGuard] },
-      { path: 'user-networks', component: UserNetworkTreeComponent, canActivate: [AuthGuard] },
+      { path: 'user-network', component: UserNetworkTreeComponent, canActivate: [AuthGuard] },
+      { path: 'manage-account', component: ManageAccountComponent, canActivate: [AuthGuard] },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

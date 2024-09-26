@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../../services/users.service';
 
 interface UserNode {
   name: string;
@@ -63,5 +63,22 @@ export class UserNetworkTreeComponent implements OnInit {
 
   selectNode(node: UserNode): void {
     this.selectedNode = node;
+  }
+
+  shareUrl(referralCode:any): void {
+    const urlToShare = 'https://example.com'; // Replace with your desired URL
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Check this out!',
+        text: 'I want you to see this URL.',
+        url: urlToShare + "?referralCode=" + referralCode
+      })
+      .then(() => console.log('Share successful'))
+      .catch((error) => console.error('Error sharing:', error));
+    } else {
+      // Fallback for browsers that do not support the Web Share API
+      alert('Share this URL: ' + urlToShare);
+    }
   }
 }

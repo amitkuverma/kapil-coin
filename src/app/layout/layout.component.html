@@ -1,27 +1,28 @@
 <mat-sidenav-container class="main-container">
   <!-- Sidebar -->
-  <mat-sidenav #sidenav mode="side" opened class="side-nav" [mode]="(sidenav.opened ? 'side' : 'over')" [fixedInViewport]="!sidenav.opened" [attr.mini]="sidenav.opened ? null : true">
+  <mat-sidenav #sidenav mode="side" opened class="side-nav" [mode]="(sidenav.opened ? 'side' : 'over')"
+    [fixedInViewport]="!sidenav.opened" [attr.mini]="sidenav.opened ? null : true">
     <mat-toolbar color="primary" class="logo">
       <span *ngIf="sidenav.opened">Kapil Coin</span>
     </mat-toolbar>
     <mat-nav-list>
-      <mat-list-item>
+      <mat-list-item [routerLink]="'/'">
         <mat-icon>dashboard</mat-icon>
-        <span *ngIf="sidenav.opened" [routerLink]="'/'">Dashboard</span>
+        <span *ngIf="sidenav.opened">Dashboard</span>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item [routerLink]="'users'">
         <mat-icon>person</mat-icon>
-        <span *ngIf="sidenav.opened" [routerLink]="'users'">Users</span>
+        <span *ngIf="sidenav.opened">Users</span>
       </mat-list-item>
-      <mat-list-item>
-        <mat-icon>person</mat-icon>
-        <span *ngIf="sidenav.opened" [routerLink]="'user-network'">User network</span>
+      <mat-list-item [routerLink]="'user-network'">
+        <mat-icon>groups</mat-icon>
+        <span *ngIf="sidenav.opened">User network</span>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item [routerLink]="'manage-account'">
         <mat-icon>manage-account</mat-icon>
-        <span *ngIf="sidenav.opened" [routerLink]="'manage-account'">Manage account</span>
+        <span *ngIf="sidenav.opened">Manage account</span>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item [routerLink]="'setting'">
         <mat-icon>settings</mat-icon>
         <span *ngIf="sidenav.opened">Settings</span>
       </mat-list-item>
@@ -36,7 +37,7 @@
         <mat-icon>menu</mat-icon>
       </button>
       <span>Dashboard</span>
-      
+
       <!-- User Profile on the right -->
       <span class="spacer"></span>
       <button mat-icon-button [matMenuTriggerFor]="profileMenu">
