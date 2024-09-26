@@ -1,1 +1,93 @@
-<p>dashboard works!</p>
+<mat-sidenav-container class="main-container">
+
+  <mat-sidenav-content>
+
+    <!-- Page content -->
+    <div class="dashboard-content">
+      <!-- Grid layout for the cards -->
+      <mat-grid-list cols="4" rowHeight="1:1" gutterSize="16px" class="grid-container">
+        <!-- Cards for metrics -->
+        <mat-grid-tile colspan="1">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>show_chart</mat-icon> Total Sales
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="card-metric">₹ 50,000</p>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>trending_up</mat-icon> Active Users
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="card-metric">1,200</p>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>monetization_on</mat-icon> Revenue
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="card-metric">₹ 12000</p>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>person</mat-icon> New Users
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="card-metric">230</p>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+
+        <!-- You can add charts, graphs, or other UI elements in these cards -->
+        <mat-grid-tile colspan="2">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>bar_chart</mat-icon> Sales Chart
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <!-- Placeholder for a chart or graph -->
+              <p>Chart data goes here</p>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="2">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>pie_chart</mat-icon> User Growth
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <!-- Placeholder for a chart or graph -->
+              <p>Chart data goes here</p>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -25,6 +25,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { UserNetworkTreeComponent } from './components/user-network-tree/user-network-tree.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { UserNetworkTreeComponent } from './components/user-network-tree/user-ne
     MatMenuModule,
     MatTreeModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

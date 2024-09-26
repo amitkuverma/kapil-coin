@@ -4,11 +4,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { UsersService } from '../../services/users.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'app-payment-table',
+  templateUrl: './payment-table.component.html',
+  styleUrls: ['./payment-table.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class PaymentTableComponent {
   displayedColumns: string[] = ['userId', 'name', 'email', 'mobile', 'emailVerified', 'referralCode', 'createdAt'];
   dataSource = new MatTableDataSource<any>();
   
@@ -29,3 +29,4 @@ export class UsersComponent implements OnInit {
     );
   }
 }
+
