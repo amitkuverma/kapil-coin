@@ -1,0 +1,44 @@
+<div class="user-network-container">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="user-network-tree">
+    <!-- Parent node template -->
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+      <div class="user-node">
+        <img [src]="node.profilePic" alt="{{ node.name }}" class="user-pic">
+        <div class="user-info">
+          <span class="user-name">{{ node.name }}</span>
+          <span class="user-email">{{ node.email }}</span>
+        </div>
+        <!-- Empty button to maintain uniformity -->
+        <button mat-icon-button class="toggle-icon" disabled>
+          <mat-icon>person</mat-icon>
+        </button>
+      </div>
+    </mat-tree-node>
+
+    <!-- Expandable node template -->
+    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+      <div class="user-node" (click)="selectNode(node)">
+        <img [src]="node.profilePic" alt="{{ node.name }}" class="user-pic">
+        <div class="user-info">
+          <span class="user-name">{{ node.name }}</span>
+          <span class="user-email">{{ node.email }}</span>
+        </div>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name" class="toggle-icon">
+          <mat-icon>{{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+        </button>
+      </div>
+      <div class="referrals-branch" [class.collapsed]="!treeControl.isExpanded(node)">
+        <ng-container matTreeNodeOutlet></ng-container>
+      </div>
+    </mat-nested-tree-node>
+  </mat-tree>
+
+  <!-- Sidebar/Details Panel for Selected Node -->
+  <div class="user-details-panel" *ngIf="selectedNode">
+    <h3>User Details</h3>
+    <p><strong>Name:</strong> {{ selectedNode.name }}</p>
+    <p><strong>Email:</strong> {{ selectedNode.email }}</p>
+    <p><strong>Mobile:</strong> {{ selectedNode.mobile }}</p>
+    <!-- Add more details if necessary -->
+  </div>
+</div>

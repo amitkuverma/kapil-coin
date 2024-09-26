@@ -1,0 +1,118 @@
+.user-network-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.user-network-tree {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .user-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    width: 150px;
+    text-align: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    // Line connecting to child nodes
+    &::after {
+      content: "";
+      width: 2px;
+      height: 20px;
+      background-color: #ccc;
+      position: absolute;
+      bottom: -20px; /* Extends down to connect to the next level */
+      left: 50%; /* Center the line horizontally */
+      transform: translateX(-50%);
+    }
+
+    .user-pic {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .user-info {
+      .user-name {
+        font-weight: bold;
+      }
+
+      .user-email {
+        font-size: 0.9rem;
+        color: #666;
+      }
+    }
+  }
+
+  .referrals-branch {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30px;
+    position: relative; /* Relative to contain the connecting line */
+
+    // Line connecting parent to children (horizontal)
+    &::before {
+      content: "";
+      width: 100%;
+      height: 2px;
+      background-color: #ccc;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* Collapsed state for child nodes */
+    &.collapsed {
+      display: none;
+    }
+  }
+
+  /* Connecting vertical lines between the referrals */
+  mat-tree-node, mat-nested-tree-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    position: relative; /* Position for connecting lines */
+
+    // Vertical line connecting siblings (only for referrals with children)
+    &::after {
+      content: "";
+      width: 2px;
+      height: 20px;
+      background-color: #ccc;
+      position: absolute;
+      top: -20px; /* Connects to the horizontal line */
+      left: 50%; /* Center the line */
+      transform: translateX(-50%);
+    }
+  }
+}
+
+.user-details-panel {
+  margin-left: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin-bottom: 15px;
+  }
+
+  p {
+    margin: 5px 0;
+  }
+}

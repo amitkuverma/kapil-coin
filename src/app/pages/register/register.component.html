@@ -1,0 +1,80 @@
+<div class="register-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <!-- Name Field -->
+      <div class="form-item">
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput id="name" formControlName="name" type="text" />
+          <mat-error *ngIf="registerForm.get('name')?.hasError('required')">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-item">
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput id="email" formControlName="email" type="email" />
+          <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-item">
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput id="password" formControlName="password" type="password" />
+          <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+            Password must be at least 8 characters
+          </mat-error>
+          <!-- <mat-error *ngIf="registerForm.get('password')?.hasError('pattern')">
+            Password must contain at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character
+          </mat-error> -->
+        </mat-form-field>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput id="confirmPassword" formControlName="confirmPassword" type="password" />
+        <mat-error *ngIf="registerForm.hasError('passwordMismatch')">
+          Passwords must match
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Mobile Number Field -->
+      <div class="form-item">
+        <mat-form-field appearance="fill">
+          <mat-label>Mobile Number</mat-label>
+          <input matInput id="mobile" formControlName="mobile" type="tel" />
+          <mat-error *ngIf="registerForm.get('mobile')?.hasError('pattern')">
+            Please enter a valid mobile number
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Optional Referral Code Field -->
+      <div class="form-item">
+        <mat-form-field appearance="fill">
+          <mat-label>Referral Code (Optional)</mat-label>
+          <input matInput id="referralCode" formControlName="referralCode" type="text" />
+        </mat-form-field>
+      </div>
+
+      <div class="password-hint form-item">
+        Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.
+      </div>
+    </div>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">
+      Register
+    </button>
+  </form>
+</div>
