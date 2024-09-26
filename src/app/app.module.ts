@@ -27,13 +27,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { UserNetworkTreeComponent } from './components/user-network-tree/user-network-tree.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { CompletePaymentComponent } from './components/complete-payment/complete-payment.component';
+import { CompletePaymentComponent } from './pages/complete-payment/complete-payment.component';
 import { MatOptionModule } from '@angular/material/core';
 import { PaymentTableComponent } from './components/payment-table/payment-table.component';
 import { PaymentComponent } from './components/payment/payment.component'; // Import MatOptionModule explicitly
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';  // Import MatProgressSpinnerModule
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToastrModule } from 'ngx-toastr';
+import { HomeComponent } from './pages/home/home.component';
 
 
 
@@ -49,7 +50,8 @@ import { ToastrModule } from 'ngx-toastr';
     UserNetworkTreeComponent,
     CompletePaymentComponent,
     PaymentTableComponent,
-    PaymentComponent
+    PaymentComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

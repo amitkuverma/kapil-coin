@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     
     // Check if token exists
     if (!token) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
       return false;
     }
 

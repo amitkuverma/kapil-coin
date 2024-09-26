@@ -8,9 +8,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserNetworkTreeComponent } from './components/user-network-tree/user-network-tree.component';
 import { ManageAccountComponent } from './components/manage-account/manage-account.component';
-import { CompletePaymentComponent } from './components/complete-payment/complete-payment.component';
+import { CompletePaymentComponent } from './pages/complete-payment/complete-payment.component';
 import { PaymentTableComponent } from './components/payment-table/payment-table.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
   {
@@ -23,13 +24,15 @@ const routes: Routes = [
       { path: 'manage-account', component: ManageAccountComponent, canActivate: [AuthGuard] },
       { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
       { path: 'payment-details', component: PaymentTableComponent, canActivate: [AuthGuard] },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' } // Default route under LayoutComponent
     ]
   },
+  { path: 'home', component: HomeComponent }, // Added explicit home route
+  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirect to home for empty path
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'complete-payment', component: CompletePaymentComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '**', redirectTo: 'home' } // Catch-all redirect to home
 ];
 
 @NgModule({

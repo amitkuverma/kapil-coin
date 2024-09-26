@@ -15,6 +15,6 @@ export class LayoutComponent {
     this.cookieService.deleteCookie('token'); 
 
     // Navigate back to the login page
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
   }
 }
