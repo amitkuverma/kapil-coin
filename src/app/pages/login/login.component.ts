@@ -27,7 +27,7 @@ export class LoginComponent {
           if (response) {
             this.cookiesService.setCookie('token', response.token, 1);
             
-            if(this.cookiesService.decodeToken().status == "completed"){
+            if(this.cookiesService.decodeToken().status == "completed" || this.cookiesService.isAdmin()){
               this.router.navigate(['/dashboard']);
             }else{
               this.router.navigate(['/complete-payment']);
