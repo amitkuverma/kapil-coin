@@ -1,1 +1,94 @@
-<p>manage-account works!</p>
+<div class="manage-account-container" style="padding: 20px;">
+  
+  <!-- Loader when fetching or saving account details -->
+  <div *ngIf="isLoading" class="loader-container">
+    <mat-spinner></mat-spinner>
+    <p>Loading...</p>
+  </div>
+
+  <!-- If no accountDetails are present, show the 'Add Account' message and button -->
+  <mat-card *ngIf="!isViewing && !isLoading">
+    <mat-card-header>
+      <mat-card-title>No Account Found</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>No account details are available. Please add a new account.</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="addNewAccount()">Add Account</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- If accountDetails are present, display the account data in a card -->
+  <mat-card *ngIf="isViewing && !isEditing && !isLoading">
+    <mat-card-header>
+      <mat-card-title>Account Details</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <p><strong>Bank Name:</strong> {{ accountDetails.bankName }}</p>
+      <p><strong>Branch Name:</strong> {{ accountDetails.branchName }}</p>
+      <p><strong>Account Holder Name:</strong> {{ accountDetails.accountHolderName }}</p>
+      <p><strong>Account Number:</strong> {{ accountDetails.accountNumber }}</p>
+      <p><strong>IFSC Code:</strong> {{ accountDetails.ifscCode }}</p>
+      <p><strong>Account Type:</strong> {{ accountDetails.accountType }}</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="editAccount()">Edit</button>
+      <button mat-raised-button color="warn" (click)="deleteAccount(accountDetails.accId)">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- If editing, show the form -->
+  <mat-card *ngIf="isEditing && !isLoading">
+    <mat-card-header>
+      <mat-card-title>Edit Account Details</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+        <!-- Bank Name Field -->
+        <mat-form-field class="full-width">
+          <mat-label>Bank Name</mat-label>
+          <input matInput formControlName="bankName" />
+        </mat-form-field>
+
+        <!-- Branch Name Field -->
+        <mat-form-field class="full-width">
+          <mat-label>Branch Name</mat-label>
+          <input matInput formControlName="branchName" />
+        </mat-form-field>
+
+        <!-- Account Holder Name Field -->
+        <mat-form-field class="full-width">
+          <mat-label>Account Holder Name</mat-label>
+          <input matInput formControlName="accountHolderName" />
+        </mat-form-field>
+
+        <!-- Account Number Field -->
+        <mat-form-field class="full-width">
+          <mat-label>Account Number</mat-label>
+          <input matInput formControlName="accountNumber" />
+        </mat-form-field>
+
+        <!-- IFSC Code Field -->
+        <mat-form-field class="full-width">
+          <mat-label>IFSC Code</mat-label>
+          <input matInput formControlName="ifscCode" />
+        </mat-form-field>
+
+        <!-- Account Type Field -->
+        <mat-form-field class="full-width">
+          <mat-label>Account Type</mat-label>
+          <input matInput formControlName="accountType" />
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+      <button mat-raised-button color="warn" (click)="cancelEdit()">Cancel</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

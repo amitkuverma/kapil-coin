@@ -1,0 +1,45 @@
+.manage-account-container {
+  position: relative; // Ensure the container can properly position the loader
+  min-height: 424px;
+
+  .loader-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); // Centers the loader in the middle
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 130px;
+    text-align: center;
+
+    p {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  }
+
+  mat-card {
+    margin: 20px 0;
+    padding: 20px;
+
+    mat-card-title {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    mat-card-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .full-width {
+      width: 100%;
+    }
+  }
+
+  button {
+    margin-left: 10px;
+  }
+}

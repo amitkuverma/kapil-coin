@@ -35,6 +35,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';  
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToastrModule } from 'ngx-toastr';
 import { HomeComponent } from './pages/home/home.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { SettingComponent } from './components/setting/setting.component';
 
 
 
@@ -51,7 +53,9 @@ import { HomeComponent } from './pages/home/home.component';
     CompletePaymentComponent,
     PaymentTableComponent,
     PaymentComponent,
-    HomeComponent
+    HomeComponent,
+    UserDetailsComponent,
+    SettingComponent
   ],
   imports: [
     BrowserModule,

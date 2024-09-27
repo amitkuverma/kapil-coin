@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from './cookie.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UsersService {
-    private apiUrl = 'https://api-18dg.onrender.com/api';
     token!: any;
     headers!: any;
 
@@ -17,11 +17,11 @@ export class UsersService {
 
     getUsers(): Observable<any> {       
         const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`); 
-        return this.http.get(`${this.apiUrl}/users`, { headers });
+        return this.http.get(`${environment.API_URL}/users`, { headers });
     }
 
     getUserReferrals(userId:any): Observable<any> {       
         const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`); 
-        return this.http.get(`${this.apiUrl}/referrals/${userId}`, { headers });
+        return this.http.get(`${environment.API_URL}/referrals/${userId}`, { headers });
     }
 }
