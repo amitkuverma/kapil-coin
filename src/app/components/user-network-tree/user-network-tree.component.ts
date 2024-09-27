@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { UsersService } from '../../services/users.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface UserNode {
   name: string;
@@ -21,10 +22,13 @@ export class UserNetworkTreeComponent implements OnInit {
   dataSource = new MatTreeNestedDataSource<UserNode>();
   selectedNode: UserNode | null = null;
 
-  constructor(private usersService: UsersService) {} // Change to MockUsersService
+  constructor(private usersService: UsersService, private route: ActivatedRoute) { } // Change to MockUsersService
 
   ngOnInit(): void {
-    this.fetchReferralData(1);
+    this.route.params.subscribe(params => {
+      const userId = params['userId']; // Capture userId from the route
+      this.fetchReferralData(userId);   // Use the userId to fetch data
+    });
   }
 
   fetchReferralData(userId: any): void {
@@ -65,7 +69,7 @@ export class UserNetworkTreeComponent implements OnInit {
     this.selectedNode = node;
   }
 
-  shareUrl(referralCode:any): void {
+  shareUrl(referralCode: any): void {
     const urlToShare = 'https://example.com'; // Replace with your desired URL
 
     if (navigator.share) {
@@ -74,8 +78,8 @@ export class UserNetworkTreeComponent implements OnInit {
         text: 'I want you to see this URL.',
         url: urlToShare + "?referralCode=" + referralCode
       })
-      .then(() => console.log('Share successful'))
-      .catch((error) => console.error('Error sharing:', error));
+        .then(() => console.log('Share successful'))
+        .catch((error) => console.error('Error sharing:', error));
     } else {
       // Fallback for browsers that do not support the Web Share API
       alert('Share this URL: ' + urlToShare);

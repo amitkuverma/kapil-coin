@@ -1,1 +1,23 @@
-<p>user-details works!</p>
+<div class="user-details-container">
+    <h2>User Details</h2>
+  
+    <div *ngIf="user">
+      <p><strong>User ID:</strong> {{ user.userId }}</p>
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Mobile:</strong> {{ user.mobile }}</p>
+      <p><strong>Email Verified:</strong> {{ user.emailVerified ? 'Yes' : 'No' }}</p>
+      <p><strong>Mobile Verified:</strong> {{ user.mobileVerified ? 'Yes' : 'No' }}</p>
+      <p><strong>Referral Code:</strong> {{ user.referralCode }}</p>
+      <p><strong>Created At:</strong> {{ user.createdAt | date: 'short' }}</p>
+      <p><strong>Status:</strong> {{ user.status }}</p>
+  
+      <!-- Status Update -->
+      <label for="status">Update Status</label>
+      <mat-select [(ngModel)]="user.status" name="status">
+        <mat-option *ngFor="let option of statusOptions" [value]="option">{{ option }}</mat-option>
+      </mat-select>
+      <button mat-raised-button (click)="updateStatus(user.userId)">Update Status</button>
+    </div>
+  </div>
+  

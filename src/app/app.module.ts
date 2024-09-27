@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -19,7 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { UsersComponent } from './components/users/users.component';
+import { UsersComponent } from './components/users-table/users-table.component';
 import { ManageAccountComponent } from './components/manage-account/manage-account.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatTableModule } from '@angular/material/table';
@@ -37,6 +37,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { HomeComponent } from './pages/home/home.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { SettingComponent } from './components/setting/setting.component';
+import { UsersAccountTableComponent } from './components/users-account-table/users-account-table.component';
 
 
 
@@ -55,12 +56,14 @@ import { SettingComponent } from './components/setting/setting.component';
     PaymentComponent,
     HomeComponent,
     UserDetailsComponent,
-    SettingComponent
+    SettingComponent,
+    UsersAccountTableComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule, 
     MatSidenavModule,

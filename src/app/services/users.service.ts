@@ -20,6 +20,16 @@ export class UsersService {
         return this.http.get(`${environment.API_URL}/users`, { headers });
     }
 
+    getUserById(userId:any): Observable<any> {       
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`); 
+        return this.http.get(`${environment.API_URL}/users/${userId}`, { headers });
+    }
+
+    updateUserStatus(userId:any, status:any): Observable<any> {       
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`); 
+        return this.http.put(`${environment.API_URL}/users/${userId}/status`, status, { headers });
+    }
+
     getUserReferrals(userId:any): Observable<any> {       
         const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`); 
         return this.http.get(`${environment.API_URL}/referrals/${userId}`, { headers });
