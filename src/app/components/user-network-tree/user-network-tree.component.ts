@@ -3,6 +3,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { UsersService } from '../../services/users.service';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 interface UserNode {
   name: string;
@@ -22,7 +23,7 @@ export class UserNetworkTreeComponent implements OnInit {
   dataSource = new MatTreeNestedDataSource<UserNode>();
   selectedNode: UserNode | null = null;
 
-  constructor(private usersService: UsersService, private route: ActivatedRoute) { } // Change to MockUsersService
+  constructor(private usersService: UsersService, private route: ActivatedRoute, public location: Location) { } // Change to MockUsersService
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

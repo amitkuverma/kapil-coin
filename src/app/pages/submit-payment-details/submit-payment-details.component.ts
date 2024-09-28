@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaymentService } from '../../services/payment.service';
 import { AccountDetailsService } from '../../services/account.service';
+import { CookieService } from '../../services/cookie.service';
 
 @Component({
   selector: 'app-submit-payment-details',
@@ -15,17 +16,19 @@ export class CompletePaymentComponent implements OnInit {
   showPaymentForm = false; // Control visibility of payment form
   selectedFile: File | null = null;
   accountDetails: any;
+  userDetails:any;
 
-  constructor(private fb: FormBuilder, private paymentService: PaymentService, private accountService: AccountDetailsService) { }
+  constructor(private fb: FormBuilder, private paymentService: PaymentService, private accountService: AccountDetailsService, private cookiesService: CookieService) { }
 
   ngOnInit(): void {
     this.paymentForm = this.fb.group({
-      amount: [null, [Validators.required, Validators.min(0)]],
+      totalAmount: [null, [Validators.required, Validators.min(0)]],
       paymentMethod: ['', Validators.required],
       transactionId: ['', Validators.required],
       status: [''], // Ensure status is part of the form
     });
     this.loadAccountDetails();
+    this.loadUserInfo(this.cookiesService.decodeToken().userId);
   }
 
   loadAccountDetails() {
@@ -35,6 +38,18 @@ export class CompletePaymentComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching account details', error.error);
+      }
+    );
+  }
+
+  loadUserInfo(userId:any) {
+    this.paymentService.getUserReferrals(userId).subscribe(
+      (data) => {
+        this.userDetails = data;
+        this.paymentForm.patchValue(this.userDetails)
+      },
+      (error) => {
+        console.error('Error fetching user details', error.error);
       }
     );
   }
@@ -53,7 +68,7 @@ export class CompletePaymentComponent implements OnInit {
   onSubmit(): void {
     if (this.paymentForm.valid) {
       const paymentData = {
-        totalAmount: this.paymentForm.get('amount')?.value,
+        totalAmount: this.paymentForm.get('totalAmount')?.value,
         paymentMethod: this.paymentForm.get('paymentMethod')?.value,
         transactionId: this.paymentForm.get('transactionId')?.value,
         status: "new",
@@ -61,7 +76,6 @@ export class CompletePaymentComponent implements OnInit {
 
       this.paymentService.createPayment(paymentData).subscribe(
         (response) => {
-          console.log('Payment created successfully', response);
           this.paymentForm.reset();
           this.paymentSubmitted = true; // Set to true after successful payment
           this.showPaymentForm = false; // Hide payment form after submission
@@ -82,7 +96,6 @@ export class CompletePaymentComponent implements OnInit {
 
       this.paymentService.uploadReceipt(formData).subscribe(
         (response) => {
-          console.log('Receipt uploaded successfully', response);
           this.selectedFile = null; // Reset file after successful upload
           this.receiptUploaded = true; // Set to true after successful receipt upload
         },

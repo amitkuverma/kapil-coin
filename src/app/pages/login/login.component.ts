@@ -20,6 +20,7 @@ export class LoginComponent {
       password: ['', [Validators.required]],
       agreeToTerms: [false, [Validators.requiredTrue]]  // Agree to terms checkbox
     });
+    this.cookiesService.deleteCookie('token')
   }
 
   onSubmit() {

@@ -1,0 +1,60 @@
+<button mat-button (click)="location.back()" class="mb-2"><mat-icon>arrow_back</mat-icon>Back</button>
+<div class="manage-account-container">
+
+    <!-- Loader when fetching or saving account details -->
+    <div *ngIf="isLoading" class="loader-container">
+        <mat-spinner></mat-spinner>
+        <p>Loading...</p>
+    </div>
+
+    <!-- If no accountDetails are present, show the 'Add Account' message and button -->
+    <mat-card *ngIf="!paymentDetails &&  !isLoading">
+        <mat-card-header>
+            <mat-card-title>No Payment Details Found</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Payment details are not updated by user.</p>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- If accountDetails are present, display the account data in a card -->
+    <mat-card *ngIf="paymentDetails && !isLoading">
+        <mat-card-header>
+            <mat-card-title class="txt-clrb7">Payment Details</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <table class="account-details-table">
+                <tbody>
+                    <tr>
+                        <td>Date</td>
+                        <td>{{ paymentDetails.createdAt | date:"short" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Pay Amount</td>
+                        <td>{{ paymentDetails.totalAmount }}</td>
+                    </tr>
+                    <tr>
+                        <td>Transaction Id</td>
+                        <td>{{ paymentDetails.transactionId }}</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>{{ paymentDetails.status }}</td>
+                    </tr>
+                    <tr>
+                        <td>Receipt</td>
+                        <td><img [src]="'http://localhost:3000/'+ paymentDetails.receipt"  alt="receipt"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-card-content>
+
+
+
+        <!-- <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="editAccount()">Edit</button>
+            <button mat-raised-button color="warn" (click)="deleteAccount(accountDetails.accId)">Delete</button>
+        </mat-card-actions> -->
+    </mat-card>
+</div>

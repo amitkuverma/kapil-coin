@@ -3,71 +3,71 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #f5f5f5; // Light background for the whole page
 }
 
 .account-card {
-  margin-bottom: 30px;
-  background-color: #ffffff;
-  padding: 20px;
-}
-
-.title {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #3f51b5;
-}
-
-.payment-form {
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-    margin-bottom: 20px;
-  }
-}
-
-.file-upload-section {
-  margin-top: 30px;
-  label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  #fileInput {
-    margin-bottom: 10px;
-  }
-}
-
-.file-upload-section {
-  background-color: #e0f7fa; /* Light blue background */
-  border: 1px solid #00695c; /* Darker border color */
-  padding: 20px;
-  border-radius: 8px; /* Rounded corners */
-  margin: 20px 0; /* Space above and below */
-  color: #004d40; /* Darker text color */
-  font-family: Arial, sans-serif; /* Consistent font */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
-
-.file-upload-section h3 {
-  margin: 0; /* Remove default margin */
-}
-
-.file-upload-section p {
-  margin: 5px 0 0; /* Space below the paragraph */
-}
-
-.account-card {
-  margin-bottom: 20px; // Space below the card
-  border: 1px solid #e0e0e0; // Border around the card
+  margin-bottom: 30px; // Space below the card
+  background-color: #ffffff; // White background for the card
+  padding: 20px; // Padding inside the card
+  border: 1px solid #e0e0e0; // Light border around the card
   border-radius: 8px; // Rounded corners
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); // Subtle shadow
 }
 
 .title {
   margin-top: 20px; // Space above the title
+  margin-bottom: 20px; // Space below the title
   font-size: 24px; // Title font size
   font-weight: bold; // Make the title bold
+  color: #3f51b5; // Primary color for title
+}
+
+.payment-form {
+  display: flex; // Flexbox for form layout
+  flex-direction: column; // Vertical alignment
+  width: 100%; // Full width for the form
+  
+  .form-grid {
+    display: grid; // Grid layout for form fields
+    grid-template-columns: 1fr 1fr; // Two columns
+    grid-gap: 20px; // Space between grid items
+    margin-bottom: 20px; // Space below the form grid
+  }
+}
+
+.file-upload-section {
+  background-color: #e0f7fa; // Light blue background
+  border: 1px dashed #ccc; // Dashed border for upload section
+  padding: 20px; // Padding for upload section
+  border-radius: 8px; // Rounded corners
+  margin: 20px 0; // Space above and below
+  color: #004d40; // Darker text color
+  font-family: Arial, sans-serif; // Consistent font
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Subtle shadow
+
+  label {
+    display: block; // Block display for labels
+    margin-bottom: 10px; // Space below labels
+  }
+  
+  #fileInput {
+    margin-bottom: 10px; // Space below file input
+  }
+}
+
+button {
+  margin-top: 20px; // Space above the button
+  width: 100%; // Full width for buttons
+}
+
+h3 {
+  color: #007bff; // Color for success messages
+  margin-bottom: 10px; // Space below success messages
+}
+
+.mat-error {
+  color: #f44336; // Red color for error messages
 }
 
 .mat-card-header {
@@ -78,43 +78,3 @@
 .mat-card-title {
   color: #333; // Title text color
 }
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.payment-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-
-button {
-  margin-top: 20px; // Space above the button
-  width: 100%; // Full width for buttons
-}
-
-.file-upload-section {
-  margin-top: 20px; // Space above file upload section
-  border: 1px dashed #ccc; // Dashed border for upload section
-  padding: 10px; // Padding for upload section
-  border-radius: 4px; // Rounded corners
-  background-color: #fafafa; // Light background for upload section
-}
-
-h3 {
-  color: #007bff; // Change color for success messages
-  margin-bottom: 10px; // Space below success messages
-}
-
-.mat-error {
-  color: #f44336; // Red color for error messages
-}
-

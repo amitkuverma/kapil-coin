@@ -22,14 +22,14 @@ export class PaymentService {
     }
 
     getAllReferUser(): Observable<any> {                
-        return this.http.get(`${environment.API_URL}/payment`);
+        return this.http.get(`${environment.API_URL}/payments`);
     }
 
-    getUserReferrals(): Observable<any> {                
-        return this.http.get(`${environment.API_URL}/payment/${this.cookiesService.decodeToken().userId}`);
+    getUserReferrals(userId:any): Observable<any> {                
+        return this.http.get(`${environment.API_URL}/payment/${userId}`);
     }
 
     uploadReceipt(receiptData: FormData): Observable<any> {        
-        return this.http.post(`${environment.API_URL}/payment/upload-receipt/${this.cookiesService.decodeToken().userId}`, receiptData);
+        return this.http.post(`${environment.API_URL}/payment/${this.cookiesService.decodeToken().userId}/upload-receipt`, receiptData);
     }
 }

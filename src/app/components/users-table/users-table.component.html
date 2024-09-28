@@ -58,16 +58,38 @@
     <th mat-header-cell *matHeaderCellDef class="action"> Action </th>
     <td mat-cell *matCellDef="let user">
       <!-- Redirect to User Network -->
-      <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+      <!-- <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
         (click)="goToUserNetwork(user.userId)" class="mr-1">
         <mat-icon>share</mat-icon>
-      </button>
+      </button> -->
 
       <!-- Redirect to User Details Page -->
-      <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+      <!-- <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
         (click)="goToUserDetails(user.userId)">
         <mat-icon>info</mat-icon>
+      </button> -->
+      <!-- Redirect to Payment Details Page -->
+      <!-- <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+        (click)="goToUserDetails(user.userId)">
+        <mat-icon>info</mat-icon>
+      </button> -->
+      <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+        <mat-icon>more_vert</mat-icon>
       </button>
+      <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item (click)="goToUserNetwork(user.userId)">
+          <mat-icon>share</mat-icon>
+          <span>User Network</span>
+        </button>
+        <button mat-menu-item (click)="goToUserDetails(user.userId)">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>User Details</span>
+        </button>
+        <button mat-menu-item (click)="goToPaymentDetails(user.userId)">
+          <mat-icon>payment</mat-icon>
+          <span>Payment Status</span>
+        </button>
+      </mat-menu>
     </td>
   </ng-container>
 

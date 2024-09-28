@@ -30,7 +30,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { CompletePaymentComponent } from './pages/submit-payment-details/submit-payment-details.component';
 import { MatOptionModule } from '@angular/material/core';
 import { PaymentTableComponent } from './components/payment-table/payment-table.component';
-import { PaymentComponent } from './components/payment/payment.component'; // Import MatOptionModule explicitly
+import { PaymentComponent } from './components/payment-details/payment-details.component'; // Import MatOptionModule explicitly
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';  // Import MatProgressSpinnerModule
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToastrModule } from 'ngx-toastr';

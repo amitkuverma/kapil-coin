@@ -11,7 +11,7 @@ import { Location } from '@angular/common';
 export class UserDetailsComponent implements OnInit {
   user: any;
 
-  constructor(private usersService: UsersService, private route: ActivatedRoute, private location: Location) { }
+  constructor(private usersService: UsersService, private route: ActivatedRoute, public location: Location) { }
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('userId');

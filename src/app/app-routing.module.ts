@@ -10,7 +10,7 @@ import { UserNetworkTreeComponent } from './components/user-network-tree/user-ne
 import { ManageAccountComponent } from './components/manage-account/manage-account.component';
 import { CompletePaymentComponent } from './pages/submit-payment-details/submit-payment-details.component';
 import { PaymentTableComponent } from './components/payment-table/payment-table.component';
-import { PaymentComponent } from './components/payment/payment.component';
+import { PaymentComponent } from './components/payment-details/payment-details.component';
 import { HomeComponent } from './pages/home/home.component';
 import { UsersAccountTableComponent } from './components/users-account-table/users-account-table.component';
 import { SettingComponent } from './components/setting/setting.component';

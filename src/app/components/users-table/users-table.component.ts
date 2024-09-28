@@ -37,4 +37,7 @@ export class UsersComponent implements OnInit {
   goToUserDetails(userId: number): void {
     this.router.navigate(['/user-details', userId]);
   }
+  goToPaymentDetails(userId: number): void {
+    this.router.navigate(['/payment-details', userId]);
+  }
 }
