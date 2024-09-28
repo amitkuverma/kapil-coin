@@ -45,6 +45,7 @@ export class ManageAccountComponent implements OnInit {
         console.error('Error fetching account details', error.error);
         this.isLoading = false;
         this.isEditing = false;
+        this.accountDetails = null;
       }
     );
   }
@@ -52,7 +53,7 @@ export class ManageAccountComponent implements OnInit {
   onSubmit() {
     this.isLoading = true;
     if (this.isEditing) {
-      this.accountService.saveAccount(this.accountForm.value).subscribe(
+      this.accountService.saveAccount(this.accountForm.value, this.formType === "Edit" ? this.accountDetails.accId : null).subscribe(
         () => {
           this.loadAccountDetails();
           this.isLoading = false;

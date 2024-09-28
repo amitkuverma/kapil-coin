@@ -4,20 +4,17 @@ import { PaymentService } from '../../services/payment.service';
 import { AccountDetailsService } from '../../services/account.service';
 
 @Component({
-  selector: 'app-complete-payment',
-  templateUrl: './complete-payment.component.html',
-  styleUrls: ['./complete-payment.component.scss']
+  selector: 'app-submit-payment-details',
+  templateUrl: './submit-payment-details.component.html',
+  styleUrls: ['./submit-payment-details.component.scss']
 })
-export class CompletePaymentComponent {
+export class CompletePaymentComponent implements OnInit {
   paymentForm!: FormGroup;
   paymentSubmitted = false;
+  receiptUploaded = false; // Track receipt upload status
+  showPaymentForm = false; // Control visibility of payment form
   selectedFile: File | null = null;
-  accountDetails:any;
-  statusOptions:any = [
-    { value: 'active', viewValue: 'Active' },
-    { value: 'inactive', viewValue: 'Inactive' },
-    { value: 'pending', viewValue: 'Pending' }
-  ];
+  accountDetails: any;
 
   constructor(private fb: FormBuilder, private paymentService: PaymentService, private accountService: AccountDetailsService) { }
 
@@ -26,7 +23,7 @@ export class CompletePaymentComponent {
       amount: [null, [Validators.required, Validators.min(0)]],
       paymentMethod: ['', Validators.required],
       transactionId: ['', Validators.required],
-      status: ['', Validators.required], // Ensure status is part of the form
+      status: [''], // Ensure status is part of the form
     });
     this.loadAccountDetails();
   }
@@ -42,6 +39,10 @@ export class CompletePaymentComponent {
     );
   }
 
+  hideAccountDetails() {
+    this.accountDetails = null; // Set accountDetails to null to hide the card
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
@@ -55,7 +56,7 @@ export class CompletePaymentComponent {
         totalAmount: this.paymentForm.get('amount')?.value,
         paymentMethod: this.paymentForm.get('paymentMethod')?.value,
         transactionId: this.paymentForm.get('transactionId')?.value,
-        status: this.paymentForm.get('status')?.value,
+        status: "new",
       };
 
       this.paymentService.createPayment(paymentData).subscribe(
@@ -63,7 +64,7 @@ export class CompletePaymentComponent {
           console.log('Payment created successfully', response);
           this.paymentForm.reset();
           this.paymentSubmitted = true; // Set to true after successful payment
-          this.selectedFile = null; // Reset file selection
+          this.showPaymentForm = false; // Hide payment form after submission
         },
         (error) => {
           console.error('Error creating payment', error);
@@ -83,6 +84,7 @@ export class CompletePaymentComponent {
         (response) => {
           console.log('Receipt uploaded successfully', response);
           this.selectedFile = null; // Reset file after successful upload
+          this.receiptUploaded = true; // Set to true after successful receipt upload
         },
         (error) => {
           console.error('Error uploading receipt', error);

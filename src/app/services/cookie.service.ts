@@ -49,4 +49,19 @@ export class CookieService {
     return false;
   }
   
+   // Get expiration time from token
+   getTokenExpiration(): number | null {
+    const decodedToken = this.decodeToken();
+    return decodedToken ? decodedToken.exp : null;
+  }
+
+  // Method to check if token is expired
+  isTokenExpired(): boolean {
+    const exp = this.getTokenExpiration();
+    if (!exp) return true;
+    
+    const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+    return exp < currentTime;
+  }
+
 }

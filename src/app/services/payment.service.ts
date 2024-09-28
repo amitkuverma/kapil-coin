@@ -17,19 +17,19 @@ export class PaymentService {
 
     createPayment(paymentData: any): Observable<any> {
         paymentData.userId = this.cookiesService.decodeToken().userId;
-        return this.http.post(`${environment.API_URL}/payments`, paymentData);
+        return this.http.post(`${environment.API_URL}/payment`, paymentData);
         
     }
 
     getAllReferUser(): Observable<any> {                
-        return this.http.get(`${environment.API_URL}/payments`);
+        return this.http.get(`${environment.API_URL}/payment`);
     }
 
     getUserReferrals(): Observable<any> {                
-        return this.http.get(`${environment.API_URL}/payments/${this.cookiesService.decodeToken().userId}`);
+        return this.http.get(`${environment.API_URL}/payment/${this.cookiesService.decodeToken().userId}`);
     }
 
     uploadReceipt(receiptData: FormData): Observable<any> {        
-        return this.http.post(`${environment.API_URL}/payments/upload-receipt/${this.cookiesService.decodeToken().userId}`, receiptData);
+        return this.http.post(`${environment.API_URL}/payment/upload-receipt/${this.cookiesService.decodeToken().userId}`, receiptData);
     }
 }

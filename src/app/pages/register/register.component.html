@@ -1,4 +1,4 @@
-<div class="register-container">
+<div *ngIf="!registrationSuccess" class="register-container">
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-grid">
       <!-- Name Field -->
@@ -34,9 +34,6 @@
           <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
             Password must be at least 8 characters
           </mat-error>
-          <!-- <mat-error *ngIf="registerForm.get('password')?.hasError('pattern')">
-            Password must contain at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character
-          </mat-error> -->
         </mat-form-field>
       </div>
 
@@ -77,4 +74,13 @@
       Register
     </button>
   </form>
+</div>
+<div *ngIf="registrationSuccess" class="register-container">
+  <div *ngIf="registrationSuccess" class="success-message">
+    <h3>Congratulations! 🎉 Registration Completed Successfully!</h3>
+    <p>Thank you for joining us! Please login to start your journey.</p>
+    <button mat-raised-button color="accent" (click)="login()">
+      Go to Login
+    </button>
+  </div>
 </div>

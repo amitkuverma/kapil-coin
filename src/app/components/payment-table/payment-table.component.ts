@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { PaymentService } from '../../services/payment.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment-table',
@@ -9,12 +10,12 @@ import { PaymentService } from '../../services/payment.service';
   styleUrls: ['./payment-table.component.scss']
 })
 export class PaymentTableComponent {
-  displayedColumns: string[] = ['paymentId', 'userId', 'totalAmount', 'paymentMethod', 'transactionId', 'status', 'createdAt'];
+  displayedColumns: string[] = ['userId', 'totalAmount', 'paymentMethod', 'transactionId', 'status', 'createdAt', 'action'];
   dataSource = new MatTableDataSource<any>();
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private paymentService: PaymentService) {}
+  constructor(private paymentService: PaymentService, private router: Router) {}
 
   ngOnInit(): void {
 
@@ -28,5 +29,27 @@ export class PaymentTableComponent {
       }
     );
   }
+
+  getStatusClass(status: string): string {
+    console.log(status);
+    
+    switch (status.toLowerCase()) {
+      case 'new':
+        return 'status-new';
+      case 'receipt':
+        return 'status-receipt';
+      default:
+        return 'status-other';
+    }
+  }
+
+  goToUserNetwork(userId: number) {
+    this.router.navigate(['/payment-details', userId]);
+  }
+
+  goToUserDetails(userId: number): void {
+    this.router.navigate(['/payment-details', userId]);
+  }
+
 }
 

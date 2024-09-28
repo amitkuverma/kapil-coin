@@ -31,11 +31,11 @@ export class AccountDetailsService {
     return this.http.get<any[]>(`${environment.API_URL}/account/${this.cookiesService.decodeToken().userId}`);
   }
 
-  saveAccount(account: any): Observable<any> {
+  saveAccount(account: any, accId:number): Observable<any> {
     account.userId = this.userId;
     
-    if (account.accId) {
-      return this.http.put(`${environment.API_URL}/account/${account.accId}`, account);
+    if (accId != null) {
+      return this.http.put(`${environment.API_URL}/account/${accId}`, account);
     } else {
       return this.http.post(`${environment.API_URL}/account`, account);
     }

@@ -1,42 +1,55 @@
 <div class="user-details-container">
-    <h2>{{ user.name | uppercase }} DETAILS</h2>
-  
-    <div *ngIf="user" class="user-info">
-      <div class="user-field">
-        <p><strong>User ID:</strong></p>
-        <p>{{ user.userId }}</p>
-      </div>
-      <div class="user-field">
-        <p><strong>Name:</strong></p>
-        <p>{{ user.name }}</p>
-      </div>
-      <div class="user-field">
-        <p><strong>Email:</strong></p>
-        <p>{{ user.email }}</p>
-      </div>
-      <div class="user-field">
-        <p><strong>Mobile:</strong></p>
-        <p>{{ user.mobile }}</p>
-      </div>
-      <div class="user-field">
-        <p><strong>Email Verified:</strong></p>
-        <p>{{ user.emailVerified ? 'Yes' : 'No' }}</p>
-      </div>
-      <div class="user-field">
-        <p><strong>Referral Code:</strong></p>
-        <p>{{ user.referralCode }}</p>
-      </div>
-      <div class="user-field">
-        <p><strong>Created At:</strong></p>
-        <p>{{ user.createdAt | date: 'short' }}</p>
-      </div>
-      <div class="user-field">
-        <p><strong>Status:</strong></p>
-        <p>{{ user.status }}</p>
-      </div>
-  
-      <!-- Status Update -->
-      <button mat-raised-button color="primary" class="status-button" (click)="updateStatus(user.userId)">Approved</button>
-    </div>
-  </div>
-  
+  <mat-card *ngIf="!user ">
+    <mat-card-header>
+      <mat-card-title>No Account Found</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>No account details are available. Please add a new account.</p>
+    </mat-card-content>
+    <!-- <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="addNewAccount()">Add Account</button>
+    </mat-card-actions> -->
+  </mat-card>
+  <mat-card *ngIf="user">
+    <mat-card-header>
+      <mat-card-title class="txt-clrb7">Welcome {{ user.name | uppercase }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <table class="account-details-table">
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>{{ user.name }}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <td>Mobile</td>
+            <td>{{ user.mobile }}</td>
+          </tr>
+          <tr>
+            <td>Verified</td>
+            <td>{{ user.emailVerified ? 'Yes' : 'No' }}</td>
+          </tr>
+          <tr>
+            <td>Referral Code</td>
+            <td>{{ user.referralCode }}</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>{{ user.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+
+
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="updateStatus(user.userId)">Update status</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

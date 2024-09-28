@@ -27,7 +27,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { UserNetworkTreeComponent } from './components/user-network-tree/user-network-tree.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { CompletePaymentComponent } from './pages/complete-payment/complete-payment.component';
+import { CompletePaymentComponent } from './pages/submit-payment-details/submit-payment-details.component';
 import { MatOptionModule } from '@angular/material/core';
 import { PaymentTableComponent } from './components/payment-table/payment-table.component';
 import { PaymentComponent } from './components/payment/payment.component'; // Import MatOptionModule explicitly
@@ -40,6 +40,7 @@ import { SettingComponent } from './components/setting/setting.component';
 import { UsersAccountTableComponent } from './components/users-account-table/users-account-table.component';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthInterceptor } from './auth.interceptor';
+import { DialogComponent } from './pages/dialog/dialog.component';
 
 
 
@@ -59,7 +60,8 @@ import { AuthInterceptor } from './auth.interceptor';
     HomeComponent,
     UserDetailsComponent,
     SettingComponent,
-    UsersAccountTableComponent
+    UsersAccountTableComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,

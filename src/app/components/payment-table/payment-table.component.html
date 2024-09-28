@@ -1,12 +1,6 @@
 <div class="table-container">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <!-- Payment ID Column (Always visible) -->
-    <ng-container matColumnDef="paymentId">
-      <th mat-header-cell *matHeaderCellDef> Payment ID </th>
-      <td mat-cell *matCellDef="let payment"> {{ payment.paymentId }} </td>
-    </ng-container>
-
     <!-- User ID Column (Visible on larger screens) -->
     <ng-container matColumnDef="userId">
       <th mat-header-cell *matHeaderCellDef class="hide-on-mobile"> User ID </th>
@@ -34,13 +28,30 @@
     <!-- Status Column (Always visible) -->
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let payment"> {{ payment.status }} </td>
+      <td mat-cell *matCellDef="let payment">
+        <span [ngClass]="getStatusClass(payment.status)">
+          <span class="status-indicator"></span>
+          {{ payment.status }}
+        </span>
+      </td>
     </ng-container>
 
     <!-- Created At Column (Visible on larger screens) -->
     <ng-container matColumnDef="createdAt">
       <th mat-header-cell *matHeaderCellDef class="hide-on-mobile"> Created At </th>
       <td mat-cell *matCellDef="let payment" class="hide-on-mobile"> {{ payment.createdAt | date: 'short' }} </td>
+    </ng-container>
+
+    <!-- Payment ID Column (Always visible) -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let user">
+        <!-- Redirect to User Network -->
+        <mat-icon class="action-icon" (click)="goToUserNetwork(user.userId)" style="cursor: pointer;">share</mat-icon>
+
+        <!-- Redirect to User Details Page -->
+        <mat-icon class="action-icon" (click)="goToUserDetails(user.userId)" style="cursor: pointer;">info</mat-icon>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  registrationSuccess:boolean = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.fb.group(
@@ -54,12 +55,16 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe(
         (response:any) => {
-          this.router.navigate(['/login']);
+          this.registrationSuccess = true;
         },
         (error:any) => {
           console.error('Registration failed', error);
         }
       );
     }
+  }
+
+  login(){
+    this.router.navigate(['/login']);
   }
 }

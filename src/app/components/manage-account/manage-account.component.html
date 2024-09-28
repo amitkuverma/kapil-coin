@@ -1,5 +1,5 @@
-<div class="manage-account-container" style="padding: 20px;">
-  
+<div class="manage-account-container">
+
   <!-- Loader when fetching or saving account details -->
   <div *ngIf="isLoading" class="loader-container">
     <mat-spinner></mat-spinner>
@@ -22,17 +22,41 @@
   <!-- If accountDetails are present, display the account data in a card -->
   <mat-card *ngIf="accountDetails && !isEditing && !isLoading">
     <mat-card-header>
-      <mat-card-title>Account Details</mat-card-title>
+      <mat-card-title class="txt-clrb7">Account Details</mat-card-title>
     </mat-card-header>
-    
+
     <mat-card-content>
-      <p><strong>Bank Name:</strong> {{ accountDetails.bankName }}</p>
-      <p><strong>Account Number:</strong> {{ accountDetails.accountNumber }}</p>
-      <p><strong>IFSC Code:</strong> {{ accountDetails.ifscCode }}</p>
-      <p><strong>Branch Name:</strong> {{ accountDetails.branchName }}</p>
-      <p><strong>Account Holder Name:</strong> {{ accountDetails.accountHolderName }}</p>
-      <p><strong>Account Type:</strong> {{ accountDetails.accountType }}</p>
+      <table class="account-details-table">
+        <tbody>
+          <tr>
+            <td>Bank Name</td>
+            <td>{{ accountDetails.bankName }}</td>
+          </tr>
+          <tr>
+            <td>Account Number</td>
+            <td>{{ accountDetails.accountNumber }}</td>
+          </tr>
+          <tr>
+            <td>IFSC Code</td>
+            <td>{{ accountDetails.ifscCode }}</td>
+          </tr>
+          <tr>
+            <td>Branch Name</td>
+            <td>{{ accountDetails.branchName }}</td>
+          </tr>
+          <tr>
+            <td>Account Holder Name</td>
+            <td>{{ accountDetails.accountHolderName }}</td>
+          </tr>
+          <tr>
+            <td>Account Type</td>
+            <td>{{ accountDetails.accountType }}</td>
+          </tr>
+        </tbody>
+      </table>
     </mat-card-content>
+
+
 
     <mat-card-actions>
       <button mat-raised-button color="primary" (click)="editAccount()">Edit</button>
@@ -45,7 +69,7 @@
     <mat-card-header>
       <mat-card-title>{{formType}} Account Details</mat-card-title>
     </mat-card-header>
-    
+
     <mat-card-content>
       <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
         <!-- Bank Name Field -->
@@ -65,7 +89,7 @@
           <mat-label>IFSC Code</mat-label>
           <input matInput formControlName="ifscCode" />
         </mat-form-field>
-        
+
         <!-- Branch Name Field -->
         <mat-form-field class="full-width">
           <mat-label>Branch Name</mat-label>

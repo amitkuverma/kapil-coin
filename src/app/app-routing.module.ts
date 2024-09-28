@@ -8,7 +8,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UsersComponent } from './components/users-table/users-table.component';
 import { UserNetworkTreeComponent } from './components/user-network-tree/user-network-tree.component';
 import { ManageAccountComponent } from './components/manage-account/manage-account.component';
-import { CompletePaymentComponent } from './pages/complete-payment/complete-payment.component';
+import { CompletePaymentComponent } from './pages/submit-payment-details/submit-payment-details.component';
 import { PaymentTableComponent } from './components/payment-table/payment-table.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -27,8 +27,8 @@ const routes: Routes = [
       { path: 'user-network/:userId', component: UserNetworkTreeComponent, canActivate: [AuthGuard] },
       { path: 'manage-account', component: ManageAccountComponent, canActivate: [AuthGuard] },
       { path: 'users-account', component: UsersAccountTableComponent, canActivate: [AuthGuard] },
-      { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
-      { path: 'payment-details', component: PaymentTableComponent, canActivate: [AuthGuard] },
+      { path: 'payment', component: PaymentTableComponent, canActivate: [AuthGuard] },
+      { path: 'payment-details/:userId', component: PaymentComponent, canActivate: [AuthGuard] },
       { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' } // Default route under LayoutComponent
     ]
