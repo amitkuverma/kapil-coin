@@ -17,23 +17,19 @@ export class PaymentService {
 
     createPayment(paymentData: any): Observable<any> {
         paymentData.userId = this.cookiesService.decodeToken().userId;
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-        return this.http.post(`${environment.API_URL}/payments`, paymentData, { headers });
+        return this.http.post(`${environment.API_URL}/payments`, paymentData);
         
     }
 
-    getAllReferUser(): Observable<any> {       
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`); 
-        return this.http.get(`${environment.API_URL}/payments`, { headers });
+    getAllReferUser(): Observable<any> {                
+        return this.http.get(`${environment.API_URL}/payments`);
     }
 
-    getUserReferrals(): Observable<any> {       
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`); 
-        return this.http.get(`${environment.API_URL}/payments/${this.cookiesService.decodeToken().userId}`, { headers });
+    getUserReferrals(): Observable<any> {                
+        return this.http.get(`${environment.API_URL}/payments/${this.cookiesService.decodeToken().userId}`);
     }
 
-    uploadReceipt(receiptData: FormData): Observable<any> {
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-        return this.http.post(`${environment.API_URL}/payments/upload-receipt/${this.cookiesService.decodeToken().userId}`, receiptData, { headers });
+    uploadReceipt(receiptData: FormData): Observable<any> {        
+        return this.http.post(`${environment.API_URL}/payments/upload-receipt/${this.cookiesService.decodeToken().userId}`, receiptData);
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../services/users.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-user-details',
@@ -9,20 +10,19 @@ import { UsersService } from '../../services/users.service';
 })
 export class UserDetailsComponent implements OnInit {
   user: any;
-  statusOptions: string[] = ['Active', 'Inactive', 'Suspended'];
 
-  constructor(private usersService: UsersService, private route: ActivatedRoute) {}
+  constructor(private usersService: UsersService, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('userId');
-    this.usersService.getUserById(userId).subscribe((data:any) => {
+    this.usersService.getUserById(userId).subscribe((data: any) => {
       this.user = data;
     });
   }
 
   updateStatus(userId: number): void {
-    this.usersService.updateUserStatus(userId, this.user.status).subscribe(() => {
-      alert('Status updated successfully');
+    this.usersService.updateUserStatus(userId, 'approved').subscribe(() => {
+      this.location.back()
     });
   }
 }

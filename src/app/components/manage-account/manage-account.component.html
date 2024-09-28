@@ -7,7 +7,7 @@
   </div>
 
   <!-- If no accountDetails are present, show the 'Add Account' message and button -->
-  <mat-card *ngIf="!isViewing && !isLoading">
+  <mat-card *ngIf="!accountDetails && !isEditing && !isLoading">
     <mat-card-header>
       <mat-card-title>No Account Found</mat-card-title>
     </mat-card-header>
@@ -20,17 +20,17 @@
   </mat-card>
 
   <!-- If accountDetails are present, display the account data in a card -->
-  <mat-card *ngIf="isViewing && !isEditing && !isLoading">
+  <mat-card *ngIf="accountDetails && !isEditing && !isLoading">
     <mat-card-header>
       <mat-card-title>Account Details</mat-card-title>
     </mat-card-header>
     
     <mat-card-content>
       <p><strong>Bank Name:</strong> {{ accountDetails.bankName }}</p>
-      <p><strong>Branch Name:</strong> {{ accountDetails.branchName }}</p>
-      <p><strong>Account Holder Name:</strong> {{ accountDetails.accountHolderName }}</p>
       <p><strong>Account Number:</strong> {{ accountDetails.accountNumber }}</p>
       <p><strong>IFSC Code:</strong> {{ accountDetails.ifscCode }}</p>
+      <p><strong>Branch Name:</strong> {{ accountDetails.branchName }}</p>
+      <p><strong>Account Holder Name:</strong> {{ accountDetails.accountHolderName }}</p>
       <p><strong>Account Type:</strong> {{ accountDetails.accountType }}</p>
     </mat-card-content>
 
@@ -43,7 +43,7 @@
   <!-- If editing, show the form -->
   <mat-card *ngIf="isEditing && !isLoading">
     <mat-card-header>
-      <mat-card-title>Edit Account Details</mat-card-title>
+      <mat-card-title>{{formType}} Account Details</mat-card-title>
     </mat-card-header>
     
     <mat-card-content>
@@ -52,18 +52,6 @@
         <mat-form-field class="full-width">
           <mat-label>Bank Name</mat-label>
           <input matInput formControlName="bankName" />
-        </mat-form-field>
-
-        <!-- Branch Name Field -->
-        <mat-form-field class="full-width">
-          <mat-label>Branch Name</mat-label>
-          <input matInput formControlName="branchName" />
-        </mat-form-field>
-
-        <!-- Account Holder Name Field -->
-        <mat-form-field class="full-width">
-          <mat-label>Account Holder Name</mat-label>
-          <input matInput formControlName="accountHolderName" />
         </mat-form-field>
 
         <!-- Account Number Field -->
@@ -76,6 +64,18 @@
         <mat-form-field class="full-width">
           <mat-label>IFSC Code</mat-label>
           <input matInput formControlName="ifscCode" />
+        </mat-form-field>
+        
+        <!-- Branch Name Field -->
+        <mat-form-field class="full-width">
+          <mat-label>Branch Name</mat-label>
+          <input matInput formControlName="branchName" />
+        </mat-form-field>
+
+        <!-- Account Holder Name Field -->
+        <mat-form-field class="full-width">
+          <mat-label>Account Holder Name</mat-label>
+          <input matInput formControlName="accountHolderName" />
         </mat-form-field>
 
         <!-- Account Type Field -->

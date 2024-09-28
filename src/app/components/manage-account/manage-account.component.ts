@@ -13,6 +13,7 @@ export class ManageAccountComponent implements OnInit {
   isViewing: boolean = true;  // Default to viewing mode
   isEditing: boolean = false;
   isLoading: boolean = false;
+  formType!: string;
 
   constructor(private fb: FormBuilder, private accountService: AccountDetailsService) { }
 
@@ -34,15 +35,16 @@ export class ManageAccountComponent implements OnInit {
 
   loadAccountDetails() {
     this.isLoading = true;
-    this.accountService.getAllAccounts().subscribe(
+    this.accountService.getAccountById().subscribe(
       (data) => {
         this.accountDetails = data;
         this.isViewing = true;
         this.isLoading = false;
       },
       (error) => {
-        console.error('Error fetching account details', error);
+        console.error('Error fetching account details', error.error);
         this.isLoading = false;
+        this.isEditing = false;
       }
     );
   }
@@ -81,7 +83,9 @@ export class ManageAccountComponent implements OnInit {
   }
 
   editAccount() {
+    this.formType = "Edit"
     this.isEditing = true;
+    this.accountForm.patchValue(this.accountDetails);
   }
 
   cancelEdit() {
@@ -90,6 +94,7 @@ export class ManageAccountComponent implements OnInit {
   }
 
   addNewAccount() {
+    this.formType = "Add";
     this.isEditing = true;
     this.accountDetails = null;
     this.accountForm.reset();  // Reset form for a new account

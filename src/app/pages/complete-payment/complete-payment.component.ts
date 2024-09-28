@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaymentService } from '../../services/payment.service';
-import { CookieService } from '../../services/cookie.service';
+import { AccountDetailsService } from '../../services/account.service';
 
 @Component({
   selector: 'app-complete-payment',
@@ -10,11 +10,16 @@ import { CookieService } from '../../services/cookie.service';
 })
 export class CompletePaymentComponent {
   paymentForm!: FormGroup;
-  statusOptions = ['Pending', 'Completed', 'Failed']; // Example status options
   paymentSubmitted = false;
   selectedFile: File | null = null;
+  accountDetails:any;
+  statusOptions:any = [
+    { value: 'active', viewValue: 'Active' },
+    { value: 'inactive', viewValue: 'Inactive' },
+    { value: 'pending', viewValue: 'Pending' }
+  ];
 
-  constructor(private fb: FormBuilder, private paymentService: PaymentService, private cookiesService: CookieService) { }
+  constructor(private fb: FormBuilder, private paymentService: PaymentService, private accountService: AccountDetailsService) { }
 
   ngOnInit(): void {
     this.paymentForm = this.fb.group({
@@ -23,6 +28,18 @@ export class CompletePaymentComponent {
       transactionId: ['', Validators.required],
       status: ['', Validators.required], // Ensure status is part of the form
     });
+    this.loadAccountDetails();
+  }
+
+  loadAccountDetails() {
+    this.accountService.getAdminAccount().subscribe(
+      (data) => {
+        this.accountDetails = data;
+      },
+      (error) => {
+        console.error('Error fetching account details', error.error);
+      }
+    );
   }
 
   onFileSelected(event: Event): void {

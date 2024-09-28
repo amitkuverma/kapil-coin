@@ -1,45 +1,115 @@
 .manage-account-container {
-  position: relative; // Ensure the container can properly position the loader
-  min-height: 424px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f9f9f9; /* Light background */
+  
+  mat-card {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 8px; /* Rounded corners */
+    background-color: #ffffff; /* White background for cards */
 
+    mat-card-header {
+      background-color: #eeeeee; /* Light gray header */
+      padding: 16px; /* Add padding */
+      border-bottom: 1px solid #ddd;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+
+      mat-card-title {
+        font-weight: bold;
+        color: #333;
+        font-size: 18px; /* Increased font size */
+      }
+    }
+
+    mat-card-content {
+      padding: 16px; /* Add padding */
+      p {
+        margin: 0 0 12px; /* Add spacing between paragraphs */
+        font-size: 14px;
+        color: #555;
+
+        strong {
+          color: #000;
+        }
+      }
+    }
+
+    mat-card-actions {
+      padding: 16px; /* Add padding */
+      display: flex;
+      justify-content: flex-end;
+      button {
+        margin-left: 10px;
+        min-width: 100px; /* Ensure buttons are more substantial */
+      }
+    }
+  }
+
+  /* Loader styling */
   .loader-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); // Centers the loader in the middle
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 130px;
-    text-align: center;
+    height: 120px; /* Adjust height */
+
+    mat-spinner {
+      margin-bottom: 10px;
+    }
 
     p {
-      margin-top: 10px;
       font-size: 16px;
+      color: #333;
+      font-weight: 500; /* Make the loader text a bit bolder */
     }
   }
 
-  mat-card {
-    margin: 20px 0;
-    padding: 20px;
+  .full-width {
+    width: 100%;
+  }
 
-    mat-card-title {
-      font-weight: bold;
-      font-size: 20px;
+  /* Form field styles */
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px; /* Add space between form fields */
+
+    mat-label {
+      width: 50%;
+      color: #555;
     }
 
-    mat-card-actions {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .full-width {
-      width: 100%;
+    input {
+      font-size: 14px;
     }
   }
 
+  /* Button styles */
   button {
-    margin-left: 10px;
+    margin-right: 10px;
+    min-width: 120px; /* Ensure buttons have a minimum size */
+    height: 40px; /* Larger buttons */
+    font-weight: 600;
+
+    &.mat-raised-button {
+      box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  /* Add more styling for empty state */
+  mat-card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #444;
+  }
+
+  mat-card-content p {
+    font-size: 16px;
+    color: #777;
   }
 }

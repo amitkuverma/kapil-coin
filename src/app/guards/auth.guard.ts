@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
     const decodedToken = this.cookiesService.decodeToken();
 
     // Check if the user is admin and the profile status is 'completed'
-    if (decodedToken && (decodedToken.status === 'completed' || this.cookiesService.isAdmin())) {
+    if (decodedToken && (decodedToken.status === 'approved' || this.cookiesService.isAdmin())) {
       return true;  // Allow access
     } else {
       // Redirect to login page if not authorized

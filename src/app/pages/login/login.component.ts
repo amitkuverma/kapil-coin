@@ -35,11 +35,11 @@ export class LoginComponent {
             // Decode the token and handle null/undefined token cases
             const decodedToken = this.cookiesService.decodeToken();
             
-            if (this.cookiesService.isAdmin()) {
+            if (decodedToken && (decodedToken.status === 'approved' || this.cookiesService.isAdmin())) {
               // User has completed their profile or is an admin, navigate to dashboard
               this.toastr.success('Login successful!', 'Success');
               this.router.navigate(['/dashboard']);
-            } else if (decodedToken && decodedToken.status !== 'completed') {
+            } else if (decodedToken && decodedToken.status !== 'approved') {
               // User profile is not complete, navigate to the payment page
               this.router.navigate(['/complete-payment']);
             } else {

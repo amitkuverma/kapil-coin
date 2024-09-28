@@ -17,27 +17,32 @@ export class AccountDetailsService {
   }
 
   getAllAccounts(): Observable<any[]> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    return this.http.get<any[]>(`${environment.API_URL}/account`, { headers });
+    
+    return this.http.get<any[]>(`${environment.API_URL}/account`);
   }
 
-  getAccountById(account: any): Observable<any[]> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    return this.http.get<any[]>(`${environment.API_URL}/account/${account.userId}`, { headers });
+  getAdminAccount(): Observable<any[]> {
+    
+    return this.http.get<any[]>(`${environment.API_URL}/account/1`);
+  }
+
+  getAccountById(): Observable<any[]> {
+    
+    return this.http.get<any[]>(`${environment.API_URL}/account/${this.cookiesService.decodeToken().userId}`);
   }
 
   saveAccount(account: any): Observable<any> {
     account.userId = this.userId;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    if (account.userId) {
-      return this.http.put(`${environment.API_URL}/account/${account.userId}`, account, { headers });
+    
+    if (account.accId) {
+      return this.http.put(`${environment.API_URL}/account/${account.accId}`, account);
     } else {
-      return this.http.post(`${environment.API_URL}`, account);
+      return this.http.post(`${environment.API_URL}/account`, account);
     }
   }
 
   deleteAccount(accId: number): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    return this.http.delete(`${environment.API_URL}/account/${accId}`, { headers });
+    
+    return this.http.delete(`${environment.API_URL}/account/${accId}`);
   }
 }

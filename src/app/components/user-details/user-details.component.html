@@ -1,23 +1,42 @@
 <div class="user-details-container">
-    <h2>User Details</h2>
+    <h2>{{ user.name | uppercase }} DETAILS</h2>
   
-    <div *ngIf="user">
-      <p><strong>User ID:</strong> {{ user.userId }}</p>
-      <p><strong>Name:</strong> {{ user.name }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
-      <p><strong>Mobile:</strong> {{ user.mobile }}</p>
-      <p><strong>Email Verified:</strong> {{ user.emailVerified ? 'Yes' : 'No' }}</p>
-      <p><strong>Mobile Verified:</strong> {{ user.mobileVerified ? 'Yes' : 'No' }}</p>
-      <p><strong>Referral Code:</strong> {{ user.referralCode }}</p>
-      <p><strong>Created At:</strong> {{ user.createdAt | date: 'short' }}</p>
-      <p><strong>Status:</strong> {{ user.status }}</p>
+    <div *ngIf="user" class="user-info">
+      <div class="user-field">
+        <p><strong>User ID:</strong></p>
+        <p>{{ user.userId }}</p>
+      </div>
+      <div class="user-field">
+        <p><strong>Name:</strong></p>
+        <p>{{ user.name }}</p>
+      </div>
+      <div class="user-field">
+        <p><strong>Email:</strong></p>
+        <p>{{ user.email }}</p>
+      </div>
+      <div class="user-field">
+        <p><strong>Mobile:</strong></p>
+        <p>{{ user.mobile }}</p>
+      </div>
+      <div class="user-field">
+        <p><strong>Email Verified:</strong></p>
+        <p>{{ user.emailVerified ? 'Yes' : 'No' }}</p>
+      </div>
+      <div class="user-field">
+        <p><strong>Referral Code:</strong></p>
+        <p>{{ user.referralCode }}</p>
+      </div>
+      <div class="user-field">
+        <p><strong>Created At:</strong></p>
+        <p>{{ user.createdAt | date: 'short' }}</p>
+      </div>
+      <div class="user-field">
+        <p><strong>Status:</strong></p>
+        <p>{{ user.status }}</p>
+      </div>
   
       <!-- Status Update -->
-      <label for="status">Update Status</label>
-      <mat-select [(ngModel)]="user.status" name="status">
-        <mat-option *ngFor="let option of statusOptions" [value]="option">{{ option }}</mat-option>
-      </mat-select>
-      <button mat-raised-button (click)="updateStatus(user.userId)">Update Status</button>
+      <button mat-raised-button color="primary" class="status-button" (click)="updateStatus(user.userId)">Approved</button>
     </div>
   </div>
   

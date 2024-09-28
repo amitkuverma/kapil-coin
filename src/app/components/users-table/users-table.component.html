@@ -26,7 +26,7 @@
   <!-- Email Verified Column -->
   <ng-container matColumnDef="emailVerified">
     <th mat-header-cell *matHeaderCellDef> Email Verified </th>
-    <td mat-cell *matCellDef="let user"> {{ user.emailVerified }} </td>
+    <td mat-cell *matCellDef="let user"> {{ user.emailVerified  ? 'Yes' : 'No'}} </td>
   </ng-container>
 
   <!-- Mobile Verified Column -->

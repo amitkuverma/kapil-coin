@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -38,6 +38,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { UsersAccountTableComponent } from './components/users-account-table/users-account-table.component';
+import { MatSelectModule } from '@angular/material/select';
+import { AuthInterceptor } from './auth.interceptor';
 
 
 
@@ -82,13 +84,20 @@ import { UsersAccountTableComponent } from './components/users-account-table/use
     MatOptionModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatSelectModule,
     ToastrModule.forRoot({
       timeOut: 3000,  // Optional: Toast display time in milliseconds
       positionClass: 'toast-bottom-right',  // Optional: Toast position
       preventDuplicates: true,  // Prevent multiple duplicate toasts
     })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

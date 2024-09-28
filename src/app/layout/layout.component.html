@@ -10,15 +10,15 @@
         <mat-icon>dashboard</mat-icon>
         <span *ngIf="sidenav.opened">Dashboard</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'users'">
+      <mat-list-item [routerLink]="'users'" *ngIf="cookieService.isAdmin()">
         <mat-icon>person</mat-icon>
         <span *ngIf="sidenav.opened">Users</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'user-network'" *ngIf="!cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'/user-network/' + cookieService.decodeToken().userId" *ngIf="!cookieService.isAdmin()">
         <mat-icon>groups</mat-icon>
         <span *ngIf="sidenav.opened">Your network</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'manage-account'" *ngIf="!cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'manage-account'">
         <mat-icon>account_balance</mat-icon>
         <span *ngIf="sidenav.opened">Manage account</span>
       </mat-list-item>
