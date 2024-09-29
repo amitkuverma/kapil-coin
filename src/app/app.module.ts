@@ -41,6 +41,14 @@ import { UsersAccountTableComponent } from './components/users-account-table/use
 import { MatSelectModule } from '@angular/material/select';
 import { AuthInterceptor } from './auth.interceptor';
 import { DialogComponent } from './pages/dialog/dialog.component';
+import { AboutComponent } from './pages/about/about.component';
+import { ServiceComponent } from './pages/service/service.component';
+import { TestimonialComponent } from './pages/testimonial/testimonial.component';
+import { WorkComponent } from './pages/work/work.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { HeaderComponent } from './pages/header/header.component';
+import { MainComponent } from './pages/main/main.component';
+import { FooterComponent } from './pages/footer/footer.component';
 
 
 
@@ -61,7 +69,15 @@ import { DialogComponent } from './pages/dialog/dialog.component';
     UserDetailsComponent,
     SettingComponent,
     UsersAccountTableComponent,
-    DialogComponent
+    DialogComponent,
+    AboutComponent,
+    ServiceComponent,
+    TestimonialComponent,
+    WorkComponent,
+    ContactComponent,
+    HeaderComponent,
+    MainComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

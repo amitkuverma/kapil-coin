@@ -15,6 +15,12 @@ import { HomeComponent } from './pages/home/home.component';
 import { UsersAccountTableComponent } from './components/users-account-table/users-account-table.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { AboutComponent } from './pages/about/about.component';
+import { ServiceComponent } from './pages/service/service.component';
+import { TestimonialComponent } from './pages/testimonial/testimonial.component';
+import { WorkComponent } from './pages/work/work.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { MainComponent } from './pages/main/main.component';
 
 const routes: Routes = [
   {
@@ -33,8 +39,19 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' } // Default route under LayoutComponent
     ]
   },
-  { path: 'home', component: HomeComponent }, // Added explicit home route
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirect to home for empty path
+  {
+    path: '',
+    component: MainComponent,
+    children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'about', component: AboutComponent },
+      { path: 'services', component: ServiceComponent },
+      { path: 'testimonial', component: TestimonialComponent },
+      { path: 'works', component: WorkComponent },
+      { path: 'contact', component: ContactComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirect to home for empty path
+    ]
+  },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'complete-payment', component: CompletePaymentComponent },

@@ -1,10 +1,45 @@
 .main-container {
   height: 100vh;
 
-  .side-nav {
-    width: 250px;
-    &.mat-drawer-mini {
-      width: 80px;
+  mat-list-item {
+    padding: 16px;
+    border-radius: 4px; /* Rounded corners */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    display: flex;
+    align-items: center;
+
+    mat-icon {
+      margin-right: 16px;
+      font-size: 24px;
+      transition: transform 0.3s ease; /* Animation for icon on hover */
+    }
+
+    /* Default state */
+    &:not(:hover) {
+      background-color: transparent;
+      color: white;
+    }
+
+    /* Hover effect */
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2); /* Light hover background */
+      color: #673ab7; /* Accent color on hover */
+      cursor: pointer;
+
+      mat-icon {
+        transform: scale(1.2); /* Slight icon zoom on hover */
+        color: #673ab7; /* Accent color for icon on hover */
+      }
+    }
+
+    /* Active state (selected menu item) */
+    &:focus {
+      background-color: rgba(255, 255, 255, 0.3);
+      color: #673ab7;
+
+      mat-icon {
+        color: #673ab7;
+      }
     }
   }
 
@@ -26,11 +61,11 @@
   }
 }
 
-::ng-deep .mat-mdc-list-item-unscoped-content{
+::ng-deep .mat-mdc-list-item-unscoped-content {
   display: flex !important;
 }
 
-.bottom-side{
+.bottom-side {
   position: absolute;
   bottom: 0;
 }

@@ -49,8 +49,8 @@
 
 
 
-    <mat-card-actions *ngIf="user.status !=='approved'">
-      <button mat-raised-button color="primary" (click)="updateStatus(user.userId)">Approved</button>
+    <mat-card-actions *ngIf="user.status !=='live' || user.status !== 'admin'">
+      <button mat-raised-button color="primary" (click)="updateStatus(user.userId)">Live</button>
     </mat-card-actions>
   </mat-card>
 </div>

@@ -21,7 +21,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   updateStatus(userId: number): void {
-    this.usersService.updateUserStatus(userId, 'approved').subscribe(() => {
+    this.usersService.updateUserStatus(userId, 'live').subscribe(() => {
       this.location.back()
     });
   }

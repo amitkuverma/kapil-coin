@@ -29,7 +29,7 @@
         <span *ngIf="sidenav.opened">Payment</span>
       </mat-list-item>
       <mat-list-item [routerLink]="'users-account'" *ngIf="cookieService.isAdmin()">
-        <mat-icon>account_balance</mat-icon>
+        <mat-icon>account_box</mat-icon>
         <span *ngIf="sidenav.opened">Users Account</span>
       </mat-list-item>
       <mat-list-item [routerLink]="'manage-account'">
@@ -61,6 +61,16 @@
 
       <!-- User Profile on the right -->
       <span class="spacer"></span>
+      <button mat-icon-button [matMenuTriggerFor]="accountMenu">
+        <mat-icon>account_balance_wallet</mat-icon> 
+      </button>
+      <mat-menu #accountMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>300</span>
+        </button>
+      </mat-menu>
+
       <button mat-icon-button [matMenuTriggerFor]="profileMenu">
         <mat-icon>account_circle</mat-icon>
       </button>

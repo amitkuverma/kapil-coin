@@ -31,8 +31,6 @@ export class PaymentTableComponent {
   }
 
   getStatusClass(status: string): string {
-    console.log(status);
-    
     switch (status.toLowerCase()) {
       case 'new':
         return 'status-new';
@@ -41,10 +39,6 @@ export class PaymentTableComponent {
       default:
         return 'status-other';
     }
-  }
-
-  goToUserNetwork(userId: number) {
-    this.router.navigate(['/payment-details', userId]);
   }
 
   goToUserDetails(userId: number): void {
