@@ -1,16 +1,17 @@
-<div class="loader_bg">
+<!-- <div class="loader_bg">
     <div class="loader"><img src="../../../assets/images/loading.gif" alt="" /></div>
-</div>
+</div> -->
 <!-- end loader -->
-<div id="mySidepanel" class="sidepanel">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a routerLinks="active" href="/home">Home</a>
-    <a routerLink="/about">About</a>
-    <a routerLink="/services">Searvices</a>
-    <a routerLink="/testimonial">Testimonial</a>
-    <a routerLink="/works">Works</a>
-    <a routerLink="/contact">Contact</a>
-</div>
+<div id="mySidepanel" #mySidepanel class="sidepanel">
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav(mySidepanel)">×</a>
+    <a routerLink="/home" routerLinkActive="active" (click)="closeNav(mySidepanel)">Home</a>
+    <a routerLink="/about" routerLinkActive="active" (click)="closeNav(mySidepanel)">About</a>
+    <a routerLink="/services" routerLinkActive="active" (click)="closeNav(mySidepanel)">Services</a>
+    <a routerLink="/testimonial" routerLinkActive="active" (click)="closeNav(mySidepanel)">Testimonial</a>
+    <a routerLink="/works" routerLinkActive="active" (click)="closeNav(mySidepanel)">Works</a>
+    <a routerLink="/contact" routerLinkActive="active" (click)="closeNav(mySidepanel)">Contact</a>
+  </div>
+  
 <!-- header -->
 <header>
     <!-- header inner -->
