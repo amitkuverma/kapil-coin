@@ -66,11 +66,12 @@
       </div>
 
       <div class="password-hint form-item">
-        Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.
+        Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one
+        digit, and one special character.
       </div>
     </div>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">
+    <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid" class="w-100">
       Register
     </button>
   </form>
@@ -79,8 +80,10 @@
   <div *ngIf="registrationSuccess" class="success-message">
     <h3>Congratulations! 🎉 Registration Completed Successfully!</h3>
     <p>Thank you for joining us! Please login to start your journey.</p>
-    <button mat-raised-button color="accent" (click)="login()">
-      Go to Login
-    </button>
+    <div class="d-flex justify-content-center">
+      <button mat-raised-button color="accent" (click)="login()">
+        Go to Login
+      </button>
+    </div>
   </div>
 </div>

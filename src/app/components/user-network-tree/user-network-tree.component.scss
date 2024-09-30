@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 100%;
 
   .user-node {
     display: flex;
@@ -59,18 +60,18 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 8px;
     position: relative; /* Relative to contain the connecting line */
 
     // Line connecting parent to children (horizontal)
     &::before {
       content: "";
-      width: 100%;
+      width: calc(100% - 188px);
       height: 2px;
       background-color: #ccc;
       position: absolute;
       top: 0;
-      left: 0;
+      left: 94px;
     }
 
     /* Collapsed state for child nodes */
@@ -84,7 +85,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px;
+    margin: 10px;
     position: relative; /* Position for connecting lines */
 
     // Vertical line connecting siblings (only for referrals with children)
@@ -94,7 +95,7 @@
       height: 20px;
       background-color: #ccc;
       position: absolute;
-      top: -20px; /* Connects to the horizontal line */
+      top: -10px; /* Connects to the horizontal line */
       left: 50%; /* Center the line */
       transform: translateX(-50%);
     }

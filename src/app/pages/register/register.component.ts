@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   registrationSuccess:boolean = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
     this.registerForm = this.fb.group(
       {
         name: ['', [Validators.required]],
@@ -26,11 +26,22 @@ export class RegisterComponent {
           ]
         ],
         confirmPassword: ['', Validators.required],
-        mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+        mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        referralCode:['']
       },
       { validator: this.checkPasswords } // Attach the custom validator here
     );
-    
+    this.route.queryParamMap.subscribe(params => {
+      const referralCode = params.get('referralCode');
+      
+      if (referralCode) {
+        // Set the referral code in the form control
+        this.registerForm.get('referralCode')?.setValue(referralCode);
+
+        // Disable the referralCode field
+        this.registerForm.get('referralCode')?.disable();
+      }
+    });
   }
 
   // Custom validator for password match
@@ -52,6 +63,7 @@ export class RegisterComponent {
   
 
   onSubmit() {
+    this.registerForm.get('referralCode')?.enable();
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe(
         (response:any) => {

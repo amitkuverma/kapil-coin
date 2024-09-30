@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaymentService } from '../../services/payment.service';
 import { AccountDetailsService } from '../../services/account.service';
 import { CookieService } from '../../services/cookie.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-submit-payment-details',
@@ -16,9 +17,10 @@ export class CompletePaymentComponent implements OnInit {
   showPaymentForm = false; // Control visibility of payment form
   selectedFile: File | null = null;
   accountDetails: any;
-  userDetails:any;
+  userDetails: any;
 
-  constructor(private fb: FormBuilder, private paymentService: PaymentService, private accountService: AccountDetailsService, private cookiesService: CookieService) { }
+  constructor(private fb: FormBuilder, private paymentService: PaymentService, private accountService: AccountDetailsService,
+     private cookiesService: CookieService, private router:Router) { }
 
   ngOnInit(): void {
     this.paymentForm = this.fb.group({
@@ -42,7 +44,7 @@ export class CompletePaymentComponent implements OnInit {
     );
   }
 
-  loadUserInfo(userId:any) {
+  loadUserInfo(userId: any) {
     this.paymentService.getUserReferrals(userId).subscribe(
       (data) => {
         this.userDetails = data;
@@ -98,6 +100,7 @@ export class CompletePaymentComponent implements OnInit {
         (response) => {
           this.selectedFile = null; // Reset file after successful upload
           this.receiptUploaded = true; // Set to true after successful receipt upload
+          this.loadUserInfo(this.cookiesService.decodeToken().userId);
         },
         (error) => {
           console.error('Error uploading receipt', error);
@@ -106,5 +109,8 @@ export class CompletePaymentComponent implements OnInit {
     } else {
       console.error('No file selected');
     }
+  }
+  login() {
+    this.router.navigate(['/login']);
   }
 }

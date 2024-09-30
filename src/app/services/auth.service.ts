@@ -15,6 +15,6 @@ export class AuthService {
   }
 
   register(data: any): Observable<any> {
-    return this.http.post(`${environment.API_URL}/register`, data);
+    return this.http.post(`${environment.API_URL}/register/${data.referralCode}`, data);
   }
 }
