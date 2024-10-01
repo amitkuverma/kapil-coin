@@ -21,7 +21,7 @@
         <tbody>
           <tr>
             <td>Name</td>
-            <td>{{ user.name }}</td>
+            <td class="text-capitalize">{{ user.name }}</td>
           </tr>
           <tr>
             <td>Email</td>
@@ -41,7 +41,7 @@
           </tr>
           <tr>
             <td>Status</td>
-            <td>{{ user.status | uppercase }}</td>
+            <td class="text-capitalize">{{ user.status }}</td>
           </tr>
         </tbody>
       </table>
@@ -49,8 +49,12 @@
 
 
 
-    <mat-card-actions *ngIf="user.status !=='live' || user.status !== 'admin'">
-      <button mat-raised-button color="primary" (click)="updateStatus(user.userId)">Live</button>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" class="submit-btn text-capitalize" type="submit" [disabled]="isLoading"
+        (click)="updateStatus(user.userId, user.status ==='live' ? 'disabled' : 'live')">
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        <span *ngIf="!isLoading">{{ user.status ==='live' ? 'disabled' : 'live'}}</span>
+      </button>
     </mat-card-actions>
   </mat-card>
 </div>

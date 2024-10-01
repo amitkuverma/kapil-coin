@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
   }
 
   getStatusClass(status: string): string {
-    switch (status.toLowerCase()) {
+    switch (status?.toLowerCase()) {
       case 'live':
         return 'status-live';
       case 'paid':

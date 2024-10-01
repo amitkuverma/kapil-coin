@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../services/users.service';
 import { Location } from '@angular/common';
+import { CookieService } from '../../services/cookie.service';
 
 @Component({
   selector: 'app-user-details',
@@ -10,8 +11,9 @@ import { Location } from '@angular/common';
 })
 export class UserDetailsComponent implements OnInit {
   user: any;
+  isLoading:boolean = false;
 
-  constructor(private usersService: UsersService, private route: ActivatedRoute, public location: Location) { }
+  constructor(private usersService: UsersService, private route: ActivatedRoute, public location: Location, public cookies:CookieService) { }
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('userId');
@@ -20,8 +22,10 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  updateStatus(userId: number): void {
-    this.usersService.updateUserStatus(userId, 'live').subscribe(() => {
+  updateStatus(userId: number, status: string): void {
+    this.isLoading=true
+    this.usersService.updateUserStatus(userId, status).subscribe(() => {
+      this.isLoading = false;
       this.location.back()
     });
   }
