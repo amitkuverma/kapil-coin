@@ -75,7 +75,7 @@
     </form>
   </mat-card>
 
-  <div *ngIf="paymentSubmitted || userDetails?.status === 'new'" class="file-upload-section">
+  <div *ngIf="(paymentSubmitted || userDetails?.status === 'new') &&   userDetails?.status !== 'receipt'" class="file-upload-section">
     <h3>Upload Receipt</h3>
     <p class="mb-2">Please upload the receipt to verify the payment.</p>
 
