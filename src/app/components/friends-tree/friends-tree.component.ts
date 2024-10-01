@@ -14,9 +14,9 @@ interface UserNode {
 }
 
 @Component({
-  selector: 'app-user-network-tree',
-  templateUrl: './user-network-tree.component.html',
-  styleUrls: ['./user-network-tree.component.scss']
+  selector: 'app-friends-tree',
+  templateUrl: './friends-tree.component.html',
+  styleUrls: ['./friends-tree.component.scss']
 })
 export class UserNetworkTreeComponent implements OnInit {
   treeControl = new NestedTreeControl<UserNode>(node => node.referrals);

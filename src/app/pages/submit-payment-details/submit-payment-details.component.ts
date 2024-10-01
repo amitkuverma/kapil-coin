@@ -23,7 +23,8 @@ export class CompletePaymentComponent implements OnInit {
      private cookiesService: CookieService, private router:Router) { }
 
   ngOnInit(): void {
-    this.paymentForm = this.fb.group({
+    this.paymentForm = this.fb.group({      
+      earnAmount:[''],
       totalAmount: [null, [Validators.required, Validators.min(0)]],
       paymentMethod: ['', Validators.required],
       transactionId: ['', Validators.required],
@@ -70,6 +71,7 @@ export class CompletePaymentComponent implements OnInit {
   onSubmit(): void {
     if (this.paymentForm.valid) {
       const paymentData = {
+        earnAmount:0,
         totalAmount: this.paymentForm.get('totalAmount')?.value,
         paymentMethod: this.paymentForm.get('paymentMethod')?.value,
         transactionId: this.paymentForm.get('transactionId')?.value,

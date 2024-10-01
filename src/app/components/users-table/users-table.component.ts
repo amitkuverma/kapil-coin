@@ -45,7 +45,7 @@ export class UsersComponent implements OnInit {
   }
 
   goToUserNetwork(userId: number) {
-    this.router.navigate(['/user-network', userId]);
+    this.router.navigate(['/friends-network', userId]);
   }
 
   goToUserDetails(userId: number): void {

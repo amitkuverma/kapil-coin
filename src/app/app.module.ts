@@ -24,7 +24,7 @@ import { ManageAccountComponent } from './components/manage-account/manage-accou
 import { MatTreeModule } from '@angular/material/tree';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { UserNetworkTreeComponent } from './components/user-network-tree/user-network-tree.component';
+import { UserNetworkTreeComponent } from './components/friends-tree/friends-tree.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CompletePaymentComponent } from './pages/submit-payment-details/submit-payment-details.component';
@@ -49,6 +49,9 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { MainComponent } from './pages/main/main.component';
 import { FooterComponent } from './pages/footer/footer.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FriendRequestComponent } from './components/friend-request/friend-request.component';
+import { MyFriendsComponent } from './components/my-friends/my-friends.component';
 
 
 
@@ -77,7 +80,9 @@ import { FooterComponent } from './pages/footer/footer.component';
     ContactComponent,
     HeaderComponent,
     MainComponent,
-    FooterComponent
+    FooterComponent,
+    FriendRequestComponent,
+    MyFriendsComponent
   ],
   imports: [
     BrowserModule,
@@ -103,6 +108,7 @@ import { FooterComponent } from './pages/footer/footer.component';
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatTooltipModule,
     ToastrModule.forRoot({
       timeOut: 3000,  // Optional: Toast display time in milliseconds
       positionClass: 'toast-bottom-right',  // Optional: Toast position

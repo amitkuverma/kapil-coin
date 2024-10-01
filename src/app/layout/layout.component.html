@@ -10,14 +10,26 @@
         <mat-icon>dashboard</mat-icon>
         <span *ngIf="sidenav.opened">Dashboard</span>
       </mat-list-item>
+      <mat-list-item [routerLink]="'/'"  *ngIf="!cookieService.isAdmin()">
+        <mat-icon>dashboard</mat-icon>
+        <span *ngIf="sidenav.opened">Money Transfer</span>
+      </mat-list-item>
+      <mat-list-item [routerLink]="'/'"  *ngIf="!cookieService.isAdmin()">
+        <mat-icon>add</mat-icon>
+        <span *ngIf="sidenav.opened">Add Money</span>
+      </mat-list-item>
+      <mat-list-item [routerLink]="'/'"  *ngIf="!cookieService.isAdmin()">
+        <mat-icon>add</mat-icon>
+        <span *ngIf="sidenav.opened">Friend Request</span>
+      </mat-list-item>
       <mat-list-item [routerLink]="'users'" *ngIf="cookieService.isAdmin()">
         <mat-icon>person</mat-icon>
         <span *ngIf="sidenav.opened">Users</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'/user-network/' + cookieService.decodeToken().userId"
+      <mat-list-item [routerLink]="'/friends-network/' + cookieService.decodeToken().userId"
         *ngIf="!cookieService.isAdmin()">
         <mat-icon>groups</mat-icon>
-        <span *ngIf="sidenav.opened">Your network</span>
+        <span *ngIf="sidenav.opened">My Friends</span>
       </mat-list-item>
       <mat-list-item [routerLink]="'payment'" *ngIf="cookieService.isAdmin()">
         <mat-icon>payment</mat-icon>
@@ -43,8 +55,8 @@
           <span *ngIf="sidenav.opened">Get help</span>
         </mat-list-item>
         <mat-list-item [routerLink]="'setting'">
-          <mat-icon>settings</mat-icon>
-          <span *ngIf="sidenav.opened">Settings</span>
+          <mat-icon>account_circle</mat-icon>
+          <span *ngIf="sidenav.opened">My Profile</span>
         </mat-list-item>
       </div>
     </mat-nav-list>
