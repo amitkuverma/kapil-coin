@@ -103,6 +103,7 @@ export class CompletePaymentComponent implements OnInit {
           this.selectedFile = null; // Reset file after successful upload
           this.receiptUploaded = true; // Set to true after successful receipt upload
           this.loadUserInfo(this.cookiesService.decodeToken().userId);
+          this.loadAccountDetails();
         },
         (error) => {
           console.error('Error uploading receipt', error);
