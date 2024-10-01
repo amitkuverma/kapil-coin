@@ -31,7 +31,7 @@ export class PaymentTableComponent {
   }
 
   getStatusClass(status: string): string {
-    switch (status.toLowerCase()) {
+    switch (status?.toLowerCase()) {
       case 'new':
         return 'status-new';
       case 'receipt':
