@@ -24,18 +24,4 @@ export class UserDetailsComponent implements OnInit {
       this.user = data;
     });
   }
-
-  updateStatus(userId: number, status: string): void {
-    this.isLoading = true
-    this.usersService.updateUserStatus(userId, status).subscribe(
-      (res: any) => {
-        this.isLoading = false;
-        this.location.back();
-      },
-      (error: any) => {
-        this.isLoading = false;
-        this.toastr.error(error, "Error")
-      }
-    );
-  }
 }

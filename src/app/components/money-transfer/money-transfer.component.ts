@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from '../../services/users.service';
 import { PaymentService } from '../../services/payment.service';
 import { CookieService } from '../../services/cookie.service';
+import { TransactionService } from '../../services/transaction.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-money-transfer',
@@ -19,7 +21,8 @@ export class MoneyTransferComponent {
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
   
 
-  constructor(private fb: FormBuilder, private userService:UsersService, public dialog: MatDialog, private paymentService: PaymentService, public cookiesService:CookieService) {
+  constructor(private fb: FormBuilder, private userService:UsersService, public dialog: MatDialog, private paymentService: PaymentService,
+    public cookiesService:CookieService, private trancService:TransactionService, private toastr: ToastrService) {
     this.internalTransferForm = this.fb.group({
       receiverUser: ['', Validators.required],
       coin: ['', [Validators.required, Validators.min(1)]],
@@ -65,14 +68,16 @@ export class MoneyTransferComponent {
     // }
   }
   onSubmitWithdrawal(){
-    this.userPaymentDetails.status = 'withdraw'
-    this.paymentService.updateUserStatus(this.userPaymentDetails, this.cookiesService.decodeToken().userId).subscribe(
+    const data={
+      paymentType:'withdraw'      
+    }
+    this.trancService.createTransaction(data).subscribe(
       (res:any)=>{
-        console.log(res);
+        this.bankTransferForm.get('enterCoin')?.setValue('');
+        this.toastr.success('Withdrawal request send successful!', 'Success');
       },
       (error:any)=>{
-        console.log(error);
-        
+        this.toastr.error('Unable to send request!', 'Error');
       }
     )
   }

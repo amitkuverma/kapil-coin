@@ -5,6 +5,7 @@ import { AccountDetailsService } from '../../services/account.service';  // Impo
 
 export interface AccountData {
   userId: number;
+  userName: string;
   bankName: string;
   branchName: string;
   accountType: string;
@@ -19,7 +20,7 @@ export interface AccountData {
   styleUrls: ['./users-account-table.component.scss']
 })
 export class UsersAccountTableComponent implements OnInit {
-  displayedColumns: string[] = ['userId', 'bankName', 'accountNumber', 'ifscCode', 'branchName', 'accountType', 'accountHolderName'];
+  displayedColumns: string[] = ['userName', 'bankName', 'accountNumber', 'ifscCode', 'branchName', 'accountType', 'accountHolderName'];
   dataSource = new MatTableDataSource<AccountData>([]);
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;

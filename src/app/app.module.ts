@@ -60,6 +60,8 @@ import { FriendsDetailsComponent } from './components/friends-details/friends-de
 import { FriendsTableComponent } from './components/friends-table/friends-table.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TransactionsComponent } from './components/transactions/transactions.component';
+import { SendMoneyComponent } from './components/send-money/send-money.component';
+import { BuyCoinComponent } from './components/buy-coin/buy-coin.component';
 
 
 
@@ -95,7 +97,9 @@ import { TransactionsComponent } from './components/transactions/transactions.co
     AddMoneyComponent,
     FriendsDetailsComponent,
     FriendsTableComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    SendMoneyComponent,
+    BuyCoinComponent
   ],
   imports: [
     BrowserModule,

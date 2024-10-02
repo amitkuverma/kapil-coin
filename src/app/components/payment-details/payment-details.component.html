@@ -48,7 +48,7 @@
                     </tr>
                     <tr>
                         <td>Receipt</td>
-                        <td><img [src]="'http://localhost:3000/'+ paymentDetails.receipt"  alt="receipt"></td>
+                        <td><img [src]="'http://localhost:3000/'+ paymentDetails.receipt" alt="receipt"></td>
                     </tr>
                 </tbody>
             </table>
@@ -60,5 +60,13 @@
             <button mat-raised-button color="primary" (click)="editAccount()">Edit</button>
             <button mat-raised-button color="warn" (click)="deleteAccount(accountDetails.accId)">Delete</button>
         </mat-card-actions> -->
+
+        <mat-card-actions>
+            <button mat-raised-button color="primary" class="submit-btn text-capitalize" type="submit"
+                [disabled]="isLoading" (click)="updateStatus(userId, 'live')">
+                <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+                <span *ngIf="!isLoading">{{'live'}}</span>
+            </button>
+        </mat-card-actions>
     </mat-card>
 </div>

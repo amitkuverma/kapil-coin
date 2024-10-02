@@ -16,7 +16,8 @@ export class PaymentService {
     }
 
     createPayment(paymentData: any): Observable<any> {
-        paymentData.userId = this.cookiesService.decodeToken().userId;
+        paymentData.userId = this.cookiesService.decodeToken().userId;        
+        paymentData.userName = this.cookiesService.decodeToken().userName;
         return this.http.post(`${environment.API_URL}/payment`, paymentData);
         
     }

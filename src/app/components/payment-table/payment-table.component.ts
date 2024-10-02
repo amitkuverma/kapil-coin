@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./payment-table.component.scss']
 })
 export class PaymentTableComponent {
-  displayedColumns: string[] = ['userId', 'totalAmount', 'paymentMethod', 'transactionId', 'status', 'createdAt', 'action'];
+  displayedColumns: string[] = ['userName', 'totalAmount', 'paymentMethod', 'transactionId', 'status', 'createdAt', 'action'];
   dataSource = new MatTableDataSource<any>();
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -1,9 +1,9 @@
 <div class="table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <!-- User ID Column -->
-      <ng-container matColumnDef="userId">
-        <th mat-header-cell *matHeaderCellDef> User ID </th>
-        <td mat-cell *matCellDef="let account"> {{ account.userId }} </td>
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef> User Name </th>
+        <td mat-cell *matCellDef="let account"> {{ account.userName }} </td>
       </ng-container>
   
       <!-- Bank Name Column -->

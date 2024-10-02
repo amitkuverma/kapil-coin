@@ -28,6 +28,8 @@ import { AddMoneyComponent } from './components/add-money/add-money.component';
 import { FriendsDetailsComponent } from './components/friends-details/friends-details.component';
 import { FriendsTableComponent } from './components/friends-table/friends-table.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
+import { SendMoneyComponent } from './components/send-money/send-money.component';
+import { BuyCoinComponent } from './components/buy-coin/buy-coin.component';
 
 const routes: Routes = [
   {
@@ -39,6 +41,8 @@ const routes: Routes = [
       { path: 'user-details/:userId', component: UserDetailsComponent, canActivate: [AuthGuard] },
       { path: 'money-transfer', component: MoneyTransferComponent, canActivate: [AuthGuard] },
       { path: 'add-money', component: AddMoneyComponent, canActivate: [AuthGuard] },
+      { path: 'buy-coin', component: BuyCoinComponent, canActivate: [AuthGuard] },
+      { path: 'send-money', component: SendMoneyComponent, canActivate: [AuthGuard] },
       { path: 'friend-request', component: FriendRequestComponent, canActivate: [AuthGuard] },
       { path: 'my-friends', component: MyFriendsComponent, canActivate: [AuthGuard] },
       { path: 'friends-details', component: FriendsDetailsComponent, canActivate: [AuthGuard] },

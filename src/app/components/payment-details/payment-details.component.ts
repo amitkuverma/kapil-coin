@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 import { UsersService } from '../../services/users.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-payment-details',
@@ -12,15 +13,30 @@ import { UsersService } from '../../services/users.service';
 export class PaymentComponent {
   paymentDetails: any;
   isLoading: boolean = false;
+  userId:any;
 
-  constructor(private usersService: UsersService, private route: ActivatedRoute, public location: Location, private paymentService:PaymentService) { }
+  constructor(private usersService: UsersService, private route: ActivatedRoute, public location: Location, private paymentService: PaymentService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
-    const userId = this.route.snapshot.paramMap.get('userId');
-    this.paymentService.getUserReferrals(userId).subscribe((data: any) => {
+    this.userId = this.route.snapshot.paramMap.get('userId');
+    this.paymentService.getUserReferrals(this.userId).subscribe((data: any) => {
       this.paymentDetails = data;
     });
   }
-
+  updateStatus(userId: number, status: string): void {
+    this.isLoading = true
+    this.usersService.updateUserStatus(userId, status).subscribe(
+      (res: any) => {
+        this.isLoading = false;
+        this.location.back();
+      },
+      (error: any) => {
+        this.isLoading = false;
+        this.toastr.error(error, "Error")
+      }
+    );
+  }
 
 }

@@ -1,4 +1,6 @@
-<button mat-button (click)="location.back()" class="mb-2"><mat-icon>arrow_back</mat-icon>Back</button>
+<div class="d-flex">
+  <button mat-button (click)="location.back()" class="mb-2"><mat-icon>arrow_back</mat-icon>Back</button>
+</div>
 <div class="user-details-container">
   <mat-card *ngIf="!user ">
     <mat-card-header>
@@ -46,15 +48,5 @@
         </tbody>
       </table>
     </mat-card-content>
-
-
-
-    <mat-card-actions>
-      <button mat-raised-button color="primary" class="submit-btn text-capitalize" type="submit" [disabled]="isLoading"
-        (click)="updateStatus(user.userId, user.status ==='live' ? 'disabled' : 'live')">
-        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-        <span *ngIf="!isLoading">{{ user.status ==='live' ? 'disabled' : 'live'}}</span>
-      </button>
-    </mat-card-actions>
   </mat-card>
 </div>

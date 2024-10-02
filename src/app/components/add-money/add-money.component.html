@@ -53,7 +53,7 @@
             </mat-card-content>
             <div class="d-flex justify-content-end my-3 mr-3">
                 <button mat-raised-button color="primary" (click)="openShareDialog()">
-                    Submit Payment Details
+                    Upload receipt
                 </button>
             </div>
         </mat-card>
@@ -67,40 +67,18 @@
         <mat-icon>close</mat-icon>
     </button>
 
-    <mat-card class="account-card">
-        <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
-            <div class="form-grid">
-                <mat-form-field appearance="fill">
-                    <mat-label>Amount</mat-label>
-                    <input matInput formControlName="totalAmount" type="number">
-                    <mat-error
-                        *ngIf="paymentForm.get('totalAmount')?.invalid && paymentForm.get('totalAmount')?.touched">
-                        Amount is required and must be greater than 0.
-                    </mat-error>
-                </mat-form-field>
+    <div class="file-upload-section" *ngIf="!receiptUploaded">
+        <h3>Upload Receipt</h3>
+        <p class="mb-2">Please upload the receipt to verify the payment.</p>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Payment Method</mat-label>
-                    <input matInput formControlName="paymentMethod" type="text">
-                    <mat-error
-                        *ngIf="paymentForm.get('paymentMethod')?.invalid && paymentForm.get('paymentMethod')?.touched">
-                        Payment Method is required.
-                    </mat-error>
-                </mat-form-field>
+        <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*">
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Transaction ID</mat-label>
-                    <input matInput formControlName="transactionId" type="text">
-                    <mat-error
-                        *ngIf="paymentForm.get('transactionId')?.invalid && paymentForm.get('transactionId')?.touched">
-                        Transaction ID is required.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <hr/>
-            <div class="d-flex">
-                <button mat-raised-button color="primary" type="submit" [disabled]="paymentForm.invalid">Submit</button>
-            </div>
-        </form>
-    </mat-card>
+        <button mat-raised-button color="primary" (click)="uploadReceipt()" [disabled]="!selectedFile">
+            Upload Receipt
+        </button>
+    </div>
+    <div *ngIf="receiptUploaded" class="file-upload-section">
+        <h3>Payment Details uploded Successfully! 😊</h3>
+        <p>Your receipt has been uploaded for verification. Thank you!</p>
+    </div>
 </ng-template>

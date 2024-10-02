@@ -1,7 +1,7 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { AccountDetailsService } from 'src/app/services/account.service';
+import { TransactionService } from '../../services/transaction.service';
+import { AccountDetailsService } from '../../services/account.service';
 
 @Component({
   selector: 'app-add-money',
@@ -11,16 +11,10 @@ import { AccountDetailsService } from 'src/app/services/account.service';
 export class AddMoneyComponent {
   accountDetails: any;
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
-  paymentForm!: FormGroup;
+  selectedFile: File | null = null;
+  receiptUploaded = false;
 
-  constructor(public accountService: AccountDetailsService, public dialog: MatDialog, private fb: FormBuilder) {
-    this.paymentForm = this.fb.group({
-      earnAmount: [''],
-      totalAmount: [null, [Validators.required, Validators.min(0)]],
-      paymentMethod: ['', Validators.required],
-      transactionId: ['', Validators.required],
-      status: [''], // Ensure status is part of the form
-    });
+  constructor(public accountService: AccountDetailsService, public dialog: MatDialog, private transService:TransactionService) {
   }
   ngOnInit(): void {
     this.accountService.getAdminAccount().subscribe(
@@ -35,6 +29,32 @@ export class AddMoneyComponent {
   }
   onSubmit(){
     
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  uploadReceipt(): void {
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('receipt', this.selectedFile, this.selectedFile.name); // Append the file
+
+      this.transService.uploadTransactionReceipt(formData).subscribe(
+        (response) => {
+          this.selectedFile = null; 
+          this.receiptUploaded = true; 
+        },
+        (error:any) => {
+          console.error('Error uploading receipt', error);
+        }
+      );
+    } else {
+      console.error('No file selected');
+    }
   }
 
   openShareDialog() {
