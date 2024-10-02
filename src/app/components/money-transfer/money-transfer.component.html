@@ -1,0 +1,23 @@
+<form [formGroup]="bankTransferForm" (ngSubmit)="onSubmit()">
+  <div class="form-grid">
+    <!-- Total Amount -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Total Amount</mat-label>
+      <input matInput formControlName="totatAccount" type="number" placeholder="Total amount" readonly="true">
+    </mat-form-field>
+
+    <!-- Withdrawal Amount -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Enter Withdrawal Amount</mat-label>
+      <input matInput formControlName="enterCoin" type="number" placeholder="Enter Withdrawal amount">
+      <mat-error *ngIf="bankTransferForm.get('enterCoin')?.hasError('required') && bankTransferForm.get('enterCoin')?.touched">
+        Withdrawal amount is required.
+      </mat-error>
+      <mat-error *ngIf="bankTransferForm.get('enterCoin')?.hasError('min') && bankTransferForm.get('enterCoin')?.touched">
+        Amount must be at least 500.
+      </mat-error>
+      <mat-error *ngIf="bankTransferForm.get('enterCoin')?.hasError('exceededAmount') && bankTransferForm.get('enterCoin')?.touched">
+        Withdrawal amount cannot exceed the total amount.
+      </mat-error>
+    </mat-form-field>
+  </div>

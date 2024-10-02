@@ -1,0 +1,115 @@
+.referral-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.url-copy-section {
+  display: flex;
+  gap: 10px;
+}
+
+.referral-header {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.input-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.full-width {
+  flex-grow: 1;
+}
+
+.copy-success-message {
+  color: green;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.referral-button {
+  width: 100%;
+  background-color: #1976d2;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.mat-dialog-content {
+  font-size: 16px;
+  line-height: 2;
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.url-copy-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.referral-header {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.input-button-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.referral-input {
+  flex-grow: 1;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.copy-button {
+  padding: 6px 12px;
+  background-color: #1976d2;
+  color: white;
+  font-size: 14px;
+}
+
+.copy-button:hover {
+  background-color: #125c9b;
+}
+
+.copy-success-message {
+  color: green;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.full-width {
+  width: 100%;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.half-width-button {
+  width: 48%; /* Adjust to fit two buttons in a row with some margin */
+  margin: 5px 0; /* Optional margin for spacing */
+}
+
+.button-card {
+  padding: 20px;
+  margin: auto;
+}

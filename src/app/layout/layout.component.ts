@@ -8,8 +8,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
+  sidenavOpened = true; // Toggle state for sidebar
+  customOptions: any = {
+    loop: true,
+    margin: 10,
+    nav: false,
+    dots: false,
+    items: 1,
+    autoplay: true,
+    autoplayTimeout: 3000,
+    autoplayHoverPause: true
+  };
   constructor(private router: Router, public cookieService: CookieService) {}
+ 
 
+  toggleSidenav() {
+    this.sidenavOpened = !this.sidenavOpened;
+  }
   logout(): void {
     // Clear the token or any session data from cookies
     this.cookieService.deleteCookie('token'); 

@@ -33,4 +33,8 @@ export class UsersService {
     getUserReferrals(userId:any): Observable<any> {               
         return this.http.get(`${environment.API_URL}/referrals/${userId}`);
     }
+
+    getFrinfReferrals(): Observable<any> {               
+        return this.http.get(`${environment.API_URL}/referral-chain/${this.cookiesService.decodeToken().userId}`);
+    }
 }

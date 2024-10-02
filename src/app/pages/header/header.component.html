@@ -18,30 +18,25 @@
     <div class="head-top">
         <div class="container-fluid">
             <div class="row d_flex">
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <div class="logo">
                         <a routerLink="/home">KapilCYPO</a>
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-8">
                     <ul class="social_icon text_align_right d_none">
-                        <li> <a href="Javascript:void(0)"><i class="fa fa-facebook-f"></i></a></li>
-                        <li> <a href="Javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
-                        <li> <a href="Javascript:void(0)"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        <li> <a href="Javascript:void(0)"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        <li> <a href="Javascript:void(0)"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                        <li> <a routerLink="/home" routerLinkActive="active" (click)="closeNav(mySidepanel)">Home</a></li>
+                        <li> <a routerLink="/about" routerLinkActive="active" (click)="closeNav(mySidepanel)">About</a></li>
+                        <li> <a routerLink="/services" routerLinkActive="active" (click)="closeNav(mySidepanel)">Services</a></li>
+                        <li> <a routerLink="/testimonial" routerLinkActive="active" (click)="closeNav(mySidepanel)">Testimonial</a></li>
+                        <li> <a routerLink="/works" routerLinkActive="active" (click)="closeNav(mySidepanel)">Works</a></li>
+                        <li> <a routerLink="/contact" routerLinkActive="active" (click)="closeNav(mySidepanel)">Contact</a></li>
                     </ul>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <ul class="email text_align_right">
                         <li class="d_none"><a routerLink="/login"><i class="fa fa-user"
-                                    aria-hidden="true"></i></a></li>
-                        <li class="d_none"> <a href="Javascript:void(0)"><i class="fa fa-search"
-                                    style="cursor: pointer;" aria-hidden="true"></i></a> </li>
-                        <li>
-                            <button class="openbtn" onclick="openNav()"><img src="../../../assets/images/menu_btn.png"></button>
-                        </li>
-                    </ul>
+                            aria-hidden="true"></i></a></li>                    </ul>
                 </div>
             </div>
         </div>

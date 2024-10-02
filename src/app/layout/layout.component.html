@@ -6,19 +6,20 @@
       <span *ngIf="sidenav.opened">Kapil Coin</span>
     </mat-toolbar>
     <mat-nav-list>
-      <mat-list-item [routerLink]="'/'">
+      <!-- Sidebar Content as in your original template -->
+      <mat-list-item [routerLink]="'/'" *ngIf="cookieService.isAdmin()">
         <mat-icon>dashboard</mat-icon>
         <span *ngIf="sidenav.opened">Dashboard</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'/'"  *ngIf="!cookieService.isAdmin()">
-        <mat-icon>dashboard</mat-icon>
-        <span *ngIf="sidenav.opened">Money Transfer</span>
+      <mat-list-item [routerLink]="'/money-transfer'" *ngIf="!cookieService.isAdmin()">
+        <mat-icon>markunread_mailbox</mat-icon>
+        <span *ngIf="sidenav.opened">Send Coin</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'/'"  *ngIf="!cookieService.isAdmin()">
-        <mat-icon>add</mat-icon>
-        <span *ngIf="sidenav.opened">Add Money</span>
+      <mat-list-item [routerLink]="'/add-money'" *ngIf="!cookieService.isAdmin()">
+        <mat-icon>attach_money</mat-icon>
+        <span *ngIf="sidenav.opened">Add Coin</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'/'"  *ngIf="!cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'/friend-request'" *ngIf="!cookieService.isAdmin()">
         <mat-icon>add</mat-icon>
         <span *ngIf="sidenav.opened">Friend Request</span>
       </mat-list-item>
@@ -26,8 +27,7 @@
         <mat-icon>person</mat-icon>
         <span *ngIf="sidenav.opened">Users</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'/friends-network/' + cookieService.decodeToken().userId"
-        *ngIf="!cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'/friends-details'" *ngIf="!cookieService.isAdmin()">
         <mat-icon>groups</mat-icon>
         <span *ngIf="sidenav.opened">My Friends</span>
       </mat-list-item>
@@ -35,18 +35,18 @@
         <mat-icon>payment</mat-icon>
         <span *ngIf="sidenav.opened">Payment Received</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'payment-details'  + cookieService.decodeToken().userId"
+      <!-- <mat-list-item [routerLink]="'payment-details'  + cookieService.decodeToken().userId"
         *ngIf="!cookieService.isAdmin()">
         <mat-icon>payment</mat-icon>
         <span *ngIf="sidenav.opened">Payment</span>
-      </mat-list-item>
+      </mat-list-item> -->
       <mat-list-item [routerLink]="'users-account'" *ngIf="cookieService.isAdmin()">
         <mat-icon>account_box</mat-icon>
         <span *ngIf="sidenav.opened">Users Account</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'manage-account'">
-        <mat-icon>account_balance</mat-icon>
-        <span *ngIf="sidenav.opened">Manage Account</span>
+      <mat-list-item [routerLink]="'transactions'">
+        <mat-icon>history</mat-icon>
+        <span *ngIf="sidenav.opened">Transactions</span>
       </mat-list-item>
 
       <div class="bottom-side w-100">
@@ -64,25 +64,19 @@
 
   <!-- Main Content -->
   <mat-sidenav-content>
-    <!-- Top Header -->
-    <mat-toolbar color="primary" class="top-header">
+    <!-- Top Menu -->
+    <mat-toolbar class="top-header" color="primary">
       <button mat-icon-button (click)="sidenav.toggle()" class="menu-button">
         <mat-icon>menu</mat-icon>
       </button>
-      <span>Dashboard</span>
-
-      <!-- User Profile on the right -->
+      <button mat-button class="coin-details mr-3">1 Coin = 1 UAE Dirham</button>
       <span class="spacer"></span>
-      <button mat-icon-button [matMenuTriggerFor]="accountMenu">
-        <mat-icon>account_balance_wallet</mat-icon> 
-      </button>
-      <mat-menu #accountMenu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>settings</mat-icon>
-          <span>300</span>
-        </button>
-      </mat-menu>
-
+      <button mat-button routerLink="/home">Home</button>
+      <button mat-button routerLink="/about">About Us</button>
+      <button mat-button routerLink="/workshop">Workshop</button>
+      <button mat-button routerLink="/mission">Our Mission</button>
+      <button mat-button routerLink="/contact">Contact Us</button>
+      <button mat-button class="coin-details">Available Coin = 900</button>
       <button mat-icon-button [matMenuTriggerFor]="profileMenu">
         <mat-icon>account_circle</mat-icon>
       </button>
@@ -98,9 +92,38 @@
       </mat-menu>
     </mat-toolbar>
 
-    <!-- Page content -->
-    <div class="page-content">
-      <router-outlet></router-outlet>
+    <!-- Carousel Banner with Overlay -->
+    <div class="banner-carousel-container mb-4">
+      <owl-carousel-o [options]="customOptions">
+        <ng-template carouselSlide>
+          <img src="https://via.placeholder.com/1200x300" alt="Banner 1">
+          <div class="overlay">
+            <h2>Welcome to Kapil Coin</h2>
+            <p>Your financial future starts here.</p>
+          </div>
+        </ng-template>
+        <ng-template carouselSlide>
+          <img src="https://via.placeholder.com/1200x300" alt="Banner 2">
+          <div class="overlay">
+            <h2>Transfer Money Effortlessly</h2>
+            <p>Quick and secure transfers at your fingertips.</p>
+          </div>
+        </ng-template>
+      </owl-carousel-o>
+    </div>
+
+    <!-- Rest of the page content -->
+    <div class="page-container">
+      <!-- Page Content -->
+      <div class="page-content">
+        <router-outlet></router-outlet>
+      </div>
+
+      <!-- Support/Logout Section -->
+      <!-- <div class="support-section">
+        
+        <button mat-raised-button color="accent">Support/Logout</button>
+      </div> -->
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,0 +1,23 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 16px;
+  margin-bottom: 24px;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.d-flex {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.transfer-card {
+  padding: 16px;
+}

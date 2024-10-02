@@ -22,6 +22,12 @@ import { WorkComponent } from './pages/work/work.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { MainComponent } from './pages/main/main.component';
 import { MyFriendsComponent } from './components/my-friends/my-friends.component';
+import { MoneyTransferComponent } from './components/money-transfer/money-transfer.component';
+import { FriendRequestComponent } from './components/friend-request/friend-request.component';
+import { AddMoneyComponent } from './components/add-money/add-money.component';
+import { FriendsDetailsComponent } from './components/friends-details/friends-details.component';
+import { FriendsTableComponent } from './components/friends-table/friends-table.component';
+import { TransactionsComponent } from './components/transactions/transactions.component';
 
 const routes: Routes = [
   {
@@ -31,10 +37,15 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
       { path: 'user-details/:userId', component: UserDetailsComponent, canActivate: [AuthGuard] },
-      // { path: 'add-money', component: MyFriendsComponent, canActivate: [AuthGuard] },
+      { path: 'money-transfer', component: MoneyTransferComponent, canActivate: [AuthGuard] },
+      { path: 'add-money', component: AddMoneyComponent, canActivate: [AuthGuard] },
+      { path: 'friend-request', component: FriendRequestComponent, canActivate: [AuthGuard] },
       { path: 'my-friends', component: MyFriendsComponent, canActivate: [AuthGuard] },
+      { path: 'friends-details', component: FriendsDetailsComponent, canActivate: [AuthGuard] },
+      { path: 'friends-table', component: FriendsTableComponent, canActivate: [AuthGuard] },
       { path: 'friends-network/:userId', component: UserNetworkTreeComponent, canActivate: [AuthGuard] },
       { path: 'manage-account', component: ManageAccountComponent, canActivate: [AuthGuard] },
+      { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard] },
       { path: 'users-account', component: UsersAccountTableComponent, canActivate: [AuthGuard] },
       { path: 'payment', component: PaymentTableComponent, canActivate: [AuthGuard] },
       { path: 'payment-details/:userId', component: PaymentComponent, canActivate: [AuthGuard] },

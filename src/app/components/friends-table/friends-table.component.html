@@ -1,0 +1,63 @@
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{ user.user.name }} </mat-cell>
+    </ng-container>
+  
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{ user.user.email }} </mat-cell>
+    </ng-container>
+  
+    <!-- Mobile Column -->
+    <ng-container matColumnDef="mobile">
+      <mat-header-cell *matHeaderCellDef> Mobile </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{ user.user.mobile }} </mat-cell>
+    </ng-container>
+  
+    <!-- Referral Code Column -->
+    <ng-container matColumnDef="referralCode">
+      <mat-header-cell *matHeaderCellDef> Referral Code </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{ user.user.referralCode }} </mat-cell>
+    </ng-container>
+  
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{ user.user.status }} </mat-cell>
+    </ng-container>
+  
+    <!-- Referrals Toggle Button Column -->
+    <ng-container matColumnDef="expand">
+      <mat-header-cell *matHeaderCellDef> Referrals </mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        <button mat-button (click)="toggleRow(user)">
+          {{ expandedElement === user ? 'Hide Referrals' : 'View Referrals' }}
+        </button>
+      </mat-cell>
+    </ng-container>
+  
+    <!-- Header and Row Definitions -->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" [class.expanded-row]="expandedElement === row"></mat-row>
+  
+    <!-- Expanded row for displaying referrals -->
+    <mat-row *matRowDef="let row; columns: ['referralDetail']" [hidden]="expandedElement !== row">
+      <mat-cell *matCellDef="let user">
+        <mat-list *ngIf="user.referrals.length > 0">
+          <mat-list-item *ngFor="let referral of user.referrals">
+            <strong>Name:</strong> {{ referral.name }} |
+            <strong>Email:</strong> {{ referral.email }} |
+            <strong>Mobile:</strong> {{ referral.mobile }} |
+            <strong>Status:</strong> {{ referral.status }}
+          </mat-list-item>
+        </mat-list>
+        <div *ngIf="user.referrals.length === 0">No referrals available.</div>
+      </mat-cell>
+    </mat-row>
+    
+  </mat-table>
+  

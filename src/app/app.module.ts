@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -52,6 +52,14 @@ import { FooterComponent } from './pages/footer/footer.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FriendRequestComponent } from './components/friend-request/friend-request.component';
 import { MyFriendsComponent } from './components/my-friends/my-friends.component';
+import { MoneyTransferComponent } from './components/money-transfer/money-transfer.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddMoneyComponent } from './components/add-money/add-money.component';
+import { FriendsDetailsComponent } from './components/friends-details/friends-details.component';
+import { FriendsTableComponent } from './components/friends-table/friends-table.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { TransactionsComponent } from './components/transactions/transactions.component';
 
 
 
@@ -82,7 +90,12 @@ import { MyFriendsComponent } from './components/my-friends/my-friends.component
     MainComponent,
     FooterComponent,
     FriendRequestComponent,
-    MyFriendsComponent
+    MyFriendsComponent,
+    MoneyTransferComponent,
+    AddMoneyComponent,
+    FriendsDetailsComponent,
+    FriendsTableComponent,
+    TransactionsComponent
   ],
   imports: [
     BrowserModule,
@@ -109,12 +122,16 @@ import { MyFriendsComponent } from './components/my-friends/my-friends.component
     MatCheckboxModule,
     MatSelectModule,
     MatTooltipModule,
+    CarouselModule,
+    MatDialogModule,
+    MatTabsModule,
     ToastrModule.forRoot({
       timeOut: 3000,  // Optional: Toast display time in milliseconds
       positionClass: 'toast-bottom-right',  // Optional: Toast position
       preventDuplicates: true,  // Prevent multiple duplicate toasts
     })
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

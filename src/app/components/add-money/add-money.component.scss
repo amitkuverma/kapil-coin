@@ -1,0 +1,50 @@
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
+    margin-bottom: 24px;
+  
+    mat-form-field {
+      width: 100%;
+    }
+  }
+  
+  .payment-form {
+    width: 100%;
+  }
+  
+  .d-flex {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .account-card {
+    padding: 16px;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 0px;
+    right: 8px;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
+    margin-bottom: 24px;
+  
+    mat-form-field {
+      width: 100%;
+    }
+  }
+  
+  .payment-form {
+    width: 100%;
+  }
+  
+  .account-card {
+    position: relative;
+    padding: 16px;
+  }
+  

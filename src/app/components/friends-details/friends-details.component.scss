@@ -1,0 +1,14 @@
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.half-width-button {
+  width: 48%; /* Adjust to fit two buttons in a row with some margin */
+  margin: 5px 0; /* Optional margin for spacing */
+}
+
+.button-card {
+  padding: 20px;
+  margin: auto;
+}
