@@ -28,6 +28,10 @@ export class PaymentService {
     getUserReferrals(userId:any): Observable<any> {                
         return this.http.get(`${environment.API_URL}/payment/${userId}`);
     }
+    
+    updateUserStatus(body:any, userId:any): Observable<any> {                
+        return this.http.put(`${environment.API_URL}/payment/${userId}`, body);
+    }
 
     uploadReceipt(receiptData: FormData): Observable<any> {        
         return this.http.post(`${environment.API_URL}/payment/${this.cookiesService.decodeToken().userId}/upload-receipt`, receiptData);
