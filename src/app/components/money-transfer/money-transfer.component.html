@@ -60,8 +60,8 @@
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Enter Withdrawal amount</mat-label>
-              <input matInput formControlName="enterCoin" type="number" placeholder="Enter Withdrawal amount">
-              <mat-error *ngIf="bankTransferForm.get('enterCoin')?.invalid && bankTransferForm.get('enterCoin')?.touched">
+              <input matInput formControlName="transactionAmount" type="number" placeholder="Enter Withdrawal amount">
+              <mat-error *ngIf="bankTransferForm.get('transactionAmount')?.invalid && bankTransferForm.get('transactionAmount')?.touched">
                 Coin amount is required and must be greater than 500.
               </mat-error>
             </mat-form-field>

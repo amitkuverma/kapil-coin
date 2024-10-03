@@ -1,5 +1,4 @@
 <mat-card>
-  <mat-card-title>Payment Transactions</mat-card-title>
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!-- User Name Column -->
@@ -7,7 +6,6 @@
       <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
       <mat-cell *matCellDef="let payment"> {{payment.userName}} </mat-cell>
     </ng-container>
-
 
     <!-- Payment Method Column -->
     <ng-container matColumnDef="paymentType">
@@ -51,11 +49,12 @@
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
       <mat-cell *matCellDef="let payment">
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="sendCoin(payment)">
+        <button mat-mini-fab color="primary" aria-label="Confirm action" (click)="openConfirmationDialog(payment)">
           <mat-icon>check</mat-icon>
         </button>
       </mat-cell>
     </ng-container>
+
     <!-- Table Header -->
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <!-- Table Rows -->
@@ -64,3 +63,13 @@
   </mat-table>
   <mat-paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
 </mat-card>
+
+<!-- Confirmation Dialog -->
+<ng-template #shareDialog>
+  <h2 mat-dialog-title>Confirmation</h2>
+  <mat-dialog-content>Are you sure you want to perform this action?</mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="dialog.closeAll()">Cancel</button>
+    <button mat-button color="primary" (click)="sendCoin()">Confirm</button>
+  </mat-dialog-actions>
+</ng-template>

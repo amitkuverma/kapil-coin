@@ -95,7 +95,7 @@ export class ManageAccountComponent implements OnInit {
   }
 
   addNewAccount() {
-    this.formType = "Add";
+    this.formType = "buy";
     this.isEditing = true;
     this.accountDetails = null;
     this.accountForm.reset();  // Reset form for a new account

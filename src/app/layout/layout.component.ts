@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CookieService } from '../services/cookie.service';
 import { Router } from '@angular/router';
+import { PaymentService } from '../services/payment.service';
 
 @Component({
   selector: 'app-layout',
@@ -19,8 +20,21 @@ export class LayoutComponent {
     autoplayTimeout: 3000,
     autoplayHoverPause: true
   };
-  constructor(private router: Router, public cookieService: CookieService) {}
+  pymentResult:any;
+
+  constructor(private router: Router, public cookieService: CookieService, private paymentService:PaymentService) {}
  
+  ngOnInit(){
+    this.paymentService.getUserReferrals(this.cookieService.decodeToken().userId).subscribe(
+      (res)=>{
+        this.pymentResult = res
+      },
+      (error:any)=>{
+        console.log(error);
+        
+      }
+    )
+  }
 
   toggleSidenav() {
     this.sidenavOpened = !this.sidenavOpened;

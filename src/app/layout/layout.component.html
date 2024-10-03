@@ -3,7 +3,7 @@
   <mat-sidenav #sidenav mode="side" opened class="side-nav" [mode]="(sidenav.opened ? 'side' : 'over')"
     [fixedInViewport]="!sidenav.opened" [attr.mini]="sidenav.opened ? null : true">
     <mat-toolbar color="primary" class="logo">
-      <span *ngIf="sidenav.opened">Kapil Coin</span>
+      <span *ngIf="sidenav.opened">Gorakha Coin</span>
     </mat-toolbar>
     <mat-nav-list>
       <!-- Sidebar Content as in your original template -->
@@ -31,10 +31,10 @@
         <mat-icon>groups</mat-icon>
         <span *ngIf="sidenav.opened">My Friends</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'payment'" *ngIf="cookieService.isAdmin()">
+      <!-- <mat-list-item [routerLink]="'payment'" *ngIf="cookieService.isAdmin()">
         <mat-icon>email</mat-icon>
         <span *ngIf="sidenav.opened">Send Email</span>
-      </mat-list-item>
+      </mat-list-item> -->
       <!-- <mat-list-item [routerLink]="'payment-details'  + cookieService.decodeToken().userId"
         *ngIf="!cookieService.isAdmin()">
         <mat-icon>payment</mat-icon>
@@ -50,7 +50,7 @@
       </mat-list-item>
       <mat-list-item [routerLink]="'buy-coin'" *ngIf="cookieService.isAdmin()">
         <mat-icon>account_box</mat-icon>
-        <span *ngIf="sidenav.opened">Buy Coin Request</span>
+        <span *ngIf="sidenav.opened">Buy Coin</span>
       </mat-list-item>
       <mat-list-item [routerLink]="'transactions'">
         <mat-icon>history</mat-icon>
@@ -80,7 +80,8 @@
       <button mat-button routerLink="/workshop">Workshop</button>
       <button mat-button routerLink="/mission">Our Mission</button>
       <button mat-button routerLink="/contact">Contact Us</button>
-      <button mat-button class="coin-details" *ngIf="!cookieService.isAdmin()">Available Coin = 900</button>
+      <button mat-button class="coin-details" *ngIf="!cookieService.isAdmin()">Available Coin =
+        {{pymentResult.totalAmount || 0}}</button>
       <button mat-icon-button [matMenuTriggerFor]="profileMenu">
         <mat-icon>account_circle</mat-icon>
       </button>
