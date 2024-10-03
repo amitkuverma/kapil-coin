@@ -22,11 +22,12 @@ export class TransactionsComponent {
   dataSource = new MatTableDataSource<any>();
   paymentData: any;
   transactionData: any;
+  selectedTab: string = 'internal'; // Track the currently selected tab
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private trancService: TransactionService, private paymentService: PaymentService) {
-    this.fetchAccounts('internal'); // Default to 'add' (Internal Transactions)
+    this.fetchAccounts(this.selectedTab); // Default to 'internal' transactions
   }
 
   fetchAccounts(paymentType: string | string[]) {
@@ -50,12 +51,11 @@ export class TransactionsComponent {
   }
 
   // Method to handle tab change and filter data based on tab selection
-  onTabChange(index: number) {
-    if (index === 0) {
-      // Internal Transactions tab
+  selectTab(tab: string) {
+    this.selectedTab = tab; // Update the selected tab
+    if (tab === 'internal') {
       this.fetchAccounts('internal');
-    } else if (index === 1) {
-      // Bank Transactions tab (both add and withdraw)
+    } else if (tab === 'bank') {
       this.fetchAccounts(['buy', 'withdraw']);
     }
   }

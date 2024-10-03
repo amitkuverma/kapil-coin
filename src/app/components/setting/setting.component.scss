@@ -1,0 +1,152 @@
+// setting.component.scss
+
+.card {
+  margin: 20px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #862096; // Change to your preferred color
+  color: white;
+
+  .nav-tabs {
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+
+    .nav-item {
+      flex: 1;
+      text-align: center;
+
+      .nav-link {
+        color: white;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        &.active {
+          background-color: rgba(255, 255, 255, 0.2);
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+}
+
+.card-body {
+  padding: 20px;
+
+  mat-card {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9; // Lighter background for better contrast
+
+    mat-form-field {
+      width: 100%; // Full width for inputs
+      margin-bottom: 15px;
+
+      mat-label {
+        font-weight: bold; // Make labels stand out
+      }
+
+      input,
+      mat-select {
+        font-size: 14px; // Adjust font size for better readability
+      }
+    }
+
+    button {
+      margin-top: 10px; // Add some space above the button
+    }
+  }
+
+  .table {
+    margin-top: 20px;
+
+    td {
+      vertical-align: middle; // Center align table cells
+    }
+
+    .td-actions {
+      .btn {
+        margin: 0 5px; // Space between action buttons
+      }
+    }
+  }
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+
+  .form-check-input {
+    margin-right: 10px; // Space between checkbox and label
+  }
+}
+
+@media (max-width: 768px) {
+  .card-header {
+    .nav-tabs {
+      flex-direction: column; // Stack tabs vertically on small screens
+    }
+  }
+}
+
+.id-card {
+  width: 300px; // Set a fixed width for the ID card
+  margin: 20px auto; // Center the card
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: #ffffff; // White background
+
+  .id-card-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .profile-photo {
+      width: 80px; // Set width for the profile photo
+      height: 80px; // Set height for the profile photo
+      border-radius: 50%; // Make it circular
+      margin-right: 15px; // Space between photo and text
+      object-fit: cover; // Cover the area without distortion
+    }
+
+    .id-info {
+      h2 {
+        margin: 0; // Remove default margin for the name
+        font-size: 18px; // Font size for the name
+      }
+
+      p {
+        margin: 5px 0; // Add space between paragraphs
+        font-size: 14px; // Font size for other info
+      }
+    }
+  }
+
+  button {
+    width: 100%; // Full width for the print button
+    margin-top: 10px; // Space above the button
+  }
+}
+
+@media (max-width: 768px) {
+  .id-card {
+    width: 100%; // Full width on smaller screens
+    padding: 10px; // Reduce padding
+  }
+
+  .profile-photo {
+    width: 60px; // Adjust photo size on smaller screens
+    height: 60px; // Adjust photo size on smaller screens
+  }
+}
+h2,
+p{
+    color: #000 !important;
+}

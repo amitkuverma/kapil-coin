@@ -28,6 +28,8 @@ export class LayoutComponent {
     this.paymentService.getUserReferrals(this.cookieService.decodeToken().userId).subscribe(
       (res)=>{
         this.pymentResult = res
+        console.log(res);
+        
       },
       (error:any)=>{
         console.log(error);

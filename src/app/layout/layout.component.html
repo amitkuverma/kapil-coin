@@ -81,7 +81,7 @@
       <button mat-button routerLink="/mission">Our Mission</button>
       <button mat-button routerLink="/contact">Contact Us</button>
       <button mat-button class="coin-details" *ngIf="!cookieService.isAdmin()">Available Coin =
-        {{pymentResult.totalAmount || 0}}</button>
+        {{pymentResult?.totalAmount || 0}}</button>
       <button mat-icon-button [matMenuTriggerFor]="profileMenu">
         <mat-icon>account_circle</mat-icon>
       </button>

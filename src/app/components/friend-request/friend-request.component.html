@@ -1,28 +1,25 @@
-<div class="referral-container">
-    <mat-card class="button-card mb-3">
-        <mat-card-content>
-            <div class="url-copy-section">
-                <span class="referral-header">Referral Link</span>
-                <div class="input-section">
-                    <input matInput readonly id="referral-url" [value]="referralLink" class="full-width" />
-                    <button mat-raised-button color="primary" class="copy-button"
-                        (click)="copyReferralLink()">Copy</button>
-                </div>
-                <div *ngIf="copySuccess" class="copy-success-message">Copied!</div>
+<mat-card class="button-card mb-3">
+    <mat-card-content>
+        <div class="url-copy-section">
+            <span class="referral-header">Referral Link</span>
+            <div class="input-section">
+                <input matInput readonly id="referral-url" [value]="referralLink" class="full-width" />
+                <button mat-raised-button color="primary" class="copy-button" (click)="copyReferralLink()">Copy</button>
             </div>
-        </mat-card-content>
-    </mat-card>
-    <mat-card class="button-card">
-        <mat-card-content>
-            <div class="button-container">
-                <button mat-raised-button color="primary" class="half-width-button">Refer Letter</button>
-                <button mat-raised-button color="accent" (click)="openShareDialog()"
-                    class="half-width-button">Email/WhatsApp/Viber</button>
-            </div>
-        </mat-card-content>
-    </mat-card>
+            <div *ngIf="copySuccess" class="copy-success-message">Copied!</div>
+        </div>
+    </mat-card-content>
 
-</div>
+    <mat-card-content class="mt-4">
+        <div class="button-container">
+            <button mat-raised-button color="primary" class="half-width-button">Refer Letter</button>
+            <button mat-raised-button color="accent" (click)="openShareDialog()"
+                class="half-width-button">Email/WhatsApp/Viber</button>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
 
 <!-- Modal Template for Share Options -->
 <ng-template #shareDialog>

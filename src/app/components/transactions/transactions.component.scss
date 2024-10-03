@@ -1,0 +1,92 @@
+.card {
+  margin: 20px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #862096; // Change to your preferred color
+  color: white;
+
+  .nav-tabs {
+    .nav-item {
+      .nav-link {
+        color: white;
+        transition: background-color 0.3s;
+        ::ng-deep a{
+            padding: 20px !important;
+        }
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        &.active {
+          background-color: rgba(255, 255, 255, 0.2);
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+}
+.card-body {
+  padding: 20px;
+
+  mat-card {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9; // Lighter background for better contrast
+
+    mat-form-field {
+      width: 100%; // Full width for inputs
+      margin-bottom: 15px;
+
+      mat-label {
+        font-weight: bold; // Make labels stand out
+      }
+
+      input,
+      mat-select {
+        font-size: 14px; // Adjust font size for better readability
+      }
+    }
+
+    button {
+      margin-top: 10px; // Add some space above the button
+    }
+  }
+
+  .table {
+    margin-top: 20px;
+
+    td {
+      vertical-align: middle; // Center align table cells
+    }
+
+    .td-actions {
+      .btn {
+        margin: 0 5px; // Space between action buttons
+      }
+    }
+  }
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+
+  .form-check-input {
+    margin-right: 10px; // Space between checkbox and label
+  }
+}
+
+@media (max-width: 768px) {
+  .card-header {
+    .nav-tabs {
+      flex-direction: column; // Stack tabs vertically on small screens
+    }
+  }
+}
+
+h2,
+p {
+  color: #000 !important; // Override styles for headings and paragraphs
+}

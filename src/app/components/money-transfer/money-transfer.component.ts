@@ -18,17 +18,20 @@ export class MoneyTransferComponent {
   userDetails: any = [];
   userPaymentDetails: any;
   selectedUser: any;
+  paymentInfo: any;
+  payResult: any;
+  transResult: any;
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
 
 
   constructor(private fb: FormBuilder, private userService: UsersService, public dialog: MatDialog, private paymentService: PaymentService,
     public cookiesService: CookieService, private trancService: TransactionService, private toastr: ToastrService) {
     this.internalTransferForm = this.fb.group({
-      receiverUser: ['', Validators.required],
-      coin: ['', [Validators.required, Validators.min(1)]],
+      receiverName: ['', Validators.required],
+      transactionAmount: ['', [Validators.required, Validators.min(1)]],
     });
     this.bankTransferForm = this.fb.group({
-      totatAccount: ['', Validators.required],
+      totalAmount: ['', Validators.required],
       transactionAmount: ['', [Validators.required, Validators.min(100)]],
     });
 
@@ -44,7 +47,7 @@ export class MoneyTransferComponent {
       (res: any) => {
         if (res) {
           this.userPaymentDetails = res;
-          this.bankTransferForm.get('totatAccount')?.setValue(res.totalAmount);
+          this.bankTransferForm.get('totalAmount')?.setValue(res?.totalAmount);
         }
       },
       (error: any) => {
@@ -55,12 +58,24 @@ export class MoneyTransferComponent {
   }
 
   openShareDialog() {
-    this.selectedUser = this.userDetails.find((user: any) => user.userId === this.internalTransferForm.get('receiverUser')?.value);
+    this.selectedUser = this.userDetails.find((user: any) => user.userId === this.internalTransferForm.get('receiverName')?.value);
     this.dialog.open(this.shareDialog);
   }
 
-  onSubmit() {
-    console.log(this.selectedUser);
+  onInternalSubmit() {
+    const body = {
+      userId: this.cookiesService.decodeToken().userId,
+      userName: this.cookiesService.decodeToken().userName,
+      receiverName: this.internalTransferForm.get('receiverName')?.value,
+      paymentType: 'internal',
+      transactionAmount: this.internalTransferForm.get('transactionAmount')?.value
+    }
+    this.trancService.createTransaction(body).subscribe(
+      (transUpdate) => {
+        this.internalTransferForm.get('transactionAmount')?.setValue('');
+        this.dialog.closeAll();
+      }
+    )
   }
 
   onSubmitWithdrawal() {

@@ -1,31 +1,35 @@
 <div class="row mt-3">
-    <div class="col-12 ">
+    <div class="col-12">
         <div class="card">
             <div class="card-header card-header-tabs card-header-primary">
                 <div class="nav-tabs-navigation">
                     <div class="nav-tabs-wrapper">
                         <span class="nav-tabs-title">My Profile</span>
                         <ul class="nav nav-tabs" data-tabs="tabs">
+                            <!-- Edit Profile Tab -->
                             <li class="nav-item">
-                                <a mat-button class="nav-link active" href="#profile" data-toggle="tab">
+                                <a class="nav-link active" href="#profile" data-toggle="tab">
                                     <i class="material-icons">edit</i> Edit Profile
                                     <div class="ripple-container"></div>
                                 </a>
                             </li>
+                            <!-- Change Password Tab -->
                             <li class="nav-item">
-                                <a mat-button class="nav-link" href="#messages" data-toggle="tab">
-                                    <i class="material-icons">code</i> Change Password
+                                <a class="nav-link" href="#changePassword" data-toggle="tab">
+                                    <i class="material-icons">lock</i> Change Password
                                     <div class="ripple-container"></div>
                                 </a>
                             </li>
+                            <!-- ID Print Tab -->
                             <li class="nav-item">
-                                <a mat-button class="nav-link" href="#settings" data-toggle="tab">
+                                <a class="nav-link" href="#idPrint" data-toggle="tab">
                                     <i class="material-icons">local_printshop</i> ID Print
                                     <div class="ripple-container"></div>
                                 </a>
                             </li>
+                            <!-- Add Banks Tab -->
                             <li class="nav-item">
-                                <a mat-button class="nav-link" href="#add_banks" data-toggle="tab">
+                                <a class="nav-link" href="#addBanks" data-toggle="tab">
                                     <i class="material-icons">account_balance</i> Add Banks
                                     <div class="ripple-container"></div>
                                 </a>
@@ -34,131 +38,125 @@
                     </div>
                 </div>
             </div>
+
             <div class="card-body">
                 <div class="tab-content">
+                    <!-- Edit Profile Tab Content -->
                     <div class="tab-pane active" id="profile">
-                        profile
+                        <mat-card>
+                            <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEditProfile()">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Name</mat-label>
+                                    <input matInput formControlName="name" placeholder="Enter your name" />
+                                    <mat-error
+                                        *ngIf="editProfileForm.get('name')?.invalid && editProfileForm.get('name')?.touched">
+                                        Name is required.
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput formControlName="email" placeholder="Enter your email"
+                                        type="email" />
+                                    <mat-error
+                                        *ngIf="editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.touched">
+                                        <span *ngIf="editProfileForm.get('email')?.errors?.['required']">Email is
+                                            required.</span>
+                                        <span *ngIf="editProfileForm.get('email')?.errors?.['email']">Invalid email
+                                            format.</span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Mobile</mat-label>
+                                    <input matInput formControlName="mobile" placeholder="Enter your mobile number"
+                                        type="tel" />
+                                    <mat-error
+                                        *ngIf="editProfileForm.get('mobile')?.invalid && editProfileForm.get('mobile')?.touched">
+                                        Mobile number is required.
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Password</mat-label>
+                                    <input matInput formControlName="password" placeholder="Enter a new password"
+                                        type="password" />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Image URL</mat-label>
+                                    <input matInput formControlName="image" placeholder="Profile image URL" />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Referral Code</mat-label>
+                                    <input matInput formControlName="referralCode"
+                                        placeholder="Enter referral code (optional)" />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Status</mat-label>
+                                    <mat-select formControlName="status">
+                                        <mat-option value="active">Active</mat-option>
+                                        <mat-option value="inactive">Inactive</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <button mat-raised-button color="primary" type="submit"
+                                    [disabled]="editProfileForm.invalid">Save Changes</button>
+                            </form>
+
+                        </mat-card>
                     </div>
-                    <div class="tab-pane" id="messages">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="" checked>
-                                                <span class="form-check-sign">
-                                                    <span class="check"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">close</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="">
-                                                <span class="form-check-sign">
-                                                    <span class="check"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                    <td class="td-actions text-right">
-                                        <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">close</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+                    <!-- Change Password Tab Content -->
+                    <div class="tab-pane" id="changePassword">
+                        <mat-card>
+                            <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePassword()">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Old Password</mat-label>
+                                    <input matInput formControlName="oldPassword" type="password"
+                                        placeholder="Enter old password" />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>New Password</mat-label>
+                                    <input matInput formControlName="newPassword" type="password"
+                                        placeholder="Enter new password" />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Confirm New Password</mat-label>
+                                    <input matInput formControlName="confirmPassword" type="password"
+                                        placeholder="Confirm new password" />
+                                </mat-form-field>
+
+                                <button mat-raised-button color="primary" type="submit">Change Password</button>
+                            </form>
+                        </mat-card>
                     </div>
-                    <div class="tab-pane" id="settings">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="">
-                                                <span class="form-check-sign">
-                                                    <span class="check"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                    <td class="td-actions text-right">
-                                        <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">close</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="" checked>
-                                                <span class="form-check-sign">
-                                                    <span class="check"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">close</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="" checked>
-                                                <span class="form-check-sign">
-                                                    <span class="check"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                    <td class="td-actions text-right">
-                                        <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">close</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+                    <!-- ID Print Tab Content -->
+                    <div class="tab-pane" id="idPrint">
+                        <mat-card class="id-card">
+                            <div class="id-card-content">
+                                <img class="profile-photo" [src]="user?.image || 'default-profile.png'"
+                                    alt="User Photo" />
+                                <div class="id-info">
+                                    <h2>{{ user?.name }}</h2>
+                                    <p><strong>User ID:</strong> {{ user?.userId }}</p>
+                                    <p><strong>Email:</strong> {{ user?.email }}</p>
+                                    <p><strong>Mobile:</strong> {{ user?.mobile }}</p>
+                                    <p><strong>Status:</strong> {{ user?.status }}</p>
+                                </div>
+                            </div>
+                            <button mat-raised-button color="primary" (click)="printId()">Print ID</button>
+                        </mat-card>
                     </div>
-                    <div class="tab-pane" id="add_banks">
+
+
+                    <!-- Add Banks Tab Content -->
+                    <div class="tab-pane" id="addBanks">
                         <app-manage-account></app-manage-account>
                     </div>
                 </div>
