@@ -3,6 +3,7 @@ import { PaymentService } from '../../services/payment.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { TransactionService } from 'src/app/services/transaction.service';
+import { mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-send-money',
@@ -11,27 +12,29 @@ import { TransactionService } from 'src/app/services/transaction.service';
 })
 export class SendMoneyComponent {
   displayedColumns: string[] = [
-    'userName', 
-    'paymentType', 
+    'userName',
+    'paymentType',
     'transactionId',
-    'transactionAmount', 
-    'status', 
-    'receipt', 
+    'transactionAmount',
+    'status',
+    'receipt',
     'createdAt',
-    'action', 
+    'action',
   ];
   dataSource = new MatTableDataSource<any>();
-  
+  paymentData: any;
+  transactionData: any;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private trancService: TransactionService) {
+  constructor(private trancService: TransactionService, private paymentService: PaymentService) {
     this.fetchAccounts();
   }
 
   fetchAccounts() {
     this.trancService.getAllTransaction().subscribe({
-      next: (payment: any[]) => {
-        const buyers = payment.filter((pay)=> pay.paymentType === 'withdraw')
+      next: (payments: any[]) => {
+        const buyers = payments.filter(pay => pay.paymentType === 'withdraw');
         this.dataSource = new MatTableDataSource<any>(buyers);
         this.dataSource.paginator = this.paginator;
       },
@@ -40,5 +43,56 @@ export class SendMoneyComponent {
       }
     });
   }
-}
 
+  fetchTransaction(userId: string) {
+    this.trancService.getUserTransactions(userId).subscribe({
+      next: (transactions: any) => {
+        console.log(transactions); // Log the response structure
+        if (Array.isArray(transactions)) {
+          this.transactionData = transactions;
+        } else {
+          // Handle case where the response is a single object or different format
+          this.transactionData = [transactions]; // Ensure it's an array
+        }
+      },
+      error: (error: any) => {
+        console.error('Error fetching transactions:', error);
+      }
+    });
+  }
+
+  sendCoin(payment: any) {
+    this.paymentService.getUserReferrals(payment.userId).pipe(
+      mergeMap((userReferrals: any) => {
+        return this.trancService.getUserTransactions(payment.userId).pipe(
+          mergeMap((transactions: any) => {
+            console.log(transactions); // Log the transactions response
+
+            // Ensure transactions is an array
+            const transactionArray = Array.isArray(transactions) ? transactions : [transactions];
+
+            const transaction = transactionArray.find(t => t.transId === payment.transId);
+            if (transaction) {
+              userReferrals.totalAmount -= transaction.transactionAmount;
+              transaction.status = 'approved';
+
+              // Update user status and then update the transaction
+              return this.paymentService.updateUserStatus(userReferrals, userReferrals.payId).pipe(
+                mergeMap(() => this.trancService.updateTransaction(transaction, transaction.transId))
+              );
+            } else {
+              throw new Error('Transaction not found');
+            }
+          })
+        );
+      })
+    ).subscribe({
+      next: (result) => {
+        console.log('Transaction and user status updated successfully');
+      },
+      error: (error: any) => {
+        console.error('Error during coin sending process:', error);
+      }
+    });
+  }
+}

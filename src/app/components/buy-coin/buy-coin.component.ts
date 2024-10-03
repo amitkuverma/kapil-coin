@@ -77,7 +77,7 @@ export class BuyCoinComponent {
               transaction.status = 'approved';
 
               // Update user status and then update the transaction
-              return this.paymentService.updateUserStatus(userReferrals, payment.userId).pipe(
+              return this.paymentService.updateUserStatus(userReferrals, userReferrals.payId).pipe(
                 mergeMap(() => this.trancService.updateTransaction(transaction, transaction.transId))
               );
             } else {
