@@ -10,6 +10,7 @@
     <a routerLink="/testimonial" routerLinkActive="active" (click)="closeNav(mySidepanel)">Testimonial</a>
     <a routerLink="/works" routerLinkActive="active" (click)="closeNav(mySidepanel)">Works</a>
     <a routerLink="/contact" routerLinkActive="active" (click)="closeNav(mySidepanel)">Contact</a>
+    <a routerLink="/login" routerLinkActive="active" (click)="closeNav(mySidepanel)">Login</a>    
   </div>
   
 <!-- header -->
@@ -36,7 +37,12 @@
                 <div class="col-sm-2">
                     <ul class="email text_align_right">
                         <li class="d_none"><a routerLink="/login"><i class="fa fa-user"
-                            aria-hidden="true"></i></a></li>                    </ul>
+                            aria-hidden="true"></i></a>
+                        </li>
+                        <li class="menu-button">
+                            <button class="openbtn" onclick="openNav()"><img src="../../../assets/images/menu_btn.png"></button>
+                        </li>                    
+                    </ul>
                 </div>
             </div>
         </div>
