@@ -1,6 +1,11 @@
 <div class="submit-page-container">
-  <!-- If accountDetails are present, display the account data in a card -->
-  <mat-card *ngIf="accountDetails && !showPaymentForm && !userDetails?.status" class="account-card">
+  <!-- Loader to display while an API call is in progress -->
+  <div *ngIf="loading" class="loader-container">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Step 1: Account Details -->
+  <mat-card *ngIf="!loading && currentStep === 1 && accountDetails && !showPaymentForm && !userDetails?.status" class="account-card">
     <mat-card-header>
       <mat-card-title class="txt-clrb7">Account Details</mat-card-title>
     </mat-card-header>
@@ -8,41 +13,41 @@
     <mat-card-content>
       <table class="account-details-table">
         <tbody>
-          <tr>
-            <td>Bank Name</td>
-            <td>{{ accountDetails.bankName }}</td>
-          </tr>
-          <tr>
-            <td>Account Number</td>
-            <td>{{ accountDetails.accountNumber }}</td>
-          </tr>
-          <tr>
-            <td>IFSC Code</td>
-            <td>{{ accountDetails.ifscCode }}</td>
-          </tr>
-          <tr>
-            <td>Branch Name</td>
-            <td>{{ accountDetails.branchName }}</td>
-          </tr>
-          <tr>
-            <td>Account Holder Name</td>
-            <td>{{ accountDetails.accountHolderName }}</td>
-          </tr>
-          <tr>
-            <td>Account Type</td>
-            <td>{{ accountDetails.accountType }}</td>
-          </tr>
+        <tr>
+          <td>Bank Name</td>
+          <td>{{ accountDetails.bankName }}</td>
+        </tr>
+        <tr>
+          <td>Account Number</td>
+          <td>{{ accountDetails.accountNumber }}</td>
+        </tr>
+        <tr>
+          <td>IFSC Code</td>
+          <td>{{ accountDetails.ifscCode }}</td>
+        </tr>
+        <tr>
+          <td>Branch Name</td>
+          <td>{{ accountDetails.branchName }}</td>
+        </tr>
+        <tr>
+          <td>Account Holder Name</td>
+          <td>{{ accountDetails.accountHolderName }}</td>
+        </tr>
+        <tr>
+          <td>Account Type</td>
+          <td>{{ accountDetails.accountType }}</td>
+        </tr>
         </tbody>
       </table>
     </mat-card-content>
     <p>If you have completed the payment, click on "Next" to submit your payment details.</p>
-    <button mat-raised-button color="primary" (click)="showPaymentForm = true; hideAccountDetails()">
+    <button mat-raised-button color="primary" (click)="goToNextStep()">
       Next
     </button>
   </mat-card>
 
-
-  <mat-card *ngIf="showPaymentForm && !userDetails?.status" class="account-card">
+  <!-- Step 2: Payment Form -->
+  <mat-card *ngIf="!loading && currentStep === 2 && showPaymentForm && !userDetails?.status" class="account-card">
     <h2 class="title text-center txt-clrb7">Payment Details</h2>
     <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
       <div class="form-grid">
@@ -75,31 +80,24 @@
     </form>
   </mat-card>
 
-  <div *ngIf="(paymentSubmitted || userDetails?.status === 'new') &&   userDetails?.status !== 'receipt'" class="file-upload-section">
-    <!-- <h3>Upload Receipt</h3>
-    <p class="mb-2">Please upload the receipt to verify the payment.</p> -->
-
-    <!-- <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*">
-
-    <button mat-raised-button color="primary" (click)="uploadReceipt()" [disabled]="!selectedFile">
-      Upload Receipt
-    </button> -->
+  <!-- Step 3: Upload Receipt -->
+  <div *ngIf="!loading && currentStep === 3 && paymentSubmitted && userDetails?.status !== 'receipt'" class="file-upload-section">
     <div class="upload-container">
       <h2>Upload an Image</h2>
-
       <input type="file" (change)="onFileSelected($event)" />
-      <button (click)="upload()">Upload</button>
+      <button mat-raised-button color="primary" (click)="upload()" [disabled]="!selectedFile">Upload</button>
 
       <div *ngIf="imageUrl" class="image-preview">
-          <h3>Uploaded Image:</h3>
-          <img [src]="imageUrl" alt="Uploaded Image" />
+        <h3>Uploaded Image:</h3>
+        <img [src]="imageUrl" alt="Uploaded Image" />
       </div>
+    </div>
   </div>
-  </div>
-  <div *ngIf="receiptUploaded || userDetails?.status === 'receipt'" class="file-upload-section">
-    <h3>Payment Details uploded Successfully! 😊</h3>
+
+  <!-- Success Message -->
+  <div *ngIf="!loading && currentStep === 4 && receiptUploaded || userDetails?.status === 'new'" class="file-upload-section">
+    <h3>Payment Details uploaded Successfully! 😊</h3>
     <p>Your receipt has been uploaded for verification. Thank you!</p>
-    <div class="d-flex justify-content-center"></div>
     <button mat-raised-button color="accent" (click)="login()">
       Go to Login
     </button>

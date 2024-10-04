@@ -14,16 +14,24 @@ import { UploadService } from 'src/app/services/uploadfile.service';
 export class CompletePaymentComponent implements OnInit {
   paymentForm!: FormGroup;
   paymentSubmitted = false;
-  receiptUploaded = false; // Track receipt upload status
-  showPaymentForm = false; // Control visibility of payment form
+  receiptUploaded = false;
+  showPaymentForm = false;
   selectedFile: File | null = null;
   accountDetails: any;
   userDetails: any;
   type = 'payment';
-  imageUrl!:string;
+  imageUrl!: string;
+  loading = false; // Track loading state
+  currentStep = 1; // Track the current step (1: Account, 2: Payment, 3: Upload, 4: Success)
 
-  constructor(private fb: FormBuilder, private paymentService: PaymentService, private accountService: AccountDetailsService,
-    private cookiesService: CookieService, private router: Router, private uploadService: UploadService) { }
+  constructor(
+    private fb: FormBuilder,
+    private paymentService: PaymentService,
+    private accountService: AccountDetailsService,
+    private cookiesService: CookieService,
+    private router: Router,
+    private uploadService: UploadService
+  ) {}
 
   ngOnInit(): void {
     this.paymentForm = this.fb.group({
@@ -31,39 +39,71 @@ export class CompletePaymentComponent implements OnInit {
       totalAmount: [null, [Validators.required, Validators.min(0)]],
       paymentMethod: ['', Validators.required],
       transactionId: ['', Validators.required],
-      status: [''], // Ensure status is part of the form
+      status: ['']
     });
     this.loadAccountDetails();
     this.loadUserInfo(this.cookiesService.decodeToken().userId);
   }
 
   loadAccountDetails() {
+    this.loading = true; // Start loader
     this.accountService.getAdminAccount().subscribe(
       (data) => {
         this.accountDetails = data;
+        this.loading = false; // Stop loader
       },
       (error) => {
-        console.error('Error fetching account details', error.error);
+        console.error('Error fetching account details', error);
+        this.loading = false;
       }
     );
   }
 
   loadUserInfo(userId: any) {
+    this.loading = true;
     this.paymentService.getUserReferrals(userId).subscribe(
       (data) => {
         this.userDetails = data;
-        this.paymentForm.patchValue(this.userDetails)
+        this.paymentForm.patchValue(this.userDetails);
+        this.loading = false;
       },
       (error) => {
-        console.error('Error fetching user details', error.error);
+        console.error('Error fetching user details', error);
+        this.loading = false;
       }
     );
   }
 
-  hideAccountDetails() {
-    this.accountDetails = null; // Set accountDetails to null to hide the card
+  goToNextStep() {
+    this.showPaymentForm = true;
+    this.currentStep = 2; // Move to payment form step
   }
 
+  onSubmit(): void {
+    if (this.paymentForm.valid) {
+      this.loading = true;
+      const paymentData = {
+        earnAmount:0,
+        totalAmount: this.paymentForm.get('totalAmount')?.value,
+        paymentMethod: this.paymentForm.get('paymentMethod')?.value,
+        transactionId: this.paymentForm.get('transactionId')?.value,
+        status: 'new'
+      };
+
+      this.paymentService.createPayment(paymentData).subscribe(
+        (response) => {
+          this.paymentForm.reset();
+          this.paymentSubmitted = true;
+          this.loading = false;
+          this.currentStep = 3; // Move to receipt upload step
+        },
+        (error) => {
+          console.error('Error creating payment', error);
+          this.loading = false;
+        }
+      );
+    }
+  }
 
   onFileSelected(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -74,66 +114,23 @@ export class CompletePaymentComponent implements OnInit {
 
   upload(): void {
     if (this.selectedFile) {
+      this.loading = true;
       this.uploadService.uploadFile(this.selectedFile, this.cookiesService.decodeToken().userId, this.type)
         .subscribe(
-          response => {
-            console.log('File uploaded successfully', response);
-            // Assuming the response contains the image path
-            this.imageUrl = response.filepath; // Adjust based on your response structure
-            this.receiptUploaded = true
+          (response) => {
+            this.imageUrl = response.filepath;
+            this.receiptUploaded = true;
+            this.loading = false;
+            this.currentStep = 4; // Move to success step
           },
-          error => {
+          (error) => {
             console.error('Error uploading file', error);
+            this.loading = false;
           }
         );
     }
   }
 
-  onSubmit(): void {
-    if (this.paymentForm.valid) {
-      const paymentData = {
-        earnAmount: 0,
-        totalAmount: this.paymentForm.get('totalAmount')?.value,
-        paymentMethod: this.paymentForm.get('paymentMethod')?.value,
-        transactionId: this.paymentForm.get('transactionId')?.value,
-        status: "new",
-      };
-
-      this.paymentService.createPayment(paymentData).subscribe(
-        (response) => {
-          this.paymentForm.reset();
-          this.paymentSubmitted = true; // Set to true after successful payment
-          this.showPaymentForm = false; // Hide payment form after submission
-        },
-        (error) => {
-          console.error('Error creating payment', error);
-        }
-      );
-    } else {
-      console.error('Form is invalid');
-    }
-  }
-
-  uploadReceipt(): void {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('receipt', this.selectedFile, this.selectedFile.name); // Append the file
-
-      this.paymentService.uploadReceipt(formData).subscribe(
-        (response) => {
-          this.selectedFile = null; // Reset file after successful upload
-          this.receiptUploaded = true; // Set to true after successful receipt upload
-          this.loadUserInfo(this.cookiesService.decodeToken().userId);
-          this.loadAccountDetails();
-        },
-        (error) => {
-          console.error('Error uploading receipt', error);
-        }
-      );
-    } else {
-      console.error('No file selected');
-    }
-  }
   login() {
     this.router.navigate(['/login']);
   }

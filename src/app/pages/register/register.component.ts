@@ -10,9 +10,15 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  registrationSuccess:boolean = false;
+  registrationSuccess: boolean = false;
+  isLoading: boolean = false; // Add the isLoading flag
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.registerForm = this.fb.group(
       {
         name: ['', [Validators.required]],
@@ -27,18 +33,16 @@ export class RegisterComponent {
         ],
         confirmPassword: ['', Validators.required],
         mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-        referralCode:['']
+        referralCode: ['']
       },
-      { validator: this.checkPasswords } // Attach the custom validator here
+      { validator: this.checkPasswords }
     );
-    this.route.queryParamMap.subscribe(params => {
-      const referralCode = params.get('referralCode');
-      
-      if (referralCode) {
-        // Set the referral code in the form control
-        this.registerForm.get('referralCode')?.setValue(referralCode);
 
-        // Disable the referralCode field
+    this.route.queryParamMap.subscribe((params) => {
+      const referralCode = params.get('referralCode');
+
+      if (referralCode) {
+        this.registerForm.get('referralCode')?.setValue(referralCode);
         this.registerForm.get('referralCode')?.disable();
       }
     });
@@ -48,11 +52,11 @@ export class RegisterComponent {
   checkPasswords(group: FormGroup) {
     const passwordControl = group.get('password');
     const confirmPasswordControl = group.get('confirmPassword');
-  
+
     if (passwordControl && confirmPasswordControl) {
       const password = passwordControl.value;
       const confirmPassword = confirmPasswordControl.value;
-  
+
       if (password !== confirmPassword) {
         confirmPasswordControl.setErrors({ passwordMismatch: true });
       } else {
@@ -60,23 +64,26 @@ export class RegisterComponent {
       }
     }
   }
-  
 
   onSubmit() {
     this.registerForm.get('referralCode')?.enable();
+
     if (this.registerForm.valid) {
+      this.isLoading = true; // Start loading before the API call
       this.authService.register(this.registerForm.value).subscribe(
-        (response:any) => {
+        (response: any) => {
+          this.isLoading = false; // Stop loading after success
           this.registrationSuccess = true;
         },
-        (error:any) => {
+        (error: any) => {
+          this.isLoading = false; // Stop loading if there's an error
           console.error('Registration failed', error);
         }
       );
     }
   }
 
-  login(){
+  login() {
     this.router.navigate(['/login']);
   }
 }
