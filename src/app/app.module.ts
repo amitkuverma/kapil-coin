@@ -63,6 +63,7 @@ import { TransactionsComponent } from './components/transactions/transactions.co
 import { SendMoneyComponent } from './components/send-money/send-money.component';
 import { BuyCoinComponent } from './components/buy-coin/buy-coin.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CoinComponent } from './components/coin/coin.component';
 
 
 
@@ -100,7 +101,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FriendsTableComponent,
     TransactionsComponent,
     SendMoneyComponent,
-    BuyCoinComponent
+    BuyCoinComponent,
+    CoinComponent
   ],
   imports: [
     BrowserModule,

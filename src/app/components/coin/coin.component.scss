@@ -1,0 +1,29 @@
+.coin-container {  
+    h2 {
+      text-align: center; /* Center the heading */
+      margin-bottom: 20px; /* Space below the heading */
+    }
+  
+    mat-form-field {
+      width: 100%; /* Ensure form fields use full width */
+      margin-bottom: 16px; /* Space between form fields */
+    }
+  
+    button {
+      width: 100%; /* Make the button full width */
+      margin-top: 10px; /* Space above the button */
+      padding: 10px; /* Increase padding for a better touch target */
+      font-size: 16px; /* Increase font size */
+      color: white; /* Button text color */
+      border: none; /* Remove default border */
+      border-radius: 4px; /* Slightly rounded button corners */
+      cursor: pointer; /* Pointer cursor on hover */
+      transition: background-color 0.3s; /* Smooth transition for hover effect */
+    }
+  
+    mat-error {
+      color: #f44336; /* Red color for error messages */
+      font-size: 12px; /* Smaller font size for errors */
+    }
+  }
+  

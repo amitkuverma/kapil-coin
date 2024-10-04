@@ -54,3 +54,28 @@
   .mt-3{
     margin-top: 16px;
   }
+  .video-container {
+    max-width: 1000px;
+  
+    .top-text {
+      font-size: 24px; /* Larger font size for the title */
+      margin-bottom: 20px; /* Space below the title */
+      color: #333; /* Dark text color */
+    }
+  
+    .video-wrapper {
+      margin: 20px 0; /* Space above and below the video */
+      iframe {
+        width: 100%; /* Responsive width */
+        height: 315px; /* Fixed height for the video */
+        border-radius: 4px; /* Rounded corners for the video */
+      }
+    }
+  
+    .bottom-text {
+      font-size: 16px; /* Standard font size for text */
+      color: #666; /* Gray text color */
+      margin-top: 20px; /* Space above the text */
+    }
+  }
+  

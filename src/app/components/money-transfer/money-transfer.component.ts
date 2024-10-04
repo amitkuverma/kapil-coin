@@ -21,31 +21,49 @@ export class MoneyTransferComponent {
   paymentInfo: any;
   payResult: any;
   transResult: any;
+  userPaymentInfo: any;
+
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
 
-  constructor(private fb: FormBuilder, private userService: UsersService, public dialog: MatDialog, private paymentService: PaymentService,
-    public cookiesService: CookieService, private trancService: TransactionService, private toastr: ToastrService) {
-    
+  constructor(
+    private fb: FormBuilder,
+    private userService: UsersService,
+    public dialog: MatDialog,
+    private paymentService: PaymentService,
+    public cookiesService: CookieService,
+    private trancService: TransactionService,
+    private toastr: ToastrService
+  ) {
+    this.getAllUserPaymentDetails();
+    this.getUserPayment();
     this.internalTransferForm = this.fb.group({
       receiverName: ['', Validators.required],
       transactionAmount: ['', [Validators.required, Validators.min(1)]],
     });
-    
+
     this.bankTransferForm = this.fb.group({
       totalAmount: ['', Validators.required],
       transactionAmount: ['', [Validators.required, Validators.min(500)]],
     }, { validators: this.validateTransactionAmount });
 
+    this.loadUsers();
+  }
+
+  loadUsers() {
     this.userService.getUsers().subscribe(
       (res: any) => {
         this.userDetails = res;
       },
       (error: any) => {
-        console.log(error);
+        this.toastr.error('Failed to load user details.', 'Error');
+        console.error('Error fetching users:', error);
       }
     );
+  }
 
-    this.paymentService.getUserReferrals(this.cookiesService.decodeToken().userId).subscribe(
+  getUserPayment() {    
+    const userId = this.cookiesService.decodeToken().userId;
+    this.paymentService.getUserReferrals(userId).subscribe(
       (res: any) => {
         if (res) {
           this.userPaymentDetails = res;
@@ -53,7 +71,8 @@ export class MoneyTransferComponent {
         }
       },
       (error: any) => {
-        console.log(error);
+        this.toastr.error('Failed to load user payment details.', 'Error');
+        console.error('Error fetching user payment details:', error);
       }
     );
   }
@@ -72,12 +91,24 @@ export class MoneyTransferComponent {
   }
 
   openShareDialog() {
-    this.selectedUser = this.userDetails.find((user: any) => user.userId === this.internalTransferForm.get('receiverName')?.value);
+    const selectedUserId = this.internalTransferForm.get('receiverName')?.value;
+    this.selectedUser = this.userDetails.find((user: any) => user.userId === selectedUserId);
     this.dialog.open(this.shareDialog);
   }
 
+  getAllUserPaymentDetails() {
+    this.paymentService.getAllReferUser().subscribe(
+      (res) => {
+        this.userPaymentInfo = res;
+      },
+      (error: any) => {
+        this.toastr.error('Failed to load all user payment details.', 'Error');
+        console.error('Error fetching all user payment details:', error);
+      }
+    );
+  }
+
   onInternalSubmit() {
-    // Validate transaction amount against total amount
     const totalAmount = this.userPaymentDetails?.totalAmount || 0;
     const transactionAmount = this.internalTransferForm.get('transactionAmount')?.value;
 
@@ -91,23 +122,51 @@ export class MoneyTransferComponent {
       userName: this.cookiesService.decodeToken().userName,
       receiverName: this.internalTransferForm.get('receiverName')?.value,
       paymentType: 'internal',
-      transactionAmount: this.internalTransferForm.get('transactionAmount')?.value
+      transactionAmount: transactionAmount
     };
-    
+
+    const selectedUserId = this.internalTransferForm.get('receiverName')?.value;
+    const senderUser = this.userPaymentInfo.find((user: any) => user.userId === this.cookiesService.decodeToken().userId);
+    const receiverUser = this.userPaymentInfo.find((user: any) => user.userId === selectedUserId);
+
     this.trancService.createTransaction(body).subscribe(
       (transUpdate) => {
-        this.internalTransferForm.get('transactionAmount')?.setValue('');
-        this.dialog.closeAll();
-        this.toastr.success('Internal transfer successful!', 'Success');
+        senderUser.totalAmount -= transactionAmount;
+        receiverUser.totalAmount += transactionAmount;
+
+        this.updateUserStatus(senderUser, receiverUser);
       },
       (error) => {
         this.toastr.error('Failed to create internal transfer.', 'Error');
+        console.error('Error creating internal transfer:', error);
+      }
+    );
+  }
+
+  updateUserStatus(senderUser: any, receiverUser: any) {
+    this.paymentService.updateUserStatus(senderUser, senderUser.payId).subscribe(
+      () => {
+        this.paymentService.updateUserStatus(receiverUser, receiverUser.payId).subscribe(
+          () => {
+            this.getUserPayment();
+            this.dialog.closeAll();
+            this.toastr.success('Internal transfer successful!', 'Success');
+            this.internalTransferForm.get('transactionAmount')?.setValue('');
+          },
+          (error) => {
+            this.toastr.error('Failed to update receiver status.', 'Error');
+            console.error('Error updating receiver status:', error);
+          }
+        );
+      },
+      (error) => {
+        this.toastr.error('Failed to update sender status.', 'Error');
+        console.error('Error updating sender status:', error);
       }
     );
   }
 
   onSubmitWithdrawal() {
-    // Validate transaction amount against total amount
     const totalAmount = this.bankTransferForm.get('totalAmount')?.value;
     const transactionAmount = this.bankTransferForm.get('transactionAmount')?.value;
 
@@ -118,7 +177,7 @@ export class MoneyTransferComponent {
 
     const data = {
       paymentType: 'withdraw',
-      transactionAmount: this.bankTransferForm.get('transactionAmount')?.value
+      transactionAmount: transactionAmount
     };
 
     this.trancService.createTransaction(data).subscribe(
@@ -127,7 +186,8 @@ export class MoneyTransferComponent {
         this.toastr.success('Withdrawal request sent successfully!', 'Success');
       },
       (error: any) => {
-        this.toastr.error('Unable to send request!', 'Error');
+        this.toastr.error('Unable to send withdrawal request!', 'Error');
+        console.error('Error sending withdrawal request:', error);
       }
     );
   }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CookieService } from '../services/cookie.service';
 import { Router } from '@angular/router';
 import { PaymentService } from '../services/payment.service';
+import { CoinService } from '../services/coin.service';
 
 @Component({
   selector: 'app-layout',
@@ -20,22 +21,33 @@ export class LayoutComponent {
     autoplayTimeout: 3000,
     autoplayHoverPause: true
   };
-  pymentResult:any;
+  pymentResult: any;
+  coinResult: any;
 
-  constructor(private router: Router, public cookieService: CookieService, private paymentService:PaymentService) {}
- 
-  ngOnInit(){
-    this.paymentService.getUserReferrals(this.cookieService.decodeToken().userId).subscribe(
-      (res)=>{
-        this.pymentResult = res
-        console.log(res);
-        
-      },
-      (error:any)=>{
-        console.log(error);
-        
-      }
-    )
+  constructor(private router: Router, public cookieService: CookieService, private paymentService: PaymentService, private coinService: CoinService) { }
+
+  ngOnInit() {
+    if (!this.cookieService.isAdmin()) {
+      this.paymentService.getUserReferrals(this.cookieService.decodeToken().userId).subscribe(
+        (res) => {
+          this.pymentResult = res;
+
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      )
+      this.coinService.getCoinById(1).subscribe(
+        (res) => {
+          this.coinResult = res;
+
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      )
+    }
+
   }
 
   toggleSidenav() {
@@ -43,7 +55,7 @@ export class LayoutComponent {
   }
   logout(): void {
     // Clear the token or any session data from cookies
-    this.cookieService.deleteCookie('token'); 
+    this.cookieService.deleteCookie('token');
 
     // Navigate back to the login page
     this.router.navigate(['/home']);

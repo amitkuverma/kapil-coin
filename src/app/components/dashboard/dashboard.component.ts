@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CookieService } from 'src/app/services/cookie.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,6 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+  constructor(public cookies:CookieService){
+
+  }
   cards = [
     { title: 'Total Users', content: '1000' },
     { title: 'Active Sessions', content: '250' },
