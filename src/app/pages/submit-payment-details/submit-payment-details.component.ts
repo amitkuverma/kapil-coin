@@ -4,6 +4,7 @@ import { PaymentService } from '../../services/payment.service';
 import { AccountDetailsService } from '../../services/account.service';
 import { CookieService } from '../../services/cookie.service';
 import { Router } from '@angular/router';
+import { UploadService } from 'src/app/services/uploadfile.service';
 
 @Component({
   selector: 'app-submit-payment-details',
@@ -18,13 +19,15 @@ export class CompletePaymentComponent implements OnInit {
   selectedFile: File | null = null;
   accountDetails: any;
   userDetails: any;
+  type = 'payment';
+  imageUrl!:string;
 
   constructor(private fb: FormBuilder, private paymentService: PaymentService, private accountService: AccountDetailsService,
-     private cookiesService: CookieService, private router:Router) { }
+    private cookiesService: CookieService, private router: Router, private uploadService: UploadService) { }
 
   ngOnInit(): void {
-    this.paymentForm = this.fb.group({      
-      earnAmount:[''],
+    this.paymentForm = this.fb.group({
+      earnAmount: [''],
       totalAmount: [null, [Validators.required, Validators.min(0)]],
       paymentMethod: ['', Validators.required],
       transactionId: ['', Validators.required],
@@ -61,17 +64,35 @@ export class CompletePaymentComponent implements OnInit {
     this.accountDetails = null; // Set accountDetails to null to hide the card
   }
 
+
   onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      this.selectedFile = input.files[0];
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      this.selectedFile = target.files[0];
+    }
+  }
+
+  upload(): void {
+    if (this.selectedFile) {
+      this.uploadService.uploadFile(this.selectedFile, this.cookiesService.decodeToken().userId, this.type)
+        .subscribe(
+          response => {
+            console.log('File uploaded successfully', response);
+            // Assuming the response contains the image path
+            this.imageUrl = response.filepath; // Adjust based on your response structure
+            this.receiptUploaded = true
+          },
+          error => {
+            console.error('Error uploading file', error);
+          }
+        );
     }
   }
 
   onSubmit(): void {
     if (this.paymentForm.valid) {
       const paymentData = {
-        earnAmount:0,
+        earnAmount: 0,
         totalAmount: this.paymentForm.get('totalAmount')?.value,
         paymentMethod: this.paymentForm.get('paymentMethod')?.value,
         transactionId: this.paymentForm.get('transactionId')?.value,

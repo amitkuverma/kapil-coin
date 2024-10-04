@@ -43,7 +43,24 @@
                 <div class="tab-content">
                     <!-- Edit Profile Tab Content -->
                     <div class="tab-pane active" id="profile">
+
+
+
                         <mat-card>
+                            <mat-card class="text-center mb-3">
+                                <!-- Show the file input and upload button if image is not uploaded -->
+                                <div *ngIf="!isImageUploaded && !user.filepath">
+                                    <input type="file" (change)="onFileSelected($event)" />
+                                    <button mat-raised-button color="primary" (click)="upload()"
+                                        [disabled]="!selectedImage">Upload Profile</button>
+                                </div>
+
+                                <!-- Show the image preview when image is uploaded or selected -->
+                                <div *ngIf="isImageUploaded || imagePreviewUrl || user.filepath">
+                                    <img [src]="imagePreviewUrl ? imagePreviewUrl : imageUrl + user.filepath"
+                                        alt="Profile Image Preview" class="rounded-profile-image" />
+                                </div>
+                            </mat-card>
                             <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEditProfile()">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Name</mat-label>
@@ -81,11 +98,6 @@
                                     <mat-label>Password</mat-label>
                                     <input matInput formControlName="password" placeholder="Enter a new password"
                                         type="password" />
-                                </mat-form-field>
-
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Image URL</mat-label>
-                                    <input matInput formControlName="image" placeholder="Profile image URL" />
                                 </mat-form-field>
 
                                 <mat-form-field appearance="fill">
@@ -140,7 +152,7 @@
                     <div class="tab-pane" id="idPrint">
                         <mat-card class="id-card">
                             <div class="id-card-content">
-                                <img class="profile-photo" [src]="user?.image || 'default-profile.png'"
+                                <img class="profile-photo" [src]="imageUrl + user?.filepath || 'default-profile.png'"
                                     alt="User Photo" />
                                 <div class="id-info">
                                     <h2>{{ user?.name }}</h2>

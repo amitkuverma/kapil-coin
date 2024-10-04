@@ -76,14 +76,25 @@
   </mat-card>
 
   <div *ngIf="(paymentSubmitted || userDetails?.status === 'new') &&   userDetails?.status !== 'receipt'" class="file-upload-section">
-    <h3>Upload Receipt</h3>
-    <p class="mb-2">Please upload the receipt to verify the payment.</p>
+    <!-- <h3>Upload Receipt</h3>
+    <p class="mb-2">Please upload the receipt to verify the payment.</p> -->
 
-    <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*">
+    <!-- <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*">
 
     <button mat-raised-button color="primary" (click)="uploadReceipt()" [disabled]="!selectedFile">
       Upload Receipt
-    </button>
+    </button> -->
+    <div class="upload-container">
+      <h2>Upload an Image</h2>
+
+      <input type="file" (change)="onFileSelected($event)" />
+      <button (click)="upload()">Upload</button>
+
+      <div *ngIf="imageUrl" class="image-preview">
+          <h3>Uploaded Image:</h3>
+          <img [src]="imageUrl" alt="Uploaded Image" />
+      </div>
+  </div>
   </div>
   <div *ngIf="receiptUploaded || userDetails?.status === 'receipt'" class="file-upload-section">
     <h3>Payment Details uploded Successfully! 😊</h3>

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 import { UsersService } from '../../services/users.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-payment-details',
@@ -14,10 +15,13 @@ export class PaymentComponent {
   paymentDetails: any;
   isLoading: boolean = false;
   userId:any;
+  imageUrl:any;
 
   constructor(private usersService: UsersService, private route: ActivatedRoute, public location: Location, private paymentService: PaymentService,
     private toastr: ToastrService
-  ) { }
+  ) { 
+    this.imageUrl = environment.IMAGE_URL
+  }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('userId');

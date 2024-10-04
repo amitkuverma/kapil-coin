@@ -47,4 +47,16 @@
     position: relative;
     padding: 16px;
   }
+  .upload-container {
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
   
+    .image-preview {
+      margin-top: 20px;
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+  }

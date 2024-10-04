@@ -26,27 +26,27 @@
                     <tbody>
                         <tr>
                             <td>Bank Name</td>
-                            <td>{{ accountDetails.bankName }}</td>
+                            <td>{{ accountDetails?.bankName }}</td>
                         </tr>
                         <tr>
                             <td>Account Number</td>
-                            <td>{{ accountDetails.accountNumber }}</td>
+                            <td>{{ accountDetails?.accountNumber }}</td>
                         </tr>
                         <tr>
                             <td>IFSC Code</td>
-                            <td>{{ accountDetails.ifscCode }}</td>
+                            <td>{{ accountDetails?.ifscCode }}</td>
                         </tr>
                         <tr>
                             <td>Branch Name</td>
-                            <td>{{ accountDetails.branchName }}</td>
+                            <td>{{ accountDetails?.branchName }}</td>
                         </tr>
                         <tr>
                             <td>Account Holder Name</td>
-                            <td>{{ accountDetails.accountHolderName }}</td>
+                            <td>{{ accountDetails?.accountHolderName }}</td>
                         </tr>
                         <tr>
                             <td>Account Type</td>
-                            <td>{{ accountDetails.accountType }}</td>
+                            <td>{{ accountDetails?.accountType }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -68,14 +68,17 @@
     </button>
 
     <div class="file-upload-section" *ngIf="!receiptUploaded">
-        <h3>Upload Receipt</h3>
-        <p class="mb-2">Please upload the receipt to verify the payment.</p>
+        <div class="upload-container">
+            <h2>Upload an Image</h2>
 
-        <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*">
+            <input type="file" (change)="onFileSelected($event)" />
+            <button (click)="upload()">Upload</button>
 
-        <button mat-raised-button color="primary" (click)="uploadReceipt()" [disabled]="!selectedFile">
-            Upload Receipt
-        </button>
+            <div *ngIf="imageUrl" class="image-preview">
+                <h3>Uploaded Image:</h3>
+                <img [src]="imageUrl" alt="Uploaded Image" />
+            </div>
+        </div>
     </div>
     <div *ngIf="receiptUploaded" class="file-upload-section">
         <h3>Payment Details uploded Successfully! 😊</h3>

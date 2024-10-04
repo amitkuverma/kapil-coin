@@ -34,7 +34,7 @@ export class TransactionService {
         return this.http.put(`${environment.API_URL}/transaction/${userId}`, body);
     }
 
-    uploadTransactionReceipt(receiptData: FormData): Observable<any> {        
-        return this.http.post(`${environment.API_URL}/transaction/${this.cookiesService.decodeToken().userId}/upload-receipt`, receiptData);
+    uploadTransactionReceipt(transId: any, receiptData: FormData): Observable<any> {        
+        return this.http.post(`${environment.API_URL}/payment/${transId}/upload-receipt`, receiptData);
     }
 }
