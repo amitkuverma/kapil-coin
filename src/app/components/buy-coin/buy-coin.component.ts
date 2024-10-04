@@ -5,6 +5,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { PaymentService } from '../../services/payment.service';
 import { mergeMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-buy-coin',
@@ -13,13 +14,11 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class BuyCoinComponent {
   displayedColumns: string[] = [
+    'createdAt',
     'userName',
     'paymentType',
-    'transactionId',
-    'transactionAmount',
     'status',
     'receipt',
-    'createdAt',
     'action',
   ];
   dataSource = new MatTableDataSource<any>();
@@ -28,6 +27,7 @@ export class BuyCoinComponent {
   transactionData: any;
   payResult: any;
   transResult: any;
+  imageUrl: string | null = null;
 
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -38,6 +38,7 @@ export class BuyCoinComponent {
     public dialog: MatDialog
   ) {
     this.fetchAccounts();
+    this.imageUrl = environment.IMAGE_URL;
   }
 
   fetchAccounts() {

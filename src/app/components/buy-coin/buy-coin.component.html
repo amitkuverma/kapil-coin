@@ -1,6 +1,12 @@
 <mat-card>
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
+    <!-- Created At Column -->
+    <ng-container matColumnDef="createdAt">
+      <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
+      <mat-cell *matCellDef="let payment"> {{payment.createdAt | date:'short'}} </mat-cell>
+    </ng-container>
+
     <!-- User Name Column -->
     <ng-container matColumnDef="userName">
       <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
@@ -13,18 +19,6 @@
       <mat-cell *matCellDef="let payment"> {{payment.paymentType}} </mat-cell>
     </ng-container>
 
-    <!-- Transaction ID Column -->
-    <ng-container matColumnDef="transactionId">
-      <mat-header-cell *matHeaderCellDef> TransactionID </mat-header-cell>
-      <mat-cell *matCellDef="let payment"> {{payment.transactionId || 'NA'}} </mat-cell>
-    </ng-container>
-
-    <!-- Transaction Amount Column -->
-    <ng-container matColumnDef="transactionAmount">
-      <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
-      <mat-cell *matCellDef="let payment"> {{payment.transactionAmount}} </mat-cell>
-    </ng-container>
-
     <!-- Status Column -->
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
@@ -35,15 +29,11 @@
     <ng-container matColumnDef="receipt">
       <mat-header-cell *matHeaderCellDef> Receipt </mat-header-cell>
       <mat-cell *matCellDef="let payment">
-        <a [href]="payment.receipt" target="_blank">View Receipt</a>
+        <a [href]="imageUrl + payment.filepath" target="_blank">View Receipt</a>
       </mat-cell>
     </ng-container>
 
-    <!-- Created At Column -->
-    <ng-container matColumnDef="createdAt">
-      <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
-      <mat-cell *matCellDef="let payment"> {{payment.createdAt | date:'short'}} </mat-cell>
-    </ng-container>
+
 
     <!-- Action -->
     <ng-container matColumnDef="action">

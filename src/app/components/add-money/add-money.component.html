@@ -62,26 +62,32 @@
 </mat-tab-group>
 
 <ng-template #shareDialog>
-    <h2 mat-dialog-title class="txt-clrb7">Share Transaction Details</h2>
-    <button mat-icon-button mat-dialog-close class="close-button">
-        <mat-icon>close</mat-icon>
-    </button>
-
-    <div class="file-upload-section" *ngIf="!receiptUploaded">
+    <div class="dialog-container">
+      <div class="dialog-header">
+        <h2 mat-dialog-title class="txt-clrb7">Share Transaction Details</h2>
+        <button mat-icon-button mat-dialog-close class="close-button">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+  
+      <div class="file-upload-section" *ngIf="!receiptUploaded">
         <div class="upload-container">
-            <h2>Upload an Image</h2>
-
-            <input type="file" (change)="onFileSelected($event)" />
-            <button (click)="upload()">Upload</button>
-
-            <div *ngIf="imageUrl" class="image-preview">
-                <h3>Uploaded Image:</h3>
-                <img [src]="imageUrl" alt="Uploaded Image" />
-            </div>
+          <h2>Upload an Image</h2>
+  
+          <input type="file" class="file-input" (change)="onFileSelected($event)" />
+          <button mat-raised-button color="primary" (click)="upload()">Upload</button>
+  
+          <div *ngIf="imageUrl" class="image-preview">
+            <h3>Uploaded Image:</h3>
+            <img [src]="imageUrl" alt="Uploaded Image" />
+          </div>
         </div>
-    </div>
-    <div *ngIf="receiptUploaded" class="file-upload-section">
-        <h3>Payment Details uploded Successfully! 😊</h3>
+      </div>
+  
+      <div *ngIf="receiptUploaded" class="success-message">
+        <h3>Payment Details uploaded Successfully! 😊</h3>
         <p>Your receipt has been uploaded for verification. Thank you!</p>
+      </div>
     </div>
-</ng-template>
+  </ng-template>
+  

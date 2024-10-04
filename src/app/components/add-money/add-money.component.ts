@@ -14,8 +14,7 @@ import { UploadService } from 'src/app/services/uploadfile.service';
 export class AddMoneyComponent {
   selectedFile: File | null = null;
   imageUrl: string | null = null;
-  userId: string = '123'; // Example user ID
-  type: string = 'transaction'; // Example type
+  type: string = 'transaction';
   accountDetails: any;
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
   receiptUploaded = false;
@@ -59,11 +58,12 @@ export class AddMoneyComponent {
 
   upload(): void {
     if (this.selectedFile) {
-      this.uploadService.uploadFile(this.selectedFile, '1', this.type)
+      this.uploadService.uploadFile(this.selectedFile, this.uploadedInfo.transId, this.type)
         .subscribe(
           response => {
             console.log('File uploaded successfully', response);
-            // Assuming the response contains the image path
+
+            this.dialog.closeAll();
             this.imageUrl = response.filepath; // Adjust based on your response structure
           },
           error => {
