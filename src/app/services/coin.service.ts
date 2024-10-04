@@ -21,7 +21,7 @@ export class CoinService {
   }
 
   createCoin(coin: Coin): Observable<Coin> {
-    return this.http.post<Coin>(this.baseUrl+'/coin', coin);
+    return this.http.post<Coin>(this.baseUrl+'/coins', coin);
   }
 
   updateCoin(coin: Coin, id:any): Observable<Coin> {

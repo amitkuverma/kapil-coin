@@ -49,15 +49,15 @@
                         <mat-card>
                             <mat-card class="text-center mb-3">
                                 <!-- Show the file input and upload button if image is not uploaded -->
-                                <div *ngIf="!isImageUploaded && !user.filepath">
+                                <div *ngIf="!isImageUploaded && !user?.filepath">
                                     <input type="file" (change)="onFileSelected($event)" />
                                     <button mat-raised-button color="primary" (click)="upload()"
                                         [disabled]="!selectedImage">Upload Profile</button>
                                 </div>
 
                                 <!-- Show the image preview when image is uploaded or selected -->
-                                <div *ngIf="isImageUploaded || imagePreviewUrl || user.filepath">
-                                    <img [src]="imagePreviewUrl ? imagePreviewUrl : imageUrl + user.filepath"
+                                <div *ngIf="isImageUploaded || imagePreviewUrl || user?.filepath">
+                                    <img [src]="imagePreviewUrl ? imagePreviewUrl : imageUrl + user?.filepath"
                                         alt="Profile Image Preview" class="rounded-profile-image" />
                                 </div>
                             </mat-card>

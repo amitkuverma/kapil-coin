@@ -93,7 +93,7 @@ export class SettingComponent implements OnInit {
   // Handle the upload action
   upload(): void {
     if (this.selectedImage) {
-      this.uploadService.uploadFile(this.selectedImage, '1', 'user')
+      this.uploadService.uploadFile(this.selectedImage, this.cookies.decodeToken().userId, 'user')
         .subscribe(
           response => {
             console.log('File uploaded successfully', response);
