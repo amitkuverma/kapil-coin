@@ -39,7 +39,7 @@ export class AddMoneyComponent {
     const body = {
       userId: this.cookiesService.decodeToken().userId,
       userName: this.cookiesService.decodeToken().userName,
-      paymentType: 'bank',
+      paymentType: 'buy',
       transactionAmount: 0
     };
     this.transactionService.createTransaction(body).subscribe(

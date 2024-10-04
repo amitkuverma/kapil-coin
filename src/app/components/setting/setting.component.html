@@ -64,17 +64,13 @@
                             <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEditProfile()">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Name</mat-label>
-                                    <input matInput formControlName="name" placeholder="Enter your name" />
-                                    <mat-error
-                                        *ngIf="editProfileForm.get('name')?.invalid && editProfileForm.get('name')?.touched">
-                                        Name is required.
-                                    </mat-error>
+                                    <input matInput formControlName="name" placeholder="Enter your name" readonly />
                                 </mat-form-field>
 
                                 <mat-form-field appearance="fill">
                                     <mat-label>Email</mat-label>
                                     <input matInput formControlName="email" placeholder="Enter your email"
-                                        type="email" />
+                                        type="email" readonly />
                                     <mat-error
                                         *ngIf="editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.touched">
                                         <span *ngIf="editProfileForm.get('email')?.errors?.['required']">Email is
@@ -95,23 +91,9 @@
                                 </mat-form-field>
 
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Password</mat-label>
-                                    <input matInput formControlName="password" placeholder="Enter a new password"
-                                        type="password" />
-                                </mat-form-field>
-
-                                <mat-form-field appearance="fill">
                                     <mat-label>Referral Code</mat-label>
-                                    <input matInput formControlName="referralCode"
+                                    <input matInput formControlName="referralCode" readonly
                                         placeholder="Enter referral code (optional)" />
-                                </mat-form-field>
-
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Status</mat-label>
-                                    <mat-select formControlName="status">
-                                        <mat-option value="active">Active</mat-option>
-                                        <mat-option value="inactive">Inactive</mat-option>
-                                    </mat-select>
                                 </mat-form-field>
 
                                 <button mat-raised-button color="primary" type="submit"
