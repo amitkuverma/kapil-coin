@@ -54,7 +54,7 @@
             </table>
         </mat-card-content>
 
-        <mat-card-actions *ngIf="paymentDetails.status === 'pending' ">
+        <mat-card-actions *ngIf="paymentDetails.status !== 'live'">
             <button mat-raised-button color="primary" class="submit-btn text-capitalize" type="submit"
                 [disabled]="isLoading" (click)="updateStatus(userId, 'live')">
                 <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
