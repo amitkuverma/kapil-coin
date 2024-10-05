@@ -13,6 +13,7 @@ import { CookieService } from '../../services/cookie.service';
 export class LoginComponent {
   loginForm: FormGroup;
   isLoading = false;
+  hidePassword = true;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private cookiesService: CookieService, private toastr: ToastrService) {  // Inject ToastrService
     this.loginForm = this.fb.group({
@@ -23,6 +24,10 @@ export class LoginComponent {
     this.cookiesService.deleteCookie('token')
   }
 
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+  
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
@@ -36,11 +41,11 @@ export class LoginComponent {
             // Decode the token and handle null/undefined token cases
             const decodedToken = this.cookiesService.decodeToken();
             
-            if (decodedToken && (decodedToken.status === 'live' || this.cookiesService.isAdmin())) {
+            if (decodedToken && (decodedToken.status === 'active' || this.cookiesService.isAdmin())) {
               // User has completed their profile or is an admin, navigate to dashboard
               this.toastr.success('Login successful!', 'Success');
               this.router.navigate(['/dashboard']);
-            } else if (decodedToken && decodedToken.status !== 'live') {
+            } else if (decodedToken && decodedToken.status !== 'active') {
               // User profile is not complete, navigate to the payment page
               this.router.navigate(['/complete-payment']);
             } else {

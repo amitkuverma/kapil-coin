@@ -48,17 +48,19 @@
                     </tr>
                     <tr>
                         <td>Receipt</td>
-                        <td><img [src]="imageUrl+ paymentDetails.filepath" alt="receipt"></td>
+                        <td>
+                            <a [href]="imageUrl + paymentDetails.filepath" target="_blank">View Receipt</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </mat-card-content>
 
-        <mat-card-actions *ngIf="paymentDetails.status !== 'live'">
+        <mat-card-actions *ngIf="paymentDetails.status !== 'active'">
             <button mat-raised-button color="primary" class="submit-btn text-capitalize" type="submit"
-                [disabled]="isLoading" (click)="updateStatus(userId, 'live')">
+                [disabled]="isLoading" (click)="updateStatus(userId, 'active')">
                 <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-                <span *ngIf="!isLoading">{{'live'}}</span>
+                <span *ngIf="!isLoading">{{'active'}}</span>
             </button>
         </mat-card-actions>
     </mat-card>

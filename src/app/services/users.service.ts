@@ -46,4 +46,8 @@ export class UsersService {
     changePassword(data: any): Observable<any> {
         return this.http.post(`${environment.API_URL}/users/change-password`, data);
     }
+
+    deleteUser(userId: any): Observable<any> {
+        return this.http.delete(`${environment.API_URL}/users/${userId}`);
+    }
 }

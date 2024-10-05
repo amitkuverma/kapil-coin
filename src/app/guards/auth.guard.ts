@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
     const decodedToken = this.cookiesService.decodeToken();
 
     // Check if the user is admin or has an live status
-    if (decodedToken && (decodedToken.status === 'live' || this.cookiesService.isAdmin())) {
+    if (decodedToken && (decodedToken.status === 'active' || this.cookiesService.isAdmin())) {
       return true;  // Allow access
     } else {
       this.router.navigate(['/home']);

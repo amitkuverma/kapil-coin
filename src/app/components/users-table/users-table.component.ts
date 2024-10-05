@@ -4,6 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { UsersService } from '../../services/users.service';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-users-table',
@@ -11,13 +13,15 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./users-table.component.scss']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ['userId', 'name', 'email', 'mobile', 'emailVerified', 'referralCode', 'createdAt', 'status', 'action'];
+  displayedColumns: string[] = ['select', 'userId', 'name', 'email', 'mobile', 'emailVerified', 'referralCode', 'createdAt', 'status', 'action'];
   dataSource = new MatTableDataSource<any>();
   searchQuery: FormControl<string | null> = new FormControl(null); // Specify the type here
+  selection = new SelectionModel<any>(true, []); // Selection model for checkboxes
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private usersService: UsersService, private router: Router) {}
+  constructor(private usersService: UsersService, private router: Router, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.fetchUsers();
@@ -50,6 +54,61 @@ export class UsersComponent implements OnInit {
     };
 
     this.dataSource.filter = filterValue; // Trigger the filtering
+  }
+
+  // Checkbox logic
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  selectAllRows() {
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  toggleRow(row: any) {
+    this.selection.toggle(row);
+  }
+
+  // Send email function
+  sendEmail() {
+    let emails: string[] = [];
+  
+    if (this.selection.selected.length > 0) {
+      // If users are selected, collect their emails
+      emails = this.selection.selected.map(user => user.email);
+    } else {
+      // If no user is selected, collect all emails
+      emails = this.dataSource.data.map(user => user.email);
+    }
+  
+    if (emails.length > 0) {
+      // Open default email client with all emails in the 'To' field
+      const emailString = emails.join(',');
+      const mailtoLink = `mailto:${emailString}`;
+      window.location.href = mailtoLink;
+    } else {
+      console.log('No emails to send');
+    }
+  }
+  
+
+  deleteUser(userId: number): void {
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.usersService.deleteUser(userId).subscribe(
+        (response: any) => {
+          this.snackBar.open('User deleted successfully!', 'Close', { duration: 3000 });
+
+          // Remove user from the data source
+          this.dataSource.data = this.dataSource.data.filter(user => user.userId !== userId);
+        },
+        (error: any) => {
+          console.error('Error deleting user', error);
+          this.snackBar.open('Failed to delete user', 'Close', { duration: 3000 });
+        }
+      );
+    }
   }
 
   getStatusClass(status: string): string {

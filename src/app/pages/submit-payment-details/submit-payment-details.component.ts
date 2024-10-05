@@ -47,16 +47,16 @@ export class CompletePaymentComponent implements OnInit {
 
   loadAccountDetails() {
     this.loading = true; // Start loader
-    // this.accountService.getAdminAccount().subscribe(
-    //   (data) => {
-    //     this.accountDetails = data;
-    //     this.loading = false; // Stop loader
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching account details', error);
-    //     this.loading = false;
-    //   }
-    // );
+    this.accountService.getAllAccounts().subscribe(
+      (data) => {
+        this.accountDetails = data;
+        this.loading = false; // Stop loader
+      },
+      (error) => {
+        console.error('Error fetching account details', error);
+        this.loading = false;
+      }
+    );
   }
 
   loadUserInfo(userId: any) {

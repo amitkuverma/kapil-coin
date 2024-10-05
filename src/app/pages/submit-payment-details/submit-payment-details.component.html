@@ -5,49 +5,58 @@
   </div>
 
   <!-- Step 1: Account Details -->
-  <mat-card *ngIf="!loading && currentStep === 1 && accountDetails && !showPaymentForm && !userDetails?.status" class="account-card">
+  <mat-card *ngIf="!loading && currentStep === 1 && accountDetails && !showPaymentForm && !userDetails?.status"
+    class="acc-card">
     <mat-card-header>
       <mat-card-title class="txt-clrb7">Account Details</mat-card-title>
     </mat-card-header>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mt-3" *ngFor="let account of accountDetails">
+          <mat-card-content>
+            <table class="account-details-table">
+              <tbody>
+                <tr>
+                  <td>Bank Name</td>
+                  <td>{{ account.bankName }}</td>
+                </tr>
+                <tr>
+                  <td>Account Number</td>
+                  <td>{{ account.accountNumber }}</td>
+                </tr>
+                <tr>
+                  <td>IFSC Code</td>
+                  <td>{{ account.ifscCode }}</td>
+                </tr>
+                <tr>
+                  <td>Branch Name</td>
+                  <td>{{ account.branchName }}</td>
+                </tr>
+                <tr>
+                  <td>Account Holder Name</td>
+                  <td>{{ account.accountHolderName }}</td>
+                </tr>
+                <tr>
+                  <td>Account Type</td>
+                  <td>{{ account.accountType }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </div>
+        <div class="px-3 pb-5">
+          <p>If you have completed the payment, click on "Next" to submit your payment details.</p>
+          <button mat-raised-button color="primary" (click)="goToNextStep()">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
 
-    <mat-card-content>
-      <table class="account-details-table">
-        <tbody>
-        <tr>
-          <td>Bank Name</td>
-          <td>{{ accountDetails.bankName }}</td>
-        </tr>
-        <tr>
-          <td>Account Number</td>
-          <td>{{ accountDetails.accountNumber }}</td>
-        </tr>
-        <tr>
-          <td>IFSC Code</td>
-          <td>{{ accountDetails.ifscCode }}</td>
-        </tr>
-        <tr>
-          <td>Branch Name</td>
-          <td>{{ accountDetails.branchName }}</td>
-        </tr>
-        <tr>
-          <td>Account Holder Name</td>
-          <td>{{ accountDetails.accountHolderName }}</td>
-        </tr>
-        <tr>
-          <td>Account Type</td>
-          <td>{{ accountDetails.accountType }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </mat-card-content>
-    <p>If you have completed the payment, click on "Next" to submit your payment details.</p>
-    <button mat-raised-button color="primary" (click)="goToNextStep()">
-      Next
-    </button>
   </mat-card>
 
   <!-- Step 2: Payment Form -->
-  <mat-card *ngIf="!loading && currentStep === 2 && showPaymentForm && !userDetails?.status" class="account-card">
+  <mat-card *ngIf="!loading && currentStep === 2 && showPaymentForm && !userDetails?.status" class="account-card payment-details">
     <h2 class="title text-center txt-clrb7">Payment Details</h2>
     <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
       <div class="form-grid">
@@ -81,7 +90,8 @@
   </mat-card>
 
   <!-- Step 3: Upload Receipt -->
-  <div *ngIf="!loading && currentStep === 3 && paymentSubmitted && userDetails?.status !== 'receipt'" class="file-upload-section">
+  <div *ngIf="!loading && currentStep === 3 && paymentSubmitted && userDetails?.status !== 'receipt'"
+    class="file-upload-section">
     <div class="upload-container">
       <h2>Upload an Image</h2>
       <input type="file" (change)="onFileSelected($event)" />
@@ -95,7 +105,8 @@
   </div>
 
   <!-- Success Message -->
-  <div *ngIf="!loading && currentStep === 4 && receiptUploaded || userDetails?.status === 'new'" class="file-upload-section">
+  <div *ngIf="!loading && currentStep === 4 && receiptUploaded || userDetails?.status === 'new'"
+    class="file-upload-section">
     <h3>Payment Details uploaded Successfully! 😊</h3>
     <p>Your receipt has been uploaded for verification. Thank you!</p>
     <button mat-raised-button color="accent" (click)="login()">

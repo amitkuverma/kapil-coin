@@ -13,10 +13,13 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Password Input -->
+      <!-- Password Input with Show/Hide Option -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Password</mat-label>
-        <input matInput id="password" formControlName="password" type="password" required />
+        <input [type]="hidePassword ? 'password' : 'text'" matInput id="password" formControlName="password" required />
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
         <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
           Please enter your password.
         </mat-error>
