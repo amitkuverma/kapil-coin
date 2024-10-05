@@ -91,3 +91,9 @@ mat-icon{
   background-color: #fff;
   color: #000 !important;
 }
+
+::ng-deep .owl-item{
+  @media (max-width:767px) {
+    height: 320px !important;
+  }
+}

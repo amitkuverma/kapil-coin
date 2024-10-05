@@ -1,25 +1,57 @@
-table {
+.search-container {
+  margin: 1rem 0;
+}
+
+.search-field {
   width: 100%;
 }
 
-.mat-header-cell,
-.mat-cell {
-  padding: 8px;
-  text-align: left;
+.user-card {
+  margin: 1rem 0;
 }
 
-.mat-elevation-z8 {
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+.mat-card {
+  transition: transform 0.3s;
+}
+
+.mat-card:hover {
+  transform: scale(1.02);
 }
 
 .status-indicator {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  margin-right: 8px;
-  position: relative;
+  margin-right: 5px;
 }
+
+.status-live {
+  color: green;
+}
+
+.status-paid {
+  color: blue;
+}
+
+.status-admin {
+  color: orange;
+}
+
+.status-other {
+  color: red;
+}
+
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e2e2e2;
+}
+p{
+  color: #000 !important;
+}
+
 
 .status-admin {
   color: red;
