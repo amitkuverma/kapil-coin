@@ -60,4 +60,8 @@ export class LayoutComponent {
     // Navigate back to the login page
     this.router.navigate(['/home']);
   }
+
+  closeSidenav(sidenav: any): void {
+    sidenav.close();
+  }
 }

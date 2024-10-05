@@ -6,59 +6,45 @@
       <span *ngIf="sidenav.opened">Gorakha Coin</span>
     </mat-toolbar>
     <mat-nav-list>
-      <!-- Sidebar Content as in your original template -->
-      <mat-list-item [routerLink]="'/'" *ngIf="cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'/'" (click)="closeSidenav(sidenav)" *ngIf="cookieService.isAdmin()">
         <mat-icon>dashboard</mat-icon>
         <span *ngIf="sidenav.opened">Dashboard</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'/money-transfer'" *ngIf="!cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'/money-transfer'" (click)="closeSidenav(sidenav)" *ngIf="!cookieService.isAdmin()">
         <mat-icon>markunread_mailbox</mat-icon>
         <span *ngIf="sidenav.opened">Send Coin</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'/add-money'" *ngIf="!cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'/add-money'" (click)="closeSidenav(sidenav)" *ngIf="!cookieService.isAdmin()">
         <mat-icon>attach_money</mat-icon>
         <span *ngIf="sidenav.opened">Add Coin</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'/friend-request'" *ngIf="!cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'/friend-request'" (click)="closeSidenav(sidenav)" *ngIf="!cookieService.isAdmin()">
         <mat-icon>add</mat-icon>
         <span *ngIf="sidenav.opened">Friend Request</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'users'" *ngIf="cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'users'" (click)="closeSidenav(sidenav)" *ngIf="cookieService.isAdmin()">
         <mat-icon>person</mat-icon>
         <span *ngIf="sidenav.opened">Users</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'/friends-details'" *ngIf="!cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'/friends-details'" (click)="closeSidenav(sidenav)" *ngIf="!cookieService.isAdmin()">
         <mat-icon>groups</mat-icon>
         <span *ngIf="sidenav.opened">My Friends</span>
       </mat-list-item>
-      <!-- <mat-list-item [routerLink]="'payment'" *ngIf="cookieService.isAdmin()">
-        <mat-icon>email</mat-icon>
-        <span *ngIf="sidenav.opened">Send Email</span>
-      </mat-list-item> -->
-      <!-- <mat-list-item [routerLink]="'payment-details'  + cookieService.decodeToken().userId"
-        *ngIf="!cookieService.isAdmin()">
-        <mat-icon>payment</mat-icon>
-        <span *ngIf="sidenav.opened">Payment</span>
-      </mat-list-item> -->
-      <!-- <mat-list-item [routerLink]="'users-account'" *ngIf="cookieService.isAdmin()">
-        <mat-icon>account_box</mat-icon>
-        <span *ngIf="sidenav.opened">Users Account</span>
-      </mat-list-item> -->
-      <mat-list-item [routerLink]="'send-money'" *ngIf="cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'send-money'" (click)="closeSidenav(sidenav)" *ngIf="cookieService.isAdmin()">
         <mat-icon>account_box</mat-icon>
         <span *ngIf="sidenav.opened">Send Money</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'buy-coin'" *ngIf="cookieService.isAdmin()">
+      <mat-list-item [routerLink]="'buy-coin'" (click)="closeSidenav(sidenav)" *ngIf="cookieService.isAdmin()">
         <mat-icon>account_box</mat-icon>
         <span *ngIf="sidenav.opened">Buy Coin</span>
       </mat-list-item>
-      <mat-list-item [routerLink]="'transactions'">
+      <mat-list-item [routerLink]="'transactions'" (click)="closeSidenav(sidenav)">
         <mat-icon>history</mat-icon>
         <span *ngIf="sidenav.opened">Transactions</span>
       </mat-list-item>
 
       <div class="bottom-side w-100">
-        <mat-list-item [routerLink]="'setting'">
+        <mat-list-item [routerLink]="'setting'" (click)="closeSidenav(sidenav)">
           <mat-icon>account_circle</mat-icon>
           <span *ngIf="sidenav.opened">My Profile</span>
         </mat-list-item>
@@ -68,18 +54,12 @@
 
   <!-- Main Content -->
   <mat-sidenav-content>
-    <!-- Top Menu -->
     <mat-toolbar class="top-header" color="primary">
       <button mat-icon-button (click)="sidenav.toggle()" class="menu-button">
         <mat-icon>menu</mat-icon>
       </button>
       <button mat-button class="coin-details mr-3" *ngIf="!cookieService.isAdmin()">{{coinResult?.coin}} Coin = {{coinResult?.coinRate}} {{coinResult?.coinType | uppercase}}</button>
       <span class="spacer"></span>
-      <!-- <button mat-button routerLink="/home">Home</button>
-      <button mat-button routerLink="/about">About Us</button>
-      <button mat-button routerLink="/workshop">Workshop</button>
-      <button mat-button routerLink="/mission">Our Mission</button>
-      <button mat-button routerLink="/contact">Contact Us</button> -->
       <button mat-button class="coin-details" *ngIf="!cookieService.isAdmin()">Available Coin =
         {{pymentResult?.totalAmount || 0}}</button>
       <button mat-icon-button [matMenuTriggerFor]="profileMenu">
@@ -119,16 +99,9 @@
 
     <!-- Rest of the page content -->
     <div class="page-container">
-      <!-- Page Content -->
       <div class="page-content">
         <router-outlet></router-outlet>
       </div>
-
-      <!-- Support/Logout Section -->
-      <!-- <div class="support-section">
-        
-        <button mat-raised-button color="accent">Support/Logout</button>
-      </div> -->
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
