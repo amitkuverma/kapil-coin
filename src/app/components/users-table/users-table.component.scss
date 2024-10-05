@@ -2,10 +2,6 @@
   margin: 1rem 0;
 }
 
-.search-field {
-  width: 100%;
-}
-
 .user-card {
   margin: 1rem 0;
 }
@@ -126,3 +122,10 @@ p{
 //     box-shadow: 0 0 0 0 rgba(77, 170, 87, 0);
 //   }
 // }
+
+mat-icon{
+  @media (max-width:767px) {
+    position: relative;
+    bottom: 5px;
+  }
+}
