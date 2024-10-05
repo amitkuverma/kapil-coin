@@ -7,45 +7,129 @@
   <!-- Step 1: Account Details -->
   <mat-card *ngIf="!loading && currentStep === 1 && accountDetails && !showPaymentForm && !userDetails?.status"
     class="acc-card">
-    <mat-card-header>
-      <mat-card-title class="txt-clrb7">Account Details</mat-card-title>
-    </mat-card-header>
     <div class="container">
+
+      <h1 class="txt-clrb7 text-center pt-4">Coin and Money Conversion
+        <br />
+        <small class="text-black text-center">1 Coin = {{coin.coinRate}} {{coin.coinType}}</small>
+      </h1>
+
+
       <div class="row">
-        <div class="col-md-6 mt-3" *ngFor="let account of accountDetails">
-          <mat-card-content>
-            <table class="account-details-table">
-              <tbody>
-                <tr>
-                  <td>Bank Name</td>
-                  <td>{{ account.bankName }}</td>
-                </tr>
-                <tr>
-                  <td>Account Number</td>
-                  <td>{{ account.accountNumber }}</td>
-                </tr>
-                <tr>
-                  <td>IFSC Code</td>
-                  <td>{{ account.ifscCode }}</td>
-                </tr>
-                <tr>
-                  <td>Branch Name</td>
-                  <td>{{ account.branchName }}</td>
-                </tr>
-                <tr>
-                  <td>Account Holder Name</td>
-                  <td>{{ account.accountHolderName }}</td>
-                </tr>
-                <tr>
-                  <td>Account Type</td>
-                  <td>{{ account.accountType }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </mat-card-content>
+        <div class="col-md-6 mt-3">
+          <h3 class="txt-clrb7 ">Convert Coins to Money</h3>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Enter in Coins</mat-label>
+            <input matInput type="number" [(ngModel)]="amountInCoins" (ngModelChange)="convertCoinToMoney()" />
+          </mat-form-field>
+          <p>Converted Amount in Money: {{ convertedToMoney | number:'1.2-2' }}</p>
         </div>
-        <div class="px-3 pb-5">
-          <p>If you have completed the payment, click on "Next" to submit your payment details.</p>
+
+        <div class="col-md-6 mt-3">
+          <h3 class="txt-clrb7">Convert Money to Coins</h3>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Enter Money</mat-label>
+            <input matInput type="number" [(ngModel)]="amountInMoney" (ngModelChange)="convertMoneyToCoin()" />
+          </mat-form-field>
+          <p>Converted Amount in Coins: {{ convertedToCoins | number:'1.2-2' }}</p>
+        </div>
+      </div>
+
+      <div class="row pt-3">
+        <div class="col-12">
+          <p>
+            <b>Note:-</b>To open your account, you need to buy a minimum of <strong>300 coins</strong>.
+            Alternatively, you can receive a transfer of coins from someone else.
+          </p>
+          <h3 class="pt-3 txt-clrb7 pb-2">Select Payment Method</h3>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Select Payment Method</mat-label>
+            <mat-select [(value)]="selectedMethod">
+              <mat-option value="bank">Bank</mat-option>
+              <mat-option value="qr">QR</mat-option>
+              <mat-option value="card">Card</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+      <div class="row mt-4">
+
+        <div class="col-12" *ngIf="selectedMethod === 'bank'">
+          <div class="card">
+            <h3>Bank Payment</h3>
+            <p>You have chosen to go back. Please confirm your action.</p>
+            <div class="container">
+              <div class="row mt-3">
+                <div class="col-12">
+                  <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Select Bank</mat-label>
+                    <mat-select [(value)]="selectedBank">
+                      <mat-option *ngFor="let account of accountDetails" [value]="account.bankName">
+                        {{ account.bankName }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row mt-4" *ngIf="selectedBank">
+                <div class="col-12">
+                  <mat-card-content *ngIf="getSelectedBankDetails() as selectedAccount">
+                    <table class="account-details-table">
+                      <tbody>
+                        <tr>
+                          <td>Bank Name</td>
+                          <td>{{ selectedAccount.bankName }}</td>
+                        </tr>
+                        <tr>
+                          <td>Account Number</td>
+                          <td>{{ selectedAccount.accountNumber }}</td>
+                        </tr>
+                        <tr>
+                          <td>IFSC Code</td>
+                          <td>{{ selectedAccount.ifscCode }}</td>
+                        </tr>
+                        <tr>
+                          <td>Branch Name</td>
+                          <td>{{ selectedAccount.branchName }}</td>
+                        </tr>
+                        <tr>
+                          <td>Account Holder Name</td>
+                          <td>{{ selectedAccount.accountHolderName }}</td>
+                        </tr>
+                        <tr>
+                          <td>Account Type</td>
+                          <td>{{ selectedAccount.accountType }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </mat-card-content>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="selectedMethod === 'qr'">
+          <div class="card">
+            <h3>QR Code Payment</h3>
+            <p>Scan the QR code to make a payment.</p>
+            <img src="../../../assets//images/qr_code.jpg" alt="qr_code" />
+          </div>
+        </div>
+        <div class="col-12" *ngIf="selectedMethod === 'card'">
+          <div class="card">
+            <h3>Card Payment</h3>
+            <p>Details for card payment.</p>
+            <app-paypal-button></app-paypal-button>
+          </div>
+        </div>
+        <div class="px-3 pb-5 d-flex justify-content-center w-100">
+          <button mat-button color="primary" (click)="goToNextStep()" class="mr-2">
+            Skip
+          </button>
           <button mat-raised-button color="primary" (click)="goToNextStep()">
             Next
           </button>
@@ -53,36 +137,36 @@
       </div>
     </div>
 
+
   </mat-card>
 
   <!-- Step 2: Payment Form -->
-  <mat-card *ngIf="!loading && currentStep === 2 && showPaymentForm && !userDetails?.status" class="account-card payment-details">
+  <mat-card *ngIf="!loading && currentStep === 2 && showPaymentForm && !userDetails?.status"
+    class="account-card payment-details">
     <h2 class="title text-center txt-clrb7">Payment Details</h2>
     <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
-      <div class="form-grid">
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Amount</mat-label>
-          <input matInput formControlName="totalAmount" type="number">
-          <mat-error *ngIf="paymentForm.get('totalAmount')?.invalid && paymentForm.get('totalAmount')?.touched">
-            Amount is required and must be greater than 0.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Payment Method</mat-label>
-          <input matInput formControlName="paymentMethod" type="text">
-          <mat-error *ngIf="paymentForm.get('paymentMethod')?.invalid && paymentForm.get('paymentMethod')?.touched">
-            Payment Method is required.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Transaction ID</mat-label>
-          <input matInput formControlName="transactionId" type="text">
-          <mat-error *ngIf="paymentForm.get('transactionId')?.invalid && paymentForm.get('transactionId')?.touched">
-            Transaction ID is required.
-          </mat-error>
-        </mat-form-field>
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Payment Method</mat-label>
+            <mat-select formControlName="paymentMethod" (selectionChange)="onPaymentMethodChange($event.value)">
+              <mat-option value="coin">Internal</mat-option>
+              <mat-option value="bank">Bank</mat-option>
+            </mat-select>
+            <mat-error *ngIf="paymentForm.get('paymentMethod')?.invalid && paymentForm.get('paymentMethod')?.touched">
+              Payment method is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12" *ngIf="showTotalAmount">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Coin</mat-label>
+            <input matInput formControlName="totalAmount" type="number">
+            <mat-error *ngIf="paymentForm.get('totalAmount')?.invalid && paymentForm.get('totalAmount')?.touched">
+              Coin is required and must be greater than 0.
+            </mat-error>
+          </mat-form-field>
+        </div>
       </div>
 
       <button mat-raised-button color="primary" type="submit" [disabled]="paymentForm.invalid">Submit</button>

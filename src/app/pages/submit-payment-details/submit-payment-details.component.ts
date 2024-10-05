@@ -5,6 +5,7 @@ import { AccountDetailsService } from '../../services/account.service';
 import { CookieService } from '../../services/cookie.service';
 import { Router } from '@angular/router';
 import { UploadService } from 'src/app/services/uploadfile.service';
+import { CoinService } from 'src/app/services/coin.service';
 
 @Component({
   selector: 'app-submit-payment-details',
@@ -16,13 +17,21 @@ export class CompletePaymentComponent implements OnInit {
   paymentSubmitted = false;
   receiptUploaded = false;
   showPaymentForm = false;
+  showTotalAmount = false;
   selectedFile: File | null = null;
-  accountDetails: any;
+  accountDetails: any[] = []; // Store account details
   userDetails: any;
   type = 'payment';
   imageUrl!: string;
   loading = false; // Track loading state
   currentStep = 1; // Track the current step (1: Account, 2: Payment, 3: Upload, 4: Success)
+  selectedMethod: string = '';
+  selectedBank: string = ''; // Store selected bank name
+  coin: any;
+  amountInMoney: number = 0;
+  amountInCoins: number = 0;
+  convertedToMoney: number = 0;
+  convertedToCoins: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -30,19 +39,44 @@ export class CompletePaymentComponent implements OnInit {
     private accountService: AccountDetailsService,
     private cookiesService: CookieService,
     private router: Router,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private coinService: CoinService
   ) {}
 
   ngOnInit(): void {
     this.paymentForm = this.fb.group({
       earnAmount: [''],
       totalAmount: [null, [Validators.required, Validators.min(0)]],
-      paymentMethod: ['', Validators.required],
-      transactionId: ['', Validators.required],
+      paymentMethod: [''],
+      transactionId: [''],
       status: ['']
     });
     this.loadAccountDetails();
     this.loadUserInfo(this.cookiesService.decodeToken().userId);
+    this.loadCoinDetails();
+  }
+
+
+  loadCoinDetails() {
+    this.coinService.getCoinById(1).subscribe(
+      (coin) => {
+        this.coin = coin;
+      }
+    );
+  }
+
+  // Function to convert coin to money
+  convertCoinToMoney(): void {
+    if (this.coin) {
+      this.convertedToMoney = this.amountInCoins * this.coin.coinRate;
+    }
+  }
+
+  // Function to convert money to coin
+  convertMoneyToCoin(): void {
+    if (this.coin) {
+      this.convertedToCoins = this.amountInMoney / this.coin.coinRate;
+    }
   }
 
   loadAccountDetails() {
@@ -83,7 +117,7 @@ export class CompletePaymentComponent implements OnInit {
     if (this.paymentForm.valid) {
       this.loading = true;
       const paymentData = {
-        earnAmount:0,
+        earnAmount: 0,
         totalAmount: this.paymentForm.get('totalAmount')?.value,
         paymentMethod: this.paymentForm.get('paymentMethod')?.value,
         transactionId: this.paymentForm.get('transactionId')?.value,
@@ -103,6 +137,17 @@ export class CompletePaymentComponent implements OnInit {
         }
       );
     }
+  }
+
+  onPaymentMethodChange(paymentMethod: string) {
+    if (paymentMethod === 'bank') {
+      this.showTotalAmount = true;
+      this.paymentForm.get('totalAmount')?.setValidators([Validators.required, Validators.min(1)]);
+    } else {
+      this.showTotalAmount = false;
+      this.paymentForm.get('totalAmount')?.clearValidators();
+    }
+    this.paymentForm.get('totalAmount')?.updateValueAndValidity();
   }
 
   onFileSelected(event: Event): void {
@@ -133,5 +178,10 @@ export class CompletePaymentComponent implements OnInit {
 
   login() {
     this.router.navigate(['/login']);
+  }
+
+  // Method to get selected bank details
+  getSelectedBankDetails() {
+    return this.accountDetails.find(account => account.bankName === this.selectedBank);
   }
 }

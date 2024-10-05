@@ -89,15 +89,3 @@
     </button>
   </form>
 </div>
-
-<div *ngIf="!isLoading && registrationSuccess" class="register-container">
-  <div *ngIf="registrationSuccess" class="success-message">
-    <h3>Congratulations! 🎉 Registration Completed Successfully!</h3>
-    <p>Thank you for joining us! Please login to start your journey.</p>
-    <div class="d-flex justify-content-center">
-      <button mat-raised-button color="accent" (click)="login()">
-        Go to Login
-      </button>
-    </div>
-  </div>
-</div>

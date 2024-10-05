@@ -4,14 +4,14 @@
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; // Align items to the start for better flow
   flex-direction: column;
-  @media (min-width: 768px) {
-    height: 100vh;
-  }
+  height: auto; // Remove fixed height for better flexibility
 }
-.account-card{
+
+.account-card {
   padding: 40px;
+  width: 100%; // Ensure it takes full width
 }
 
 .loader-container {
@@ -21,35 +21,12 @@
   height: 100vh; /* Full screen height */
 }
 
-.register-container {
-  width: 100%;
-  max-width: 600px; /* Center align and control max width */
-  padding: 20px;
-  margin: 0 auto;
-}
-
 .success-message {
   text-align: center; /* Center align the success message */
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 15px;
-
-  @media (min-width: 600px) {
-    grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
-  }
-}
-
 .mat-form-field {
   width: 100%;
-}
-
-.password-hint {
-  grid-column: 1 / -1; /* Full width for the password hint */
-  color: #777;
-  font-size: 0.9rem;
 }
 
 button {
@@ -69,10 +46,85 @@ button {
 }
 
 h3 {
-  color: #3f51b5;
+  color: #3f51b5; // Primary color for headings
   font-weight: bold;
 }
 
 p {
-  color: #000;
+  color: #000; // Default text color
+}
+
+.text-black {
+  color: #000 !important;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr; // Single column for mobile
+  gap: 20px;
+
+  @media (min-width: 992px) { // Two columns for larger screens
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .form-item {
+    width: 100%;
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .password-hint {
+    grid-column: 1 / -1; // Spanning across all columns
+    font-size: 12px;
+    color: #777;
+  }
+}
+
+.row {
+  margin: 0; // Reset margin to prevent unwanted spacing
+}
+
+.col-md-6, .col-12 {
+  padding: 0 10px; // Add padding for better spacing between columns
+}
+
+.card {
+  margin-bottom: 20px; // Space between cards
+  padding: 20px;
+  border-radius: 8px; // Round the corners of the card
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Light shadow for depth
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-preview {
+  margin-top: 20px; // Space between upload input and preview
+}
+
+h1, h2 {
+  margin-bottom: 20px; // Space below headings
+}
+
+mat-form-field{
+  width: 100%;
+}
+// Responsive adjustments
+@media (max-width: 768px) {
+  .account-card {
+    padding: 20px; // Reduce padding for smaller screens
+  }
+  .mat-card {
+    margin: 0; // Remove margin for smaller screens
+  }
+  h3 {
+    font-size: 1.5rem; // Slightly smaller font size for smaller screens
+  }
+  p {
+    font-size: 1rem; // Adjust paragraph size for readability
+  }
 }

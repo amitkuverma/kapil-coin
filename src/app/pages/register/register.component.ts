@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CookieService } from '../../services/cookie.service';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,8 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cookiesService: CookieService
   ) {
     this.registerForm = this.fb.group(
       {
@@ -62,7 +64,14 @@ export class RegisterComponent {
       this.authService.register(this.registerForm.value).subscribe(
         (response: any) => {
           this.isLoading = false;
-          this.registrationSuccess = true;
+          this.authService.login({ email: response.email, password: this.registerForm.get('password')?.value }).subscribe(
+            (response: any) => {
+              if (response) {
+                this.cookiesService.setCookie('token', response.token, 1);
+                this.router.navigate(['/complete-payment']);
+              }
+            }
+          )
         },
         (error: any) => {
           this.isLoading = false;
