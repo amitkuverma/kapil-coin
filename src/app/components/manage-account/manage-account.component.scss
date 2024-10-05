@@ -1,110 +1,43 @@
 .manage-account-container {
-  background-color: #f9f9f9; /* Light background */
-
-  mat-card {
-    width: 100%;
-    margin-bottom: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 8px; /* Rounded corners */
-    background-color: #ffffff; /* White background for cards */
-
-    mat-card-header {
-      background-color: #eeeeee; /* Light gray header */
-      padding: 16px; /* Add padding */
-      border-bottom: 1px solid #ddd;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-
-      mat-card-title {
-        font-weight: bold;
-        color: #333;
-        font-size: 18px; /* Increased font size */
-      }
-    }
-
-    mat-card-content {
-      padding: 16px; /* Add padding */
-      p {
-        margin: 0 0 12px; /* Add spacing between paragraphs */
-        font-size: 14px;
-        color: #555;
-
-        strong {
-          color: #000;
-        }
-      }
-    }
-
-    mat-card-actions {
-      padding: 16px; /* Add padding */
-      display: flex;
-      justify-content: flex-end;
-      button {
-        margin-left: 10px;
-        min-width: 100px; /* Ensure buttons are more substantial */
-      }
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  @media (min-width: 768px) {
+    padding-top: 40px;
   }
+}
 
-  /* Loader styling */
-  .loader-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 120px; /* Adjust height */
+.add-account-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
 
-    mat-spinner {
-      margin-bottom: 10px;
-    }
+.account-card {
+  width: 100%;
+  margin-bottom: 20px;
 
-    p {
-      font-size: 16px;
-      color: #333;
-      font-weight: 500; /* Make the loader text a bit bolder */
-    }
+  @media (min-width: 768px) {
+    max-width: 600px;
   }
+}
 
-  .full-width {
-    width: 100%;
+mat-card {
+  width: 100%;
+}
+
+mat-card-actions {
+  justify-content: end !important;
+}
+
+::ng-deep .mdc-button {
+  &:first-child{
+    margin-right: 8px;
   }
+}
 
-  /* Form field styles */
-  mat-form-field {
-    width: 100%;
-    margin-bottom: 15px; /* Add space between form fields */
-
-    mat-label {
-      width: 50%;
-      color: #555;
-    }
-
-    input {
-      font-size: 14px;
-    }
-  }
-
-  /* Button styles */
-  button {
-    margin-right: 10px;
-    min-width: 120px; /* Ensure buttons have a minimum size */
-    height: 40px; /* Larger buttons */
-    font-weight: 600;
-
-    &.mat-raised-button {
-      box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  /* Add more styling for empty state */
-  mat-card-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #444;
-  }
-
-  mat-card-content p {
-    font-size: 16px;
-    color: #777;
-  }
+mat-form-field {
+  width: 100% !important;
 }

@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent {
   registerForm: FormGroup;
   registrationSuccess: boolean = false;
-  isLoading: boolean = false; // Add the isLoading flag
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -27,13 +27,13 @@ export class RegisterComponent {
           '',
           [
             Validators.required,
-            Validators.minLength(6),
-            // Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})')
+            Validators.minLength(8)
           ]
         ],
         confirmPassword: ['', Validators.required],
         mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-        referralCode: ['']
+        referralCode: [''],
+        agreeToTerms: [false, [Validators.requiredTrue]] // Terms and Conditions checkbox
       },
       { validator: this.checkPasswords }
     );
@@ -48,35 +48,24 @@ export class RegisterComponent {
     });
   }
 
-  // Custom validator for password match
   checkPasswords(group: FormGroup) {
-    const passwordControl = group.get('password');
-    const confirmPasswordControl = group.get('confirmPassword');
-
-    if (passwordControl && confirmPasswordControl) {
-      const password = passwordControl.value;
-      const confirmPassword = confirmPasswordControl.value;
-
-      if (password !== confirmPassword) {
-        confirmPasswordControl.setErrors({ passwordMismatch: true });
-      } else {
-        confirmPasswordControl.setErrors(null); // Clear errors when passwords match
-      }
-    }
+    const password = group.get('password')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
   onSubmit() {
     this.registerForm.get('referralCode')?.enable();
 
     if (this.registerForm.valid) {
-      this.isLoading = true; // Start loading before the API call
+      this.isLoading = true;
       this.authService.register(this.registerForm.value).subscribe(
         (response: any) => {
-          this.isLoading = false; // Stop loading after success
+          this.isLoading = false;
           this.registrationSuccess = true;
         },
         (error: any) => {
-          this.isLoading = false; // Stop loading if there's an error
+          this.isLoading = false;
           console.error('Registration failed', error);
         }
       );

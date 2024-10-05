@@ -1,75 +1,65 @@
 <div class="manage-account-container">
-
-  <!-- Loader when fetching or saving account details -->
+  <!-- Loader while fetching or saving account details -->
   <div *ngIf="isLoading" class="loader-container">
     <mat-spinner></mat-spinner>
     <p>Loading...</p>
   </div>
 
-  <!-- If no accountDetails are present, show the 'Add Account' message and button -->
-  <mat-card *ngIf="!accountDetails && !isEditing && !isLoading">
+  <!-- If no accountDetailsList are present, show the 'Add Account' message and button -->
+  <mat-card *ngIf="!accountDetailsList.length && !isEditing && !isLoading">
     <mat-card-header>
       <mat-card-title>No Account Found</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>No account details are available. Please add a new account.</p>
+      <p>No account details available. Please add a new account.</p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="addNewAccount()">Add Account</button>
-    </mat-card-actions>
   </mat-card>
 
-  <!-- If accountDetails are present, display the account data in a card -->
-  <mat-card *ngIf="accountDetails && !isEditing && !isLoading">
+  <!-- Display existing accounts -->
+  <div class="container">
+    <div class="row">
+      <div *ngFor="let account of accountDetailsList" class="account-card col-md-6">
+
+        <mat-card *ngIf="!isEditing">
+          <mat-card-header>
+            <mat-card-title>Account Details</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <table>
+              <tr>
+                <td>Bank Name:</td>
+                <td>{{ account.bankName }}</td>
+              </tr>
+              <tr>
+                <td>Account Number:</td>
+                <td>{{ account.accountNumber }}</td>
+              </tr>
+              <tr>
+                <td>Branch Name:</td>
+                <td>{{ account.branchName }}</td>
+              </tr>
+              <tr>
+                <td>Account Type:</td>
+                <td>{{ account.accountType }}</td>
+              </tr>
+              <!-- Add other fields as necessary -->
+            </table>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="editAccount(account)">Edit</button>
+            <button mat-raised-button color="warn" (click)="deleteAccount(account.accId)">Delete</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Form for adding or editing account -->
+  <div *ngIf="isEditing && !isLoading">
     <mat-card-header>
-      <mat-card-title class="txt-clrb7">Account Details</mat-card-title>
+      <mat-card-title>{{ formType }} Account</mat-card-title>
     </mat-card-header>
-
-    <mat-card-content>
-      <table class="account-details-table">
-        <tbody>
-          <tr>
-            <td>Bank Name</td>
-            <td>{{ accountDetails.bankName }}</td>
-          </tr>
-          <tr>
-            <td>Account Number</td>
-            <td>{{ accountDetails.accountNumber }}</td>
-          </tr>
-          <tr>
-            <td>IFSC Code</td>
-            <td>{{ accountDetails.ifscCode }}</td>
-          </tr>
-          <tr>
-            <td>Branch Name</td>
-            <td>{{ accountDetails.branchName }}</td>
-          </tr>
-          <tr>
-            <td>Account Holder Name</td>
-            <td>{{ accountDetails.accountHolderName }}</td>
-          </tr>
-          <tr>
-            <td>Account Type</td>
-            <td>{{ accountDetails.accountType }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </mat-card-content>
-
-
-
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="editAccount()">Edit</button>
-      <button mat-raised-button color="warn" (click)="deleteAccount(accountDetails.accId)">Delete</button>
-    </mat-card-actions>
-  </mat-card>
-
-  <!-- If editing, show the form -->
-  <mat-card *ngIf="isEditing && !isLoading">
-    <mat-card-header>
-      <mat-card-title>{{formType}} Account Details</mat-card-title>
-    </mat-card-header>
-
     <mat-card-content>
       <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
         <!-- Bank Name Field -->
@@ -107,12 +97,16 @@
           <mat-label>Account Type</mat-label>
           <input matInput formControlName="accountType" />
         </mat-form-field>
+
+        <!-- Form buttons -->
+        <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit" class="mr-2">{{ formType }}</button>
+          <button mat-raised-button color="warn" type="button" (click)="cancelEdit()">Cancel</button>
+        </mat-card-actions>
       </form>
     </mat-card-content>
-
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
-      <button mat-raised-button color="warn" (click)="cancelEdit()">Cancel</button>
-    </mat-card-actions>
-  </mat-card>
+  </div>
+  <div class="add-account-container">
+    <button mat-raised-button color="primary" (click)="addNewAccount()">Add Account</button>
+  </div>
 </div>

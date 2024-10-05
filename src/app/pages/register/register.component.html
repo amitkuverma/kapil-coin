@@ -70,8 +70,17 @@
       </div>
 
       <div class="password-hint form-item">
-        Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one
-        digit, and one special character.
+        Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.
+      </div>
+
+      <!-- Terms & Conditions Checkbox -->
+      <div class="form-item">
+        <mat-checkbox formControlName="agreeToTerms">
+          I agree to the <a href="#">Terms and Conditions</a>
+        </mat-checkbox>
+        <mat-error *ngIf="registerForm.get('agreeToTerms')?.hasError('required')">
+          You must agree to the terms.
+        </mat-error>
       </div>
     </div>
 

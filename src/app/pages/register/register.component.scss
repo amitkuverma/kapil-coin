@@ -2,22 +2,40 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  // background-color: #f5f5f5;
+  height: 100%;
+  
+  @media (min-width: 768px) {
+    width: 100%;
+    padding: 20px;
+    height: 100vh;
+  }
+
+  @media (max-width: 767px) {
+    padding: 100px 10px;
+  }
 
   form {
     background-color: white;
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
-    width: 100%;
+    width: 90%; // For mobile screens
+
+    @media (min-width: 992px) { // For tablets and desktops
+      max-width: 800px;
+      width: 100%;
+      padding: 40px; // More padding for larger screens
+    }
   }
 
   .form-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr; // Single column for mobile
     gap: 20px;
+
+    @media (min-width: 992px) { // Two columns for larger screens
+      grid-template-columns: repeat(2, 1fr);
+    }
 
     .form-item {
       width: 100%;
@@ -28,13 +46,21 @@
     }
 
     .password-hint {
-      grid-column: 1 / span 2; /* Span across both columns */
+      grid-column: 1 / -1; // Spanning across all columns
       font-size: 12px;
       color: #777;
     }
   }
-
 }
+
+// Responsive padding for mobile screens
+@media (max-width: 767px) {
+  form {
+    padding: 20px; // Less padding for smaller screens
+  }
+}
+
+// Center loader spinner
 .loader-container {
   display: flex;
   justify-content: center;
