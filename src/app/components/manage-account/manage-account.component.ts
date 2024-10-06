@@ -27,16 +27,17 @@ export class ManageAccountComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.cookies.decodeToken().userId;
-    this.userName = this.cookies.decodeToken().userName;
+    const decodedToken = this.cookies.decodeToken();
+    this.userId = decodedToken.userId;
+    this.userName = decodedToken.userName;
 
-    // Initialize form controls
+    // Initialize form controls with better validators
     this.accountForm = this.fb.group({
       bankName: ['', Validators.required],
       branchName: ['', Validators.required],
       accountHolderName: ['', Validators.required],
       accountNumber: ['', Validators.required],
-      ifscCode: ['', Validators.required],
+      ifscCode: ['', Validators.required], // Adjust as per IFSC format Validators.pattern('^[A-Z]{4}0[A-Z0-9]{6}$')]
       accountType: ['', Validators.required],
     });
 
@@ -48,10 +49,11 @@ export class ManageAccountComponent implements OnInit {
     this.isLoading = true;
     this.accountService.getAllAccounts().subscribe(
       (data: any[]) => {
-        this.accountDetailsList = data.filter(user=> user.userId = this.userId);
+        // Use strict equality comparison
+        this.accountDetailsList = data.filter(user => user.userId === this.userId);
         this.isLoading = false;
       },
-      (error:any) => {
+      (error: any) => {
         this.toastr.error('Error fetching account details');
         this.isLoading = false;
       }
@@ -66,14 +68,13 @@ export class ManageAccountComponent implements OnInit {
     this.isLoading = true;
     const accountData = this.accountForm.value;
 
-    if (this.isEditing) {
+    if (this.isEditing && this.accountDetails) {
       // Update account
       this.accountService.updateAccount(accountData, this.accountDetails.accId).subscribe(
         () => {
           this.toastr.success('Account updated successfully');
           this.loadAccountDetails();
-          this.isLoading = false;
-          this.isEditing = false;
+          this.resetForm();
         },
         (error) => {
           this.toastr.error('Error updating account');
@@ -86,8 +87,7 @@ export class ManageAccountComponent implements OnInit {
         () => {
           this.toastr.success('Account added successfully');
           this.loadAccountDetails();
-          this.isLoading = false;
-          this.isEditing = false;
+          this.resetForm();
         },
         (error) => {
           this.toastr.error('Error adding account');
@@ -97,14 +97,13 @@ export class ManageAccountComponent implements OnInit {
     }
   }
 
-  deleteAccount(accId: any) {
+  deleteAccount(accId: number) {
     if (confirm('Are you sure you want to delete this account?')) {
       this.isLoading = true;
       this.accountService.deleteAccount(accId).subscribe(
         () => {
           this.toastr.success('Account deleted successfully');
           this.loadAccountDetails();
-          this.isLoading = false;
         },
         (error) => {
           this.toastr.error('Error deleting account');
@@ -122,8 +121,7 @@ export class ManageAccountComponent implements OnInit {
   }
 
   cancelEdit() {
-    this.isEditing = false;
-    this.accountForm.reset(); // Reset form after canceling
+    this.resetForm();
   }
 
   addNewAccount() {
@@ -131,6 +129,14 @@ export class ManageAccountComponent implements OnInit {
     this.isEditing = true;
     this.accountDetails = null;
     this.accountForm.reset(); // Clear form for new account
+  }
+
+  // Helper function to reset form
+  resetForm() {
+    this.isEditing = false;
+    this.isLoading = false;
+    this.accountForm.reset(); // Clear the form
+    this.accountDetails = null; // Reset selected account
   }
 
   filterAccountData(userId: number) {

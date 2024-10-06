@@ -37,6 +37,7 @@ export class AccountDetailsService {
     return this.http.post(`${environment.API_URL}/account`, account);
 
   }
+  
   updateAccount(account: any, accId: number): Observable<any> {
     account.userId = this.userId;
     account.userName = this.userName;

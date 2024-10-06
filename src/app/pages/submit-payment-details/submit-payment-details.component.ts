@@ -13,10 +13,8 @@ import { CoinService } from 'src/app/services/coin.service';
   styleUrls: ['./submit-payment-details.component.scss']
 })
 export class CompletePaymentComponent implements OnInit {
-  paymentForm!: FormGroup;
   paymentSubmitted = false;
   receiptUploaded = false;
-  showPaymentForm = false;
   showTotalAmount = false;
   selectedFile: File | null = null;
   accountDetails: any[] = []; // Store account details
@@ -41,16 +39,9 @@ export class CompletePaymentComponent implements OnInit {
     private router: Router,
     private uploadService: UploadService,
     private coinService: CoinService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.paymentForm = this.fb.group({
-      earnAmount: [''],
-      totalAmount: [null, [Validators.required, Validators.min(0)]],
-      paymentMethod: [''],
-      transactionId: [''],
-      status: ['']
-    });
     this.loadAccountDetails();
     this.loadUserInfo(this.cookiesService.decodeToken().userId);
     this.loadCoinDetails();
@@ -98,7 +89,6 @@ export class CompletePaymentComponent implements OnInit {
     this.paymentService.getUserReferrals(userId).subscribe(
       (data) => {
         this.userDetails = data;
-        this.paymentForm.patchValue(this.userDetails);
         this.loading = false;
       },
       (error) => {
@@ -108,47 +98,34 @@ export class CompletePaymentComponent implements OnInit {
     );
   }
 
-  goToNextStep() {
-    this.showPaymentForm = true;
-    this.currentStep = 2; // Move to payment form step
+  skip() {
+    this.goToNextStep(2);
   }
 
-  onSubmit(): void {
-    if (this.paymentForm.valid) {
-      this.loading = true;
-      const paymentData = {
-        earnAmount: 0,
-        totalAmount: this.paymentForm.get('totalAmount')?.value,
-        paymentMethod: this.paymentForm.get('paymentMethod')?.value,
-        transactionId: this.paymentForm.get('transactionId')?.value,
-        status: 'new'
-      };
+  goToNextStep(step:number): void {
+    const paymentData = {
+      earnAmount: 0,
+      totalAmount: 0,
+      paymentMethod: 'bank',
+      transactionId: '',
+      status: 'new'
+    };
+    this.loading = true;
 
-      this.paymentService.createPayment(paymentData).subscribe(
-        (response) => {
-          this.paymentForm.reset();
-          this.paymentSubmitted = true;
-          this.loading = false;
-          this.currentStep = 3; // Move to receipt upload step
-        },
-        (error) => {
-          console.error('Error creating payment', error);
-          this.loading = false;
-        }
-      );
-    }
+    this.paymentService.createPayment(paymentData).subscribe(
+      (response) => {
+        this.paymentSubmitted = true;
+        this.loading = false;
+        this.currentStep = step;
+      },
+      (error) => {
+        console.error('Error creating payment', error);
+        this.loading = false;
+      }
+    );
+
   }
 
-  onPaymentMethodChange(paymentMethod: string) {
-    if (paymentMethod === 'bank') {
-      this.showTotalAmount = true;
-      this.paymentForm.get('totalAmount')?.setValidators([Validators.required, Validators.min(1)]);
-    } else {
-      this.showTotalAmount = false;
-      this.paymentForm.get('totalAmount')?.clearValidators();
-    }
-    this.paymentForm.get('totalAmount')?.updateValueAndValidity();
-  }
 
   onFileSelected(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -166,7 +143,7 @@ export class CompletePaymentComponent implements OnInit {
             this.imageUrl = response.filepath;
             this.receiptUploaded = true;
             this.loading = false;
-            this.currentStep = 4; // Move to success step
+            this.currentStep = 3; // Move to success step
           },
           (error) => {
             console.error('Error uploading file', error);
