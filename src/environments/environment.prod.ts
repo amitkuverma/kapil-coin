@@ -1,6 +1,6 @@
 export const environment = {
-    production: false,
-    API_URL: 'http://88.222.212.197:8081/api',
-    IMAGE_URL: 'http://88.222.212.197:8081',
-    UI_URL: 'https://kapil-coin.onrender.com',
+    production: true,
+    API_URL: 'http://gorkhacoin-api.gyanvidigital.xyz/api',
+    IMAGE_URL: 'http://gorkhacoin-api.gyanvidigital.xyz',
+    UI_URL: 'http://gorkhacoin.gyanvidigital.xyz',
 }

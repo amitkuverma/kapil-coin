@@ -11,7 +11,7 @@
 
       <h1 class="txt-clrb7 text-center pt-4">Coin and Money Conversion
         <br />
-        <small class="text-black text-center">1 Coin = {{coin.coinRate}} {{coin.coinType}}</small>
+        <small class="text-black text-center">1 Coin = {{coin?.coinRate || 2}} {{coin?.coinType || 'USD' | uppercase}}</small>
       </h1>
 
 
