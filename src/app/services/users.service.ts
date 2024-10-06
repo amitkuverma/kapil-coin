@@ -48,6 +48,6 @@ export class UsersService {
     }
 
     deleteUser(userId: any): Observable<any> {
-        return this.http.delete(`${environment.API_URL}/users/${userId}`);
+        return this.http.delete(`${environment.API_URL}/delete/${userId}`);
     }
 }
