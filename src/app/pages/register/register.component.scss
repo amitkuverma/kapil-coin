@@ -1,8 +1,22 @@
+.main_reg{
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(../../../assets/images/about2.png);
+    opacity: 0.6;
+  }
+}
 .register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+  position: relative;
+  z-index: 1;
   
   @media (min-width: 768px) {
     width: 100%;

@@ -1,67 +1,55 @@
-<button mat-button (click)="location.back()" class="mb-2"><mat-icon>arrow_back</mat-icon>Back</button>
-<div class="manage-account-container">
+<mat-card *ngIf="paymentDetails && !isLoading">
+    <mat-card-header>
+        <mat-card-title class="txt-clrb7">Payment Details</mat-card-title>
+    </mat-card-header>
 
-    <!-- Loader when fetching or saving account details -->
-    <div *ngIf="isLoading" class="loader-container">
-        <mat-spinner></mat-spinner>
-        <p>Loading...</p>
-    </div>
+    <mat-card-content>
+        <table class="account-details-table">
+            <tbody>
+                <tr>
+                    <td>Date</td>
+                    <td>{{ paymentDetails.createdAt | date:"short" }}</td>
+                </tr>
+                <tr>
+                    <td>Pay Amount</td>
+                    <td>{{ paymentDetails.totalAmount }}</td>
+                </tr>
+                <tr>
+                    <td>Receipt</td>
+                    <td>
+                        <a [href]="imageUrl + paymentDetails.filepath" target="_blank">View Receipt</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
 
-    <!-- If no accountDetails are present, show the 'Add Account' message and button -->
-    <mat-card *ngIf="!paymentDetails &&  !isLoading">
-        <mat-card-header>
-            <mat-card-title>No Payment Details Found</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>Payment details are not updated by user.</p>
-        </mat-card-content>
-    </mat-card>
-
-    <!-- If accountDetails are present, display the account data in a card -->
-    <mat-card *ngIf="paymentDetails && !isLoading">
-        <mat-card-header>
-            <mat-card-title class="txt-clrb7">Payment Details</mat-card-title>
-        </mat-card-header>
-
-        <mat-card-content>
-            <table class="account-details-table">
-                <tbody>
-                    <tr>
-                        <td>Date</td>
-                        <td>{{ paymentDetails.createdAt | date:"short" }}</td>
-                    </tr>
-                    <tr>
-                        <td>Earn Amount</td>
-                        <td>{{ paymentDetails.earnAmount }}</td>
-                    </tr>
-                    <tr>
-                        <td>Pay Amount</td>
-                        <td>{{ paymentDetails.totalAmount }}</td>
-                    </tr>
-                    <tr>
-                        <td>Transaction Id</td>
-                        <td>{{ paymentDetails.transactionId }}</td>
-                    </tr>
-                    <tr>
-                        <td>Status</td>
-                        <td>{{ paymentDetails.status }}</td>
-                    </tr>
-                    <tr>
-                        <td>Receipt</td>
-                        <td>
-                            <a [href]="imageUrl + paymentDetails.filepath" target="_blank">View Receipt</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </mat-card-content>
-
-        <mat-card-actions *ngIf="paymentDetails.status !== 'active'">
-            <button mat-raised-button color="primary" class="submit-btn text-capitalize" type="submit"
-                [disabled]="isLoading" (click)="updateStatus(userId, 'active')">
+    <div class="d-flex justify-content-end">
+        <mat-card-actions>
+            <button *ngIf="this.paymentDetails.status !== 'live'" mat-raised-button color="primary"
+                class="submit-btn text-capitalize mr-3" type="submit" [disabled]="isLoading"
+                (click)="updateStatus(userId, 'active')">
                 <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
                 <span *ngIf="!isLoading">{{'active'}}</span>
             </button>
+            <button *ngIf="this.paymentDetails.status === 'live'" mat-raised-button color="accent" (click)="openShareDialog()" class="half-width-button">Add
+                coin</button>
         </mat-card-actions>
-    </mat-card>
-</div>
+    </div>
+</mat-card>
+
+<!-- Modal Template for Share Options -->
+<ng-template #shareDialog>
+    <h2 mat-dialog-title>Add coin in user wallet, If you receive the money!</h2>
+    <mat-dialog-content>
+        <mat-card-header> </mat-card-header>
+        <mat-form-field class="search-field w-100">
+            <mat-label>Add coin</mat-label>
+            <input matInput [(ngModel)]="paymentDetails.totalAmount" placeholder="Add coin" />
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions class="d-flex justify-content-end">        
+        <button mat-button mat-dialog-close class="mr-2">Close</button>
+        <button mat-raised-button color="primary" (click)="addPayment()">Add coin</button>
+    </mat-dialog-actions>
+</ng-template>

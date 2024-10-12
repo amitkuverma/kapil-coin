@@ -52,7 +52,7 @@
 
       <div class="row mt-4">
         <ng-container *ngIf="selectedMethod === 'bank'">
-          <div class="col-12">
+          <div class="col-12 d-flex justify-content-center">
             <div class="card">
               <h3>Bank Payment</h3>
               <p>You have chosen to go back. Please confirm your action.</p>
@@ -110,17 +110,17 @@
         </ng-container>
 
         <ng-container *ngIf="selectedMethod === 'qr'">
-          <div class="col-12">
+          <div class="col-12 d-flex justify-content-center">
             <div class="card">
               <h3>QR Code Payment</h3>
               <p>Scan the QR code to make a payment.</p>
-              <img src="../../../assets/images/qr_code.jpg" alt="QR Code" />
+              <img width="300" src="../../../assets/images/qr_code.jpg" alt="QR Code" />
             </div>
           </div>
         </ng-container>
 
         <ng-container *ngIf="selectedMethod === 'card'">
-          <div class="col-12">
+          <div class="col-12  d-flex justify-content-center">
             <div class="card">
               <h3>Card Payment</h3>
               <p>Details for card payment.</p>
