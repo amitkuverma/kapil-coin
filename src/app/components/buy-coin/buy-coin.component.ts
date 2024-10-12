@@ -44,7 +44,7 @@ export class BuyCoinComponent {
   fetchAccounts() {
     this.trancService.getAllTransaction().subscribe({
       next: (payments: any[]) => {
-        const buyers = payments.filter(pay => pay.paymentType === 'buy');
+        const buyers = payments.filter(pay => pay.paymentType === 'buy' && pay.status === 'pending');
         this.dataSource = new MatTableDataSource<any>(buyers);
         this.dataSource.paginator = this.paginator;
       },
@@ -72,7 +72,6 @@ export class BuyCoinComponent {
   openConfirmationDialog(payment: any) {
     const dialogRef = this.dialog.open(this.shareDialog);
     this.paymentInfo = payment;
-    console.log(payment);
     this.getUserPaymentDetails();
     this.getUserTransactionDetails()
 
@@ -94,7 +93,9 @@ export class BuyCoinComponent {
   }
 
   sendCoin() {
-    this.payResult.totalAmount -= this.transResult.transactionAmount;
+    this.payResult.totalAmount =
+      (parseFloat(this.payResult.totalAmount) || 0) +
+      (parseFloat(this.paymentInfo.totalAmount) || 0);
     this.transResult.status = 'approved';
 
     this.paymentService.updateUserStatus(this.payResult, this.payResult.payId).subscribe(

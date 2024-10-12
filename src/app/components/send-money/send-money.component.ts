@@ -42,7 +42,7 @@ export class SendMoneyComponent {
   fetchAccounts() {
     this.trancService.getAllTransaction().subscribe({
       next: (payments: any[]) => {
-        const buyers = payments.filter(pay => pay.paymentType === 'withdraw');
+        const buyers = payments.filter(pay => pay.paymentType === 'withdraw' && pay.status === 'pending');
         this.dataSource = new MatTableDataSource<any>(buyers);
         this.dataSource.paginator = this.paginator;
       },

@@ -1,6 +1,15 @@
 <mat-card>
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <mat-card-header class="pb-md-3">
+    <mat-card-title class="txt-clrb7">Buy coins</mat-card-title>
+    <mat-card-subtitle>User has shown interest in buying coins. Please verify the payment details by clicking on
+      <span class="txt-clrb7">View Receipt</span> and add the coins to the user's wallet!</mat-card-subtitle>
 
+    <mat-card-title *ngIf="!dataSource || dataSource.data.length === 0" class="no-request-card card p-3 my-3">
+      No request found!
+    </mat-card-title>
+
+  </mat-card-header>
+  <mat-table [dataSource]=" dataSource" class="mat-elevation-z8 d-none d-md-block">
     <!-- Created At Column -->
     <ng-container matColumnDef="createdAt">
       <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
@@ -51,15 +60,50 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
   </mat-table>
+  <div *ngFor="let user of dataSource.filteredData" class="user-card d-md-none mt-3">
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header>
+        <div class="d-flex justify-content-between w-100 mobile-header">
+          <div class="d-flex align-items-center">
+            <mat-card-title class="ml-2 text-capitalize">{{ user.userName }}</mat-card-title>
+          </div>
+          <div>
+            <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="vert">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #profileMenu="matMenu">
+              <button mat-menu-item (click)="openConfirmationDialog(user)">
+                <mat-icon>add</mat-icon>
+                <span>Add coin</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p><strong>Date:</strong> {{ user.createdAt | date:'short'}} </p>
+        <p><strong>PaymentType:</strong> {{ user.paymentType }}</p>
+        <p><strong>Status:</strong> {{ user.status }}</p>
+        <p><strong>Receipt:</strong> <a [href]="imageUrl + user.filepath" target="_blank">View Receipt</a></p>
+      </mat-card-content>
+    </mat-card>
+  </div>
   <mat-paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
 </mat-card>
-
 <!-- Confirmation Dialog -->
 <ng-template #shareDialog>
   <h2 mat-dialog-title>Confirmation</h2>
-  <mat-dialog-content>Are you sure you want to perform this action?</mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-button (click)="dialog.closeAll()">Cancel</button>
-    <button mat-button color="primary" (click)="sendCoin()">Confirm</button>
+  <mat-dialog-content>Are you sure you want to add the coin?</mat-dialog-content>
+  <mat-dialog-content>
+    <mat-card-header> </mat-card-header>
+    <mat-form-field class="search-field w-100">
+      <mat-label>Add coin</mat-label>
+      <input matInput [(ngModel)]="paymentInfo.totalAmount" placeholder="Add coin" />
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions class="d-flex justify-content-end">
+    <button mat-button (click)="dialog.closeAll()" class="mr-2">Cancel</button>
+    <button mat-button color="primary" (click)="sendCoin()">Add coin</button>
   </mat-dialog-actions>
 </ng-template>
