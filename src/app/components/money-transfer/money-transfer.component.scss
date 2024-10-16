@@ -1,6 +1,5 @@
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   grid-gap: 16px;
   margin-bottom: 24px;
 
@@ -13,11 +12,17 @@
   }
 }
 
-.d-flex {
-  display: flex;
-  justify-content: flex-end;
+.w-48{
+  width: 48%;
+}
+.mat-mdc-card-content{
+  padding: 0 !important;
 }
 
 .transfer-card {
   padding: 16px;
+}
+
+.mat-mdc-form-field{
+  min-width: 100% !important;
 }

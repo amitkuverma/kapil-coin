@@ -14,8 +14,8 @@ import { environment } from 'src/environments/environment';
 })
 export class BuyCoinComponent {
   displayedColumns: string[] = [
-    'createdAt',
     'userName',
+    'createdAt',
     'paymentType',
     'status',
     'receipt',

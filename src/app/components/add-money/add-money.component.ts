@@ -19,6 +19,11 @@ export class AddMoneyComponent {
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
   receiptUploaded = false;
   uploadedInfo: any;
+  selectedMethod: string = '';
+  selectedBank: string = ''; 
+  paymentSubmitted!: boolean;
+  loading!: boolean;
+  currentStep!: number;
 
   constructor(public accountService: AccountDetailsService, public dialog: MatDialog, private paymentService: PaymentService,
     private transactionService: TransactionService, private cookiesService: CookieService, private uploadService: UploadService) {
@@ -56,14 +61,38 @@ export class AddMoneyComponent {
     }
   }
 
+  goToNextStep(step:number): void {
+    const paymentData = {
+      earnAmount: 0,
+      totalAmount: 0,
+      paymentMethod: 'bank',
+      transactionId: '',
+      status: 'new'
+    };
+    this.loading = true;
+
+    this.paymentService.createPayment(paymentData).subscribe(
+      (response) => {
+        this.paymentSubmitted = true;
+        this.loading = false;
+        this.currentStep = step;
+      },
+      (error) => {
+        console.error('Error creating payment', error);
+        this.loading = false;
+      }
+    );
+
+  }
+
   upload(): void {
     if (this.selectedFile) {
       this.uploadService.uploadFile(this.selectedFile, this.uploadedInfo.transId, this.type)
         .subscribe(
           response => {
             console.log('File uploaded successfully', response);
-
-            this.dialog.closeAll();
+            this.receiptUploaded = true;
+            // this.dialog.closeAll();
             this.imageUrl = response.filepath; // Adjust based on your response structure
           },
           error => {
@@ -73,6 +102,9 @@ export class AddMoneyComponent {
     }
   }
 
+  getSelectedBankDetails() {
+    return this.accountDetails.find((account:any) => account.bankName === this.selectedBank);
+  }
 
   openShareDialog() {
     this.onSubmit();

@@ -58,9 +58,12 @@
       <button mat-icon-button (click)="sidenav.toggle()" class="menu-button">
         <mat-icon>menu</mat-icon>
       </button>
-      <button mat-button class="coin-details mr-3" *ngIf="!cookieService.isAdmin()">{{coinResult?.coin}} Coin = {{coinResult?.coinRate}} {{coinResult?.coinType | uppercase}}</button>
+      <div class="coin-details" *ngIf="!cookieService.isAdmin()">
+        {{coinResult?.coin}} Coin = {{coinResult?.coinRate}} {{coinResult?.coinType | uppercase}}
+        <div *ngIf="!cookieService.isAdmin()" class="d-md-none">Available Coin = {{pymentResult?.totalAmount || 0}}</div>
+      </div>
       <span class="spacer"></span>
-      <button mat-button class="coin-details" *ngIf="!cookieService.isAdmin()">Available Coin =
+      <button mat-button class="coin-details d-none d-md-block" *ngIf="!cookieService.isAdmin()">Available Coin =
         {{pymentResult?.totalAmount || 0}}</button>
       <button mat-icon-button [matMenuTriggerFor]="profileMenu">
         <mat-icon>account_circle</mat-icon>

@@ -78,22 +78,28 @@
     }
   }
 }
-::ng-deep .mat-mdc-list-item-unscoped-content{
-display: flex;
+::ng-deep .mat-mdc-list-item-unscoped-content {
+  display: flex;
 }
 
-mat-icon{
+mat-icon {
   margin-right: 6px;
 }
 
-.coin-details{
+.coin-details {
   border: 1px solid #000;
   background-color: #fff;
   color: #000 !important;
+  padding: 0 20px;
+  margin-left: 8px;
+  border-radius: 4px;
+  @media (max-width: 767px) {
+    line-height: 1.2;
+  }
 }
 
-::ng-deep .owl-item{
-  @media (max-width:767px) {
+::ng-deep .owl-item {
+  @media (max-width: 767px) {
     height: 320px !important;
   }
 }

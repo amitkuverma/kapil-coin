@@ -13,7 +13,6 @@ export class TransactionsComponent {
   displayedColumns: string[] = [
     'userName',
     'paymentType',
-    'transactionId',
     'transactionAmount',
     'status',
     'receipt',

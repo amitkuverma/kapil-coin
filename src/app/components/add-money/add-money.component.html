@@ -1,77 +1,137 @@
-<mat-tab-group>
-    <mat-tab label="Buy Coin">
-        <mat-card class="account-card">
-            <mat-card-header>
-                <mat-card-title class="txt-clrb7 mb-3">Admin Bank Details</mat-card-title>
-            </mat-card-header>
+<mat-card class="account-card">
+    <mat-card-header class="p-0">
+        <mat-card-title class="txt-clrb7 mb-3">Buy coin</mat-card-title>
+        <mat-card-subtitle>If you want to buy coins, please make the payment and upload the receipt, after approval by the admin. The coins will
+            be added within 24 hours.</mat-card-subtitle>
+    </mat-card-header>
+    
+    <div class="row pt-3">
+        <div class="col-12">
+            <h3 class="pt-3 txt-clrb7 pb-2">Select Payment Method</h3>
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Select Payment Method</mat-label>
+                <mat-select [(value)]="selectedMethod">
+                    <mat-option value="bank">Bank</mat-option>
+                    <mat-option value="qr">QR</mat-option>
+                    <mat-option value="card">Card</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
 
-            <mat-card-content>
-                <table class="account-details-table">
-                    <tbody>
-                        <tr>
-                            <td>Bank Name</td>
-                            <td>{{ accountDetails?.bankName }}</td>
-                        </tr>
-                        <tr>
-                            <td>Account Number</td>
-                            <td>{{ accountDetails?.accountNumber }}</td>
-                        </tr>
-                        <tr>
-                            <td>IFSC Code</td>
-                            <td>{{ accountDetails?.ifscCode }}</td>
-                        </tr>
-                        <tr>
-                            <td>Branch Name</td>
-                            <td>{{ accountDetails?.branchName }}</td>
-                        </tr>
-                        <tr>
-                            <td>Account Holder Name</td>
-                            <td>{{ accountDetails?.accountHolderName }}</td>
-                        </tr>
-                        <tr>
-                            <td>Account Type</td>
-                            <td>{{ accountDetails?.accountType }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </mat-card-content>
-            <div class="d-flex justify-content-end my-3 mr-3">
-                <button mat-raised-button color="primary" (click)="openShareDialog()">
-                    Upload receipt
-                </button>
+    <div class="row mt-4">
+        <ng-container *ngIf="selectedMethod === 'bank'">
+            <div class="col-12 d-md-flex justify-content-center">
+                <div class="card">
+                    <h3>Admin bank account details</h3>
+                    <div class="container">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Select Bank</mat-label>
+                                    <mat-select [(value)]="selectedBank">
+                                        <mat-option *ngFor="let account of accountDetails" [value]="account.bankName">
+                                            {{ account.bankName }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4" *ngIf="selectedBank">
+                            <div class="col-12">
+                                <mat-card-content *ngIf="getSelectedBankDetails() as selectedAccount">
+                                    <table class="account-details-table">
+                                        <tbody>
+                                            <tr>
+                                                <td>Bank Name</td>
+                                                <td>{{ selectedAccount.bankName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Account Number</td>
+                                                <td>{{ selectedAccount.accountNumber }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>IFSC Code</td>
+                                                <td>{{ selectedAccount.ifscCode }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Branch Name</td>
+                                                <td>{{ selectedAccount.branchName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Account Holder Name</td>
+                                                <td>{{ selectedAccount.accountHolderName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Account Type</td>
+                                                <td>{{ selectedAccount.accountType }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </mat-card-content>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </mat-card>
+        </ng-container>
 
-    </mat-tab>
-</mat-tab-group>
+        <ng-container *ngIf="selectedMethod === 'qr'">
+            <div class="col-12 d-md-flex justify-content-center">
+                <div class="card px-4">
+                    <h3>QR Code Payment</h3>
+                    <p>Scan the QR code to make a payment.</p>
+                    <img width="300" src="../../../assets/images/qr_code.jpg" alt="QR Code" />
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="selectedMethod === 'card'">
+            <div class="col-12  d-md-flex justify-content-center">
+                <div class="card px-4">
+                    <h3>Card Payment</h3>
+                    <p>Details for card payment.</p>
+                    <app-paypal-button></app-paypal-button>
+                </div>
+            </div>
+        </ng-container>
+
+        <div *ngIf="selectedMethod" class="d-flex justify-content-end my-3 mr-3 w-100">
+            <button mat-raised-button color="primary" (click)="openShareDialog()">
+                Upload receipt
+            </button>
+        </div>
+    </div>
+</mat-card>
+
 
 <ng-template #shareDialog>
     <div class="dialog-container">
-      <div class="dialog-header">
-        <h2 mat-dialog-title class="txt-clrb7">Share Transaction Details</h2>
-        <button mat-icon-button mat-dialog-close class="close-button">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-  
-      <div class="file-upload-section" *ngIf="!receiptUploaded">
-        <div class="upload-container">
-          <h2>Upload an Image</h2>
-  
-          <input type="file" class="file-input" (change)="onFileSelected($event)" />
-          <button mat-raised-button color="primary" (click)="upload()">Upload</button>
-  
-          <div *ngIf="imageUrl" class="image-preview">
-            <h3>Uploaded Image:</h3>
-            <img [src]="imageUrl" alt="Uploaded Image" />
-          </div>
+        <div class="dialog-header">
+            <h2 mat-dialog-title class="txt-clrb7">Share Transaction Details</h2>
+            <button mat-icon-button mat-dialog-close class="close-button">
+                <mat-icon>close</mat-icon>
+            </button>
         </div>
-      </div>
-  
-      <div *ngIf="receiptUploaded" class="success-message">
-        <h3>Payment Details uploaded Successfully! 😊</h3>
-        <p>Your receipt has been uploaded for verification. Thank you!</p>
-      </div>
+
+        <div class="file-upload-section" *ngIf="!receiptUploaded">
+            <div class="upload-container">
+                <h2>Upload an Image</h2>
+
+                <input type="file" class="file-input" (change)="onFileSelected($event)" />
+                <button mat-raised-button color="primary" (click)="upload()">Upload</button>
+
+                <div *ngIf="imageUrl" class="image-preview">
+                    <h3>Uploaded Image:</h3>
+                    <img [src]="imageUrl" alt="Uploaded Image" />
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="receiptUploaded" class="success-message">
+            <h3>Payment Details uploaded Successfully! 😊</h3>
+            <p>Your receipt has been uploaded for verification. Thank you!</p>
+        </div>
     </div>
-  </ng-template>
-  
+</ng-template>

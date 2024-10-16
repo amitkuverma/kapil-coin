@@ -7,7 +7,8 @@
             <span class="nav-tabs-title">Transactions History</span>
             <ul class="nav nav-tabs" data-tabs="tabs">
               <li class="nav-item">
-                <a mat-button class="nav-link" [class.active]="selectedTab === 'internal'" (click)="selectTab('internal')">
+                <a mat-button class="nav-link" [class.active]="selectedTab === 'internal'"
+                  (click)="selectTab('internal')">
                   <i class="material-icons">account_balance</i> Internal Transactions
                 </a>
               </li>
@@ -21,7 +22,13 @@
         </div>
       </div>
       <div class="card-body">
-        <mat-card *ngIf="selectedTab === 'internal'">
+        <mat-card-title *ngIf="!dataSource || dataSource.data.length === 0" class="no-request-card card p-3 my-3">
+          No request found!
+        </mat-card-title>
+        <div class="">
+
+        </div>
+        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'internal'" class="d-none d-md-block">
           <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="userName">
               <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
@@ -31,12 +38,8 @@
               <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
               <mat-cell *matCellDef="let payment"> {{payment.paymentType}} </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="transactionId">
-              <mat-header-cell *matHeaderCellDef> TransactionID </mat-header-cell>
-              <mat-cell *matCellDef="let payment"> {{payment.transactionId || 'NA'}} </mat-cell>
-            </ng-container>
             <ng-container matColumnDef="transactionAmount">
-              <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> Coin </mat-header-cell>
               <mat-cell *matCellDef="let payment"> {{payment.transactionAmount}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="status">
@@ -59,7 +62,7 @@
           <mat-paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
         </mat-card>
 
-        <mat-card *ngIf="selectedTab === 'bank'">
+        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'bank'" class="d-none d-md-block">
           <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="userName">
               <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
@@ -69,12 +72,8 @@
               <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
               <mat-cell *matCellDef="let payment"> {{payment.paymentType}} </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="transactionId">
-              <mat-header-cell *matHeaderCellDef> TransactionID </mat-header-cell>
-              <mat-cell *matCellDef="let payment"> {{payment.transactionId || 'NA'}} </mat-cell>
-            </ng-container>
             <ng-container matColumnDef="transactionAmount">
-              <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> Coins </mat-header-cell>
               <mat-cell *matCellDef="let payment"> {{payment.transactionAmount}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="status">
@@ -96,6 +95,31 @@
           </mat-table>
           <mat-paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
         </mat-card>
+
+        <div *ngFor="let user of dataSource.filteredData" class="user-card d-md-none mt-3">
+          <mat-card class="mat-elevation-z4">
+            <mat-card-header>
+              <div class="d-flex justify-content-between w-100 mobile-header">
+                <div class="d-flex align-items-center p-2">
+                  <mat-card-title class="text-capitalize">{{ user.userName }}</mat-card-title>
+                </div>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p class="text-capitalize"><strong>Payment Type:</strong> {{ user.paymentType }}</p>
+              <p class="text-capitalize"><strong>Coins:</strong> {{ user.transactionAmount }}</p>
+              <p class="text-capitalize"><strong>Status:</strong>
+                <span class="text-cap">
+                  <span class="status-indicator"></span>
+                  {{ user.status }}
+                </span>
+              </p>
+              
+              <p *ngIf="selectedTab === 'bank'"><strong>Receipt:</strong> <a [href]="user.receipt" target="_blank">View Receipt</a></p>
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
     </div>
   </div>

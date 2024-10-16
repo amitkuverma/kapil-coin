@@ -1,16 +1,12 @@
 <mat-tab-group>
   <mat-tab label="Internal Transfer">
     <mat-card class="transfer-card">
-      <mat-card-header>
-        <mat-card-title>Internal Transfer</mat-card-title>
-      </mat-card-header>
-
       <mat-card-content>
         <form [formGroup]="internalTransferForm">
           <div class="form-grid">
             <!-- Total Amount Display -->
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Total Amount Available</mat-label>
+              <mat-label>Total Available Coin</mat-label>
               <input matInput [value]="userPaymentDetails?.totalAmount" readonly>
             </mat-form-field>
 
@@ -90,7 +86,7 @@
 </mat-tab-group>
 
 <ng-template #shareDialog>
-  <h2 mat-dialog-title>Share Referral Link</h2>
+  <h2 mat-dialog-title>Please verify the user details!</h2>
   <mat-dialog-content>
     <mat-card-content>
       <table class="account-details-table">
@@ -123,8 +119,8 @@
       </table>
     </mat-card-content>
   </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button color="primary" (click)="onInternalSubmit()">Send</button>
-    <button mat-button color="warn" mat-dialog-close>Close</button>
+  <mat-dialog-actions class="w-100">
+    <button mat-button color="warn" class="w-48" mat-dialog-close>Close</button>
+    <button mat-raised-button color="primary" class="w-48" (click)="onInternalSubmit()">Send</button>
   </mat-dialog-actions>
 </ng-template>
