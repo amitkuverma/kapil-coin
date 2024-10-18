@@ -101,5 +101,16 @@ mat-icon {
 ::ng-deep .owl-item {
   @media (max-width: 767px) {
     height: 320px !important;
+    display: flex;
+    justify-content: center;
+    img {
+      width: 80% !important;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  h2{
+    font-size: 24px !important;
   }
 }

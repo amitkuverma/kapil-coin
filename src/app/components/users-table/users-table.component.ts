@@ -35,7 +35,7 @@ export class UsersComponent implements OnInit {
   fetchUsers(): void {
     this.usersService.getUsers().subscribe(
       (response: any) => {
-        this.dataSource.data = response;
+        this.dataSource.data = response.filter((item:any)=>item.status !== 'admin');
         this.dataSource.paginator = this.paginator; // Set the paginator
       },
       (error: any) => {
@@ -113,10 +113,10 @@ export class UsersComponent implements OnInit {
 
   getStatusClass(status: string): string {
     switch (status?.toLowerCase()) {
-      case 'live':
-        return 'status-live';
-      case 'paid':
-        return 'status-paid';
+      case 'active':
+        return 'status-active';
+      case 'pending':
+        return 'status-pending';
       case 'admin':
         return 'status-admin';
       default:
