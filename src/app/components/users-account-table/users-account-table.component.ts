@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AccountDetailsService } from '../../services/account.service';  // Import the service
 
@@ -24,6 +24,9 @@ export class UsersAccountTableComponent implements OnInit {
   dataSource = new MatTableDataSource<AccountData>([]);
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  paginatedData: any[] = [];
+  pageSize = 20;
+  pageIndex = 0;
 
   constructor(private accountService: AccountDetailsService) {}
 
@@ -36,10 +39,22 @@ export class UsersAccountTableComponent implements OnInit {
       next: (accounts: AccountData[]) => {
         this.dataSource = new MatTableDataSource<AccountData>(accounts);
         this.dataSource.paginator = this.paginator;
+        this.updatePaginatedData();
       },
       error: (error:any) => {
         console.error('Error fetching accounts:', error);
       }
     });
+  }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.updatePaginatedData();
+  }
+
+  updatePaginatedData() {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedData = this.dataSource.filteredData.slice(startIndex, endIndex);
   }
 }

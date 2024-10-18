@@ -71,7 +71,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
   </mat-table>
-  <div *ngFor="let user of dataSource.filteredData" class="user-card d-md-none mt-3" >
+  <div *ngFor="let user of paginatedData" class="user-card d-md-none mt-3" >
     <mat-card class="mat-elevation-z4" *ngIf="!dataSource || dataSource.data.length > 0">
       <mat-card-header>
         <div class="d-flex justify-content-between w-100 mobile-header">
@@ -100,7 +100,8 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <mat-paginator *ngIf="!dataSource || dataSource.data.length > 0" [pageSize]="20" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+  <mat-paginator *ngIf="!dataSource || dataSource.data.length > 0" [pageSize]="pageSize" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons (page)="onPageChange($event)"></mat-paginator>
+
 </mat-card>
 
 <!-- Confirmation Dialog -->

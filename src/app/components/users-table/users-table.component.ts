@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-users-table',
@@ -20,8 +21,11 @@ export class UsersComponent implements OnInit {
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  paginatedData: any[] = [];
+  pageSize = 20;
+  pageIndex = 0;
 
-  constructor(private usersService: UsersService, private router: Router, private snackBar: MatSnackBar) {}
+  constructor(private usersService: UsersService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.fetchUsers();
@@ -31,12 +35,23 @@ export class UsersComponent implements OnInit {
       this.applyFilter();
     });
   }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.updatePaginatedData();
+  }
 
+  updatePaginatedData() {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedData = this.dataSource.filteredData.slice(startIndex, endIndex);
+  }
   fetchUsers(): void {
     this.usersService.getUsers().subscribe(
       (response: any) => {
-        this.dataSource.data = response.filter((item:any)=>item.status !== 'admin');
+        this.dataSource.data = response.filter((item: any) => item.status !== 'admin');
         this.dataSource.paginator = this.paginator; // Set the paginator
+        this.updatePaginatedData();
       },
       (error: any) => {
         console.error('Error fetching users', error);
@@ -74,7 +89,7 @@ export class UsersComponent implements OnInit {
   // Send email function
   sendEmail() {
     let emails: string[] = [];
-  
+
     if (this.selection.selected.length > 0) {
       // If users are selected, collect their emails
       emails = this.selection.selected.map(user => user.email);
@@ -82,7 +97,7 @@ export class UsersComponent implements OnInit {
       // If no user is selected, collect all emails
       emails = this.dataSource.data.map(user => user.email);
     }
-  
+
     if (emails.length > 0) {
       // Open default email client with all emails in the 'To' field
       const emailString = emails.join(',');
@@ -92,7 +107,7 @@ export class UsersComponent implements OnInit {
       console.log('No emails to send');
     }
   }
-  
+
 
   deleteUser(userId: number): void {
     if (confirm('Are you sure you want to delete this user?')) {

@@ -1,9 +1,8 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TransactionService } from '../../services/transaction.service';
 import { PaymentService } from '../../services/payment.service';
-import { mergeMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 
@@ -28,6 +27,9 @@ export class BuyCoinComponent {
   payResult: any;
   transResult: any;
   imageUrl: string | null = null;
+  paginatedData: any[] = [];
+  pageSize = 20;
+  pageIndex = 0;
 
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -47,6 +49,7 @@ export class BuyCoinComponent {
         const buyers = payments.filter(pay => pay.paymentType === 'buy' && pay.status === 'pending');
         this.dataSource = new MatTableDataSource<any>(buyers);
         this.dataSource.paginator = this.paginator;
+        this.updatePaginatedData();
       },
       error: (error: any) => {
         console.error('Error fetching accounts:', error);
@@ -111,5 +114,16 @@ export class BuyCoinComponent {
 
       }
     )
+  }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.updatePaginatedData();
+  }
+
+  updatePaginatedData() {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedData = this.dataSource.filteredData.slice(startIndex, endIndex);
   }
 }

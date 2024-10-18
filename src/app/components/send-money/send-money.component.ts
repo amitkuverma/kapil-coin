@@ -1,7 +1,7 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { PaymentService } from '../../services/payment.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -27,6 +27,9 @@ export class SendMoneyComponent {
   transactionData: any;
   payResult: any;
   transResult: any;
+  paginatedData: any[] = [];
+  pageSize = 20;
+  pageIndex = 0;
 
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -108,5 +111,16 @@ export class SendMoneyComponent {
 
       }
     )
+  }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.updatePaginatedData();
+  }
+
+  updatePaginatedData() {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedData = this.dataSource.filteredData.slice(startIndex, endIndex);
   }
 }

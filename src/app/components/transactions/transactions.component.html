@@ -63,7 +63,7 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
-          <mat-paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+          <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
         </mat-card>
 
         <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'bank'" class="d-none d-md-block">
@@ -101,10 +101,9 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
-          <mat-paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
         </mat-card>
 
-        <div *ngFor="let user of dataSource.filteredData" class="user-card d-md-none mt-3">
+        <div *ngFor="let user of paginatedData" class="user-card d-md-none mt-3">
           <mat-card class="mat-elevation-z4">
             <mat-card-header>
               <div class="d-flex justify-content-between w-100 mobile-header">
@@ -129,6 +128,7 @@
             </mat-card-content>
           </mat-card>
         </div>
+        <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons (page)="onPageChange($event)"></mat-paginator>
       </div>
     </div>
   </div>

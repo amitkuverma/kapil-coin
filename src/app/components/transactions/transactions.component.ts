@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CookieService } from 'src/app/services/cookie.service';
 import { PaymentService } from 'src/app/services/payment.service';
@@ -24,6 +24,9 @@ export class TransactionsComponent {
   paymentData: any;
   transactionData: any;
   selectedTab: string = 'internal'; // Track the currently selected tab
+  paginatedData: any[] = [];
+  pageSize = 20;
+  pageIndex = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -60,6 +63,7 @@ export class TransactionsComponent {
 
         this.dataSource = new MatTableDataSource<any>(filteredPayments);
         this.dataSource.paginator = this.paginator;
+        this.updatePaginatedData();
       },
       error: (error: any) => {
         console.error('Error fetching accounts:', error);
@@ -76,5 +80,16 @@ export class TransactionsComponent {
     } else if (tab === 'bank') {
       this.fetchAccounts(['buy', 'withdraw']);
     }
+  }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.updatePaginatedData();
+  }
+
+  updatePaginatedData() {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedData = this.dataSource.filteredData.slice(startIndex, endIndex);
   }
 }

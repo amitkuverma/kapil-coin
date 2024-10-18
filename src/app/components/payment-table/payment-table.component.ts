@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { PaymentService } from '../../services/payment.service';
 import { Router } from '@angular/router';
 
@@ -12,7 +12,9 @@ import { Router } from '@angular/router';
 export class PaymentTableComponent {
   displayedColumns: string[] = ['userName', 'totalAmount', 'paymentMethod', 'transactionId', 'status', 'createdAt', 'action'];
   dataSource = new MatTableDataSource<any>();
-  
+  paginatedData: any[] = [];
+  pageSize = 20;
+  pageIndex = 0;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private paymentService: PaymentService, private router: Router) {}
@@ -44,6 +46,16 @@ export class PaymentTableComponent {
   goToUserDetails(userId: number): void {
     this.router.navigate(['/payment-details', userId]);
   }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.updatePaginatedData();
+  }
 
+  updatePaginatedData() {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedData = this.dataSource.filteredData.slice(startIndex, endIndex);
+  }
 }
 
