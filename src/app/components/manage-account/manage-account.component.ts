@@ -50,6 +50,9 @@ export class ManageAccountComponent implements OnInit {
     this.accountService.getAllAccounts().subscribe(
       (data: any[]) => {
         // Use strict equality comparison
+        console.log(this.userId);
+        console.log(data);
+        
         this.accountDetailsList = data.filter(user => user.userId === this.userId);
         this.isLoading = false;
       },

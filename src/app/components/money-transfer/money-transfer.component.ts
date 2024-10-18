@@ -52,7 +52,7 @@ export class MoneyTransferComponent {
   loadUsers() {
     this.userService.getUsers().subscribe(
       (res: any) => {
-        this.userDetails = res;
+        this.userDetails = res.filter((item: any) => item.status !== 'admin' && item.userId !== this.cookiesService.decodeToken().userId);
       },
       (error: any) => {
         this.toastr.error('Failed to load user details.', 'Error');
@@ -61,7 +61,20 @@ export class MoneyTransferComponent {
     );
   }
 
-  getUserPayment() {    
+  activateUserIfTransferExceeds300(receiver: any) {
+    this.userService.updateUserStatus(receiver.userId, 'active').subscribe(
+      (res) => {
+        this.toastr.success(`${receiver.userName} is active.`, 'success');
+      },
+      (error: any) => {
+        this.toastr.error('Failed to update user status.', 'Error');
+        console.error('Error fetching user payment details:', error);
+      }
+    );
+  }
+
+
+  getUserPayment() {
     const userId = this.cookiesService.decodeToken().userId;
     this.paymentService.getUserReferrals(userId).subscribe(
       (res: any) => {
@@ -129,12 +142,18 @@ export class MoneyTransferComponent {
     const senderUser = this.userPaymentInfo.find((user: any) => user.userId === this.cookiesService.decodeToken().userId);
     const receiverUser = this.userPaymentInfo.find((user: any) => user.userId === selectedUserId);
 
+    body.receiverName = receiverUser.userName;
     this.trancService.createTransaction(body).subscribe(
       (transUpdate) => {
         senderUser.totalAmount -= transactionAmount;
         receiverUser.totalAmount += transactionAmount;
-
+        
         this.updateUserStatus(senderUser, receiverUser);
+        const userInfo = this.userDetails.find((item: any) => item.userId === receiverUser.userId);
+        
+        if (userInfo.status !== 'active' && receiverUser.totalAmount >= 300) {
+          this.activateUserIfTransferExceeds300(receiverUser);
+        }
       },
       (error) => {
         this.toastr.error('Failed to create internal transfer.', 'Error');

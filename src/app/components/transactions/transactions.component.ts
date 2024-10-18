@@ -14,6 +14,7 @@ export class TransactionsComponent {
   displayedColumns: string[] = [
     'userName',
     'paymentType',
+    'receiverName',
     'transactionAmount',
     'status',
     'receipt',
