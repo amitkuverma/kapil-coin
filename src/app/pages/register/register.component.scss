@@ -38,7 +38,7 @@
     @media (min-width: 992px) { // For tablets and desktops
       max-width: 800px;
       width: 100%;
-      padding: 40px; // More padding for larger screens
+      padding: 20px 40px; // More padding for larger screens
     }
   }
 
@@ -85,4 +85,12 @@
 mat-spinner {
   width: 50px;
   height: 50px;
+}
+
+.txt-clr01{
+  color: orange !important;
+}
+
+.cr_ptr{
+  cursor: pointer;
 }

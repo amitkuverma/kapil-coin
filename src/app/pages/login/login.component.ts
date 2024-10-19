@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';  // Import ToastrService
 import { AuthService } from '../../services/auth.service';
 import { CookieService } from '../../services/cookie.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,11 @@ export class LoginComponent {
   loginForm: FormGroup;
   isLoading = false;
   hidePassword = true;
+  @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private cookiesService: CookieService, private toastr: ToastrService) {  // Inject ToastrService
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private cookiesService: CookieService,
+    private toastr: ToastrService,
+    public dialog: MatDialog,) {  // Inject ToastrService
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -27,20 +31,20 @@ export class LoginComponent {
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
   }
-  
+
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
       const { email, password } = this.loginForm.value;
-  
+
       this.authService.login({ email, password }).subscribe(
         (response: any) => {
           if (response) {
             this.cookiesService.setCookie('token', response.token, 1);
-  
+
             // Decode the token and handle null/undefined token cases
             const decodedToken = this.cookiesService.decodeToken();
-            
+
             if (decodedToken && (decodedToken.status === 'active' || this.cookiesService.isAdmin())) {
               // User has completed their profile or is an admin, navigate to dashboard
               this.toastr.success('Login successful!', 'Success');
@@ -67,7 +71,7 @@ export class LoginComponent {
       this.toastr.warning('Please fill out the form correctly.', 'Warning');
     }
   }
-  
+
 
   navigateToRegister(): void {
     this.router.navigate(['/register']);
@@ -75,5 +79,8 @@ export class LoginComponent {
 
   navigateToForgotPassword(): void {
     this.router.navigate(['/forgot-password']);
+  }
+  openShareDialog() {
+    this.dialog.open(this.shareDialog);
   }
 }

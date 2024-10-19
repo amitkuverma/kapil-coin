@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CookieService } from '../../services/cookie.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-register',
@@ -13,13 +14,15 @@ export class RegisterComponent {
   registerForm: FormGroup;
   registrationSuccess: boolean = false;
   isLoading: boolean = false;
+  @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private cookiesService: CookieService
+    private cookiesService: CookieService,
+    public dialog: MatDialog,
   ) {
     this.registerForm = this.fb.group(
       {
@@ -83,5 +86,8 @@ export class RegisterComponent {
 
   login() {
     this.router.navigate(['/login']);
+  }
+  openShareDialog() {
+    this.dialog.open(this.shareDialog);
   }
 }
