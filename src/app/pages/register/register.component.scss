@@ -6,7 +6,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url(../../../assets/images/about2.png);
+    background-image: url(../../../assets/images/mob-banner1.jpg);
     opacity: 0.6;
   }
 }
@@ -94,3 +94,32 @@ mat-spinner {
 .cr_ptr{
   cursor: pointer;
 }
+
+.form-item {
+  display: flex;
+  flex-direction: row;
+  gap: 16px; // Adds spacing between the fields
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .country-code, mat-form-field {
+    flex: 1; // Make both fields take equal width
+  }
+
+  .country-code {
+    max-width: 120px; // Set a reasonable max width for the country code dropdown
+  }
+
+  mat-form-field {
+    flex: 2; // The mobile number field will take more space
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column; // Stacks fields vertically on smaller screens
+    .country-code, mat-form-field {
+      max-width: none;
+    }
+  }
+}
+

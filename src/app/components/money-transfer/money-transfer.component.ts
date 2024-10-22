@@ -47,6 +47,7 @@ export class MoneyTransferComponent {
     }, { validators: this.validateTransactionAmount });
 
     this.loadUsers();
+    this.getUserPayment();
   }
 
   loadUsers() {

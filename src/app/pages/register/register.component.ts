@@ -14,7 +14,16 @@ export class RegisterComponent {
   registerForm: FormGroup;
   registrationSuccess: boolean = false;
   isLoading: boolean = false;
+  hidePassword: boolean = true; // Control visibility of password
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
+
+  countryCodes = [
+    { code: '+1', name: 'USA' },
+    { code: '+91', name: 'India' },
+    { code: '+44', name: 'UK' },
+    { code: '+971', name: 'UAE' }
+    // Add more country codes as needed
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -32,11 +41,13 @@ export class RegisterComponent {
           '',
           [
             Validators.required,
-            Validators.minLength(8)
+            Validators.minLength(8),
+            Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/)
           ]
         ],
         confirmPassword: ['', Validators.required],
-        mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        countryCode: ['+1', Validators.required], // Default country code
+        mobile: ['', [Validators.required, Validators.pattern(/^\d{6,15}$/)]], // Mobile number without country code
         referralCode: [''],
         agreeToTerms: [false, [Validators.requiredTrue]] // Terms and Conditions checkbox
       },
@@ -45,7 +56,6 @@ export class RegisterComponent {
 
     this.route.queryParamMap.subscribe((params) => {
       const referralCode = params.get('referralCode');
-
       if (referralCode) {
         this.registerForm.get('referralCode')?.setValue(referralCode);
         this.registerForm.get('referralCode')?.disable();
@@ -60,11 +70,18 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    this.registerForm.get('referralCode')?.enable();
-
     if (this.registerForm.valid) {
       this.isLoading = true;
-      this.authService.register(this.registerForm.value).subscribe(
+      const formValue = this.registerForm.value;
+      const mobileWithCountryCode = formValue.countryCode + formValue.mobile; // Combine country code with mobile
+
+      // Modify form data to include the full mobile number
+      const registrationData = {
+        ...formValue,
+        mobile: mobileWithCountryCode
+      };
+
+      this.authService.register(registrationData).subscribe(
         (response: any) => {
           this.isLoading = false;
           this.authService.login({ email: response.email, password: this.registerForm.get('password')?.value }).subscribe(
@@ -74,7 +91,7 @@ export class RegisterComponent {
                 this.router.navigate(['/complete-payment']);
               }
             }
-          )
+          );
         },
         (error: any) => {
           this.isLoading = false;
@@ -84,9 +101,14 @@ export class RegisterComponent {
     }
   }
 
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
+
   login() {
     this.router.navigate(['/login']);
   }
+
   openShareDialog() {
     this.dialog.open(this.shareDialog);
   }
