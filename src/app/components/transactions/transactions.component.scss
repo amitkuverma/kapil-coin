@@ -80,8 +80,11 @@
 
 @media (max-width: 768px) {
   .card-header {
-    .nav-tabs {
-      flex-direction: column; // Stack tabs vertically on small screens
+    .nav-tabs li{
+      width: 50%; // Stack tabs vertically on small screens
+      a{
+        width: 100%;
+      }
     }
   }
 }

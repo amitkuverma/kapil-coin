@@ -104,7 +104,8 @@ mat-icon {
     display: flex;
     justify-content: center;
     img {
-      width: 80% !important;
+      object-fit: contain !important;
+      width: 65% !important;
     }
   }
 }
