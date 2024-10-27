@@ -20,7 +20,9 @@ export class RegisterComponent {
   countryCodes = [
     { code: '+1', name: 'USA' },
     { code: '+91', name: 'India' },
+    { code: '+977', name: 'Nepal' },
     { code: '+44', name: 'UK' },
+    { code: '+975', name: 'Bhutan' },
     { code: '+971', name: 'UAE' },
     { code: '+61', name: 'Australia' },
     { code: '+49', name: 'Germany' },
@@ -107,13 +109,14 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading = true;
+      this.registerForm.get('referralCode')?.enable();
       const formValue = this.registerForm.value;
       const mobileWithCountryCode = formValue.countryCode + formValue.mobile; // Combine country code with mobile
-
       // Modify form data to include the full mobile number
       const registrationData = {
         ...formValue,
         mobile: mobileWithCountryCode
+        
       };
 
       this.authService.register(registrationData).subscribe(

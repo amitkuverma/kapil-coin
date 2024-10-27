@@ -30,6 +30,7 @@ export class CompletePaymentComponent implements OnInit {
   amountInCoins: number = 0;
   convertedToMoney: number = 0;
   convertedToCoins: number = 0;
+  isSkip = false;
 
   constructor(
     private fb: FormBuilder,
@@ -99,7 +100,8 @@ export class CompletePaymentComponent implements OnInit {
   }
 
   skip() {
-    this.goToNextStep(2);
+    this.goToNextStep(8);
+    this.isSkip = true;
   }
 
   goToNextStep(step:number): void {
