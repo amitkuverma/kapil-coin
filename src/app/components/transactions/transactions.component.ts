@@ -25,7 +25,7 @@ export class TransactionsComponent {
   transactionData: any;
   selectedTab: string = 'internal'; // Track the currently selected tab
   paginatedData: any[] = [];
-  pageSize = 20;
+  pageSize = 100;
   pageIndex = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

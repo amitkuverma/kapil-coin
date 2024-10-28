@@ -13,7 +13,7 @@ export class PaymentTableComponent {
   displayedColumns: string[] = ['userName', 'totalAmount', 'paymentMethod', 'transactionId', 'status', 'createdAt', 'action'];
   dataSource = new MatTableDataSource<any>();
   paginatedData: any[] = [];
-  pageSize = 20;
+  pageSize = 100;
   pageIndex = 0;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

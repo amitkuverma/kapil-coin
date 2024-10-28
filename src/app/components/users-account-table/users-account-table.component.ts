@@ -25,7 +25,7 @@ export class UsersAccountTableComponent implements OnInit {
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   paginatedData: any[] = [];
-  pageSize = 20;
+  pageSize = 100;
   pageIndex = 0;
 
   constructor(private accountService: AccountDetailsService) {}

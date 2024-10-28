@@ -28,7 +28,7 @@ export class BuyCoinComponent {
   transResult: any;
   imageUrl: string | null = null;
   paginatedData: any[] = [];
-  pageSize = 20;
+  pageSize = 100;
   pageIndex = 0;
 
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;

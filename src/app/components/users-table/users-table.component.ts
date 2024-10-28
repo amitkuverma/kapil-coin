@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   paginatedData: any[] = [];
-  pageSize = 20;
+  pageSize = 100;
   pageIndex = 0;
 
   constructor(private usersService: UsersService, private router: Router, private snackBar: MatSnackBar) { }

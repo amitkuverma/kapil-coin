@@ -28,7 +28,7 @@ export class SendMoneyComponent {
   payResult: any;
   transResult: any;
   paginatedData: any[] = [];
-  pageSize = 20;
+  pageSize = 100;
   pageIndex = 0;
 
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;

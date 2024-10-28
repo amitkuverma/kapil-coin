@@ -7,31 +7,6 @@
   <!-- Step 1: Account Details -->
   <mat-card *ngIf="!loading && currentStep === 1 && accountDetails && !userDetails?.status" class="acc-card">
     <div class="container">
-      <h1 class="txt-clrb7 text-center pt-4">Coin and Money Conversion<br />
-        <small class="text-black text-center">1 Coin = {{coin?.coinRate || 2}} {{coin?.coinType || 'USD' |
-          uppercase}}</small>
-      </h1>
-
-      <div class="row">
-        <div class="col-md-6 mt-3">
-          <h3 class="txt-clrb7">Convert Coins to Money</h3>
-          <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Enter in Coins</mat-label>
-            <input matInput type="number" [(ngModel)]="amountInCoins" (ngModelChange)="convertCoinToMoney()" />
-          </mat-form-field>
-          <p>Converted Amount in Money: {{ convertedToMoney | number:'1.2-2' }}</p>
-        </div>
-
-        <div class="col-md-6 mt-3">
-          <h3 class="txt-clrb7">Convert Money to Coins</h3>
-          <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Enter Money</mat-label>
-            <input matInput type="number" [(ngModel)]="amountInMoney" (ngModelChange)="convertMoneyToCoin()" />
-          </mat-form-field>
-          <p>Converted Amount in Coins: {{ convertedToCoins | number:'1.2-2' }}</p>
-        </div>
-      </div>
-
       <div class="row pt-3">
         <div class="col-12">
           <p>
