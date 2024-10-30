@@ -47,8 +47,12 @@ export class UsersService {
     }
 
     // Change password
+    forgetPassword(data: any): Observable<any> {
+        return this.http.post(`${environment.API_URL}/forgot-password`, data);
+    }
+    
     changePassword(data: any): Observable<any> {
-        return this.http.post(`${environment.API_URL}/users/change-password`, data);
+        return this.http.post(`${environment.API_URL}/reset-password`, data);
     }
 
     deleteUser(userId: any): Observable<any> {

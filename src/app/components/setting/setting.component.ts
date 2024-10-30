@@ -5,6 +5,7 @@ import { UsersService } from '../../services/users.service';
 import { CookieService } from 'src/app/services/cookie.service';
 import { UploadService } from 'src/app/services/uploadfile.service';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-setting',
@@ -26,6 +27,7 @@ export class SettingComponent implements OnInit {
     private userService: UsersService,
     private snackBar: MatSnackBar,
     private cookies: CookieService,
+    private router: Router,
     private uploadService: UploadService
   ) { }
 
@@ -49,7 +51,6 @@ export class SettingComponent implements OnInit {
 
     // Change password form
     this.changePasswordForm = this.fb.group({
-      oldPassword: ['', Validators.required],
       newPassword: ['', Validators.required],
       confirmPassword: ['', Validators.required]
     });
@@ -109,12 +110,19 @@ export class SettingComponent implements OnInit {
   // Change password logic
   onChangePassword() {
     if (this.changePasswordForm.valid) {
-      const { oldPassword, newPassword, confirmPassword } = this.changePasswordForm.value;
+      const { newPassword, confirmPassword } = this.changePasswordForm.value;
+      const data = {
+        userId: this.cookies.decodeToken().userId, newPassword
+      }
       if (newPassword === confirmPassword) {
-        // this.userService.changePassword({ oldPassword, newPassword }).subscribe(
-        //   () => this.snackBar.open('Password changed successfully!', 'Close', { duration: 3000 }),
-        //   (error) => this.snackBar.open('Error changing password.', 'Close', { duration: 3000 })
-        // );
+        this.userService.changePassword(data).subscribe(
+          (res) => {
+            this.snackBar.open('Password changed successfully!', 'Close', { duration: 3000 });
+            this.changePasswordForm.reset();
+            this.router.navigate(['/login']); 
+          },
+          (error) => this.snackBar.open('Error changing password.', 'Close', { duration: 3000 })
+        );
       } else {
         this.snackBar.open('Passwords do not match.', 'Close', { duration: 3000 });
       }

@@ -78,7 +78,7 @@ export class LoginComponent {
   }
 
   navigateToForgotPassword(): void {
-    this.router.navigate(['/forgot-password']);
+    this.router.navigate(['/reset-password']);
   }
   openShareDialog() {
     this.dialog.open(this.shareDialog);

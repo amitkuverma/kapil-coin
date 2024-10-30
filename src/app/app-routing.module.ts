@@ -30,6 +30,7 @@ import { FriendsTableComponent } from './components/friends-table/friends-table.
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { SendMoneyComponent } from './components/send-money/send-money.component';
 import { BuyCoinComponent } from './components/buy-coin/buy-coin.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -72,6 +73,7 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'complete-payment', component: CompletePaymentComponent },
   { path: '**', redirectTo: 'home' } // Catch-all redirect to home
 ];

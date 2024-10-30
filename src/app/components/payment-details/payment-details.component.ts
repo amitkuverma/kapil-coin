@@ -59,6 +59,7 @@ export class PaymentComponent {
     this.paymentService.updateUserStatus(this.paymentDetails, this.paymentDetails.payId).subscribe(
       (res: any) => {
         this.isLoading = false;
+        this.dialog.closeAll();
         this.location.back();
       },
       (error: any) => {
