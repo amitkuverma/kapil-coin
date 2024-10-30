@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CookieService } from '../../services/cookie.service';
 import { MatDialog } from '@angular/material/dialog';
+import { UsersService } from 'src/app/services/users.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +18,9 @@ export class RegisterComponent {
   isLoading: boolean = false;
   hidePassword: boolean = true; // Control visibility of password
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
+  @ViewChild('emailVerificationDialog') emailVerificationDialog!: TemplateRef<any>;
+  emailOtp: any;
+  regUser: any;
 
   countryCodes = [
     { code: '+1', name: 'USA' },
@@ -60,7 +65,7 @@ export class RegisterComponent {
     { code: '+880', name: 'Bangladesh' }
     // You can add more countries as per your requirements
   ];
-  
+
 
   constructor(
     private fb: FormBuilder,
@@ -69,6 +74,8 @@ export class RegisterComponent {
     private route: ActivatedRoute,
     private cookiesService: CookieService,
     public dialog: MatDialog,
+    private userService: UsersService,
+    private toastr: ToastrService
   ) {
     this.registerForm = this.fb.group(
       {
@@ -116,20 +123,14 @@ export class RegisterComponent {
       const registrationData = {
         ...formValue,
         mobile: mobileWithCountryCode
-        
+
       };
 
       this.authService.register(registrationData).subscribe(
         (response: any) => {
           this.isLoading = false;
-          this.authService.login({ email: response.email, password: this.registerForm.get('password')?.value }).subscribe(
-            (response: any) => {
-              if (response) {
-                this.cookiesService.setCookie('token', response.token, 1);
-                this.router.navigate(['/complete-payment']);
-              }
-            }
-          );
+          this.regUser = response;
+          this.dialog.open(this.emailVerificationDialog);
         },
         (error: any) => {
           this.isLoading = false;
@@ -137,6 +138,44 @@ export class RegisterComponent {
         }
       );
     }
+  }
+
+  verifyOTP() {
+    if (this.regUser.otp === this.emailOtp) {
+      this.regUser.emailVerified = true
+      this.userService.updateUser(this.regUser, this.regUser.userId).subscribe(
+        res => {
+          this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value}).subscribe(
+            (response: any) => {
+              if (response) {
+                this.cookiesService.setCookie('token', response.token, 1);
+                this.toastr.success("OTP Verified");          
+                this.router.navigate(['/complete-payment']);
+                this.dialog.closeAll();
+              }
+            }
+          );
+        },
+        error => {
+          this.toastr.error("Unable to verify the OTP.")
+        }
+      )
+    } else {
+      this.toastr.error("OTP not match!!!")
+    }
+  }
+
+  closeModel() {
+    this.userService.deleteUser(this.regUser.userId).subscribe(
+      res => {
+        console.log(res);
+        this.dialog.closeAll();
+      },
+      error => {
+        console.log(error);
+        this.dialog.closeAll();
+      }
+    )
   }
 
   togglePasswordVisibility() {

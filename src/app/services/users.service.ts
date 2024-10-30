@@ -42,6 +42,10 @@ export class UsersService {
         return this.http.put(`${environment.API_URL}/users/update`, data);
     }
 
+    updateUser(data: any, userId:any): Observable<any> {
+        return this.http.put(`${environment.API_URL}/users/${userId}`, data);
+    }
+
     // Change password
     changePassword(data: any): Observable<any> {
         return this.http.post(`${environment.API_URL}/users/change-password`, data);

@@ -127,3 +127,16 @@
     <button mat-button color="primary" class="w-48" mat-dialog-close>Close</button>
   </mat-dialog-actions>
 </ng-template>
+
+<ng-template #emailVerificationDialog>
+  <h2 mat-dialog-title>OTP Verification</h2>
+  <mat-dialog-content>Check your email and verify OTP.</mat-dialog-content>
+  <mat-form-field class="search-field w-100 px-3">
+    <mat-label>Enter the OTP</mat-label>
+    <input matInput [(ngModel)]="emailOtp" placeholder="OTP" />
+  </mat-form-field>
+  <mat-dialog-actions class="d-flex justify-content-end">
+    <button mat-button (click)="closeModel()" class="mr-2">Cancel</button>
+    <button mat-button color="primary" (click)="verifyOTP()">Verify</button>
+  </mat-dialog-actions>
+</ng-template>
