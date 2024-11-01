@@ -6,6 +6,7 @@ import { UsersService } from '../../services/users.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
+import { CookieService } from 'src/app/services/cookie.service';
 
 @Component({
   selector: 'app-payment-details',
@@ -15,13 +16,14 @@ import { MatDialog } from '@angular/material/dialog';
 export class PaymentComponent {
   paymentDetails: any;
   isLoading: boolean = false;
-  userId:any;
-  imageUrl:any;
+  userId: any;
+  imageUrl: any;
+  addAmount:any;
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
 
   constructor(public dialog: MatDialog, private usersService: UsersService, private route: ActivatedRoute, public location: Location, private paymentService: PaymentService,
-    private toastr: ToastrService
-  ) { 
+    private toastr: ToastrService, private cookies: CookieService
+  ) {
     this.imageUrl = environment.IMAGE_URL
   }
 
@@ -30,7 +32,7 @@ export class PaymentComponent {
     this.getPaymentData();
   }
 
-  getPaymentData(){
+  getPaymentData() {
     this.paymentService.getUserReferrals(this.userId).subscribe((data: any) => {
       this.paymentDetails = data;
     });
@@ -41,7 +43,29 @@ export class PaymentComponent {
     this.usersService.updateUserStatus(userId, status).subscribe(
       (res: any) => {
         this.isLoading = false;
-        this.location.back();
+        this.usersService.getUserReferrals(this.cookies.decodeToken().userId).subscribe(
+          (response: any) => {
+            const activeReferUsers = response.referrals.filter((item: any) => item.status === 'active')
+            if (activeReferUsers.length > 6) {
+              this.paymentService.getUserReferrals(response.referrals[6].userId).subscribe((data: any) => {
+                data.totalAmount += 100;
+                this.paymentService.updateUserStatus(data, data.payId).subscribe(
+                  res => {
+                    console.log(res);
+                  },
+                  error => {
+                    console.log(error);
+                  }
+                )
+              });
+
+            }
+          },
+          (error: any) => {
+            console.error('Error fetching user referrals:', error);
+          }
+        );
+        this.getPaymentData();
       },
       (error: any) => {
         this.isLoading = false;
@@ -55,7 +79,8 @@ export class PaymentComponent {
   }
 
   addPayment(): void {
-    this.isLoading = true    
+    this.isLoading = true
+    this.paymentDetails.totalAmount = parseInt(this.paymentDetails.totalAmount) + parseInt(this.addAmount);
     this.paymentService.updateUserStatus(this.paymentDetails, this.paymentDetails.payId).subscribe(
       (res: any) => {
         this.isLoading = false;

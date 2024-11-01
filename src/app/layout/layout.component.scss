@@ -116,6 +116,6 @@ mat-icon {
   }
 }
 
-mat-sidenav-content{
-  height: auto !important;
+mat-sidenav-container{
+  min-height: 100vh !important;
 }

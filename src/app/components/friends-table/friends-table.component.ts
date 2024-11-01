@@ -1,44 +1,62 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { UsersService } from '../../services/users.service';
+import { CookieService } from 'src/app/services/cookie.service';
 
 @Component({
   selector: 'app-friends-table',
   templateUrl: './friends-table.component.html',
   styleUrls: ['./friends-table.component.scss']
 })
-export class FriendsTableComponent {
-  // Columns to display in the table
-  displayedColumns: string[] = ['name', 'email', 'mobile', 'referralCode', 'status', 'expand'];
+export class FriendsTableComponent implements OnInit {
+  displayedColumns: string[] = ['name', 'email', 'mobile', 'referralCode', 'status'];
   dataSource = new MatTableDataSource<any>();
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  expandedElement: any | null = null; // Initialize expandedElement to null
+  paginatedData: any[] = [];
+  pageSize = 100;
+  pageIndex = 0;
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private cookies: CookieService) {}
 
   ngOnInit(): void {
-    // Fetch data from the service
-    this.usersService.getFrinfReferrals().subscribe(
+    this.fetchUserReferrals();
+  }
+
+  fetchUserReferrals(): void {
+    this.usersService.getUserReferrals(this.cookies.decodeToken().userId).subscribe(
       (response: any) => {
-        this.dataSource = response;
-        this.dataSource.paginator = this.paginator; // Set the paginator
+        this.dataSource = new MatTableDataSource(response.referrals);
+        this.dataSource.paginator = this.paginator;
       },
       (error: any) => {
-        console.error('Error fetching users', error);
+        console.error('Error fetching user referrals:', error);
       }
     );
   }
 
-  // Toggle to expand or collapse the row showing referrals
-  toggleRow(row: any) {
-    // If the row clicked is already expanded, collapse it
-    if (this.expandedElement === row) {
-      this.expandedElement = null;
-    } else {
-      // Otherwise, expand the new row and collapse any other
-      this.expandedElement = row;
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.updatePaginatedData();
+  }
+
+  updatePaginatedData() {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedData = this.dataSource.filteredData.slice(startIndex, endIndex);
+  }
+  getStatusClass(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'active':
+        return 'status-active';
+      case 'pending':
+        return 'status-pending';
+      case 'admin':
+        return 'status-admin';
+      default:
+        return 'status-other';
     }
   }
 }

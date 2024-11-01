@@ -1,4 +1,4 @@
-<owl-carousel-o [options]="customOptions">
+<owl-carousel-o [options]="customOptions" *ngIf="!cookieService.isAdmin()">
   <ng-template carouselSlide>
     <img class="d-none d-md-block" src="../../assets/images/newBanner2.jpg" alt="Banner 1">
     <img class="d-md-none" src="../../assets/images/mob-banner3.jpg" alt="Banner 1">
