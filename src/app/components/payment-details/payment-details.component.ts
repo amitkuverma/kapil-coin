@@ -43,11 +43,15 @@ export class PaymentComponent {
     this.usersService.updateUserStatus(userId, status).subscribe(
       (res: any) => {
         this.isLoading = false;
-        this.usersService.getUserReferrals(this.cookies.decodeToken().userId).subscribe(
+        this.usersService.getUserParentReferrals(userId).subscribe(
           (response: any) => {
-            const activeReferUsers = response.referrals.filter((item: any) => item.status === 'active')
+            console.log(response);
+            
+            const activeReferUsers = response.filter((item: any) => item.status === 'active')
+            console.log(activeReferUsers.length);
+            
             if (activeReferUsers.length > 6) {
-              this.paymentService.getUserReferrals(response.referrals[6].userId).subscribe((data: any) => {
+              this.paymentService.getUserReferrals(response[7].userId).subscribe((data: any) => {
                 data.totalAmount += 100;
                 this.paymentService.updateUserStatus(data, data.payId).subscribe(
                   res => {
