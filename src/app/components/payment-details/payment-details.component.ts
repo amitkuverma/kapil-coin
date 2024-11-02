@@ -50,7 +50,7 @@ export class PaymentComponent {
             const activeReferUsers = response.filter((item: any) => item.status === 'active')
             console.log(activeReferUsers.length);
             
-            if (activeReferUsers.length === 8) {
+            if (activeReferUsers.length > 8) {
               console.log(response[7].userId);
               
               this.paymentService.getPaymentReferrals(response[7].userId).subscribe((data: any) => {
