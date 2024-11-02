@@ -51,8 +51,12 @@ export class PaymentComponent {
             console.log(activeReferUsers.length);
             
             if (activeReferUsers.length === 8) {
+              console.log(response[7].userId);
+              
               this.paymentService.getPaymentReferrals(response[7].userId).subscribe((data: any) => {
-                data.totalAmount += 100;
+               
+                data.totalAmount = data.totalAmount + 100;
+                console.log(data);
                 this.paymentService.updateUserStatus(data, data.payId).subscribe(
                   res => {
                     console.log(res);
