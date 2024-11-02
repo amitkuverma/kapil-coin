@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { UsersService } from '../../services/users.service';
@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-users-table',
@@ -19,13 +20,16 @@ export class UsersComponent implements OnInit {
   searchQuery: FormControl<string | null> = new FormControl(null); // Specify the type here
   selection = new SelectionModel<any>(true, []); // Selection model for checkboxes
 
-
+  @ViewChild('deleteUserDetailsDialog') deleteUserDetailsDialog!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   paginatedData: any[] = [];
   pageSize = 100;
   pageIndex = 0;
+  selectedUserId: any;
 
-  constructor(private usersService: UsersService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private usersService: UsersService, private router: Router, private snackBar: MatSnackBar,
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
     this.fetchUsers();
@@ -109,21 +113,20 @@ export class UsersComponent implements OnInit {
   }
 
 
-  deleteUser(userId: number): void {
-    if (confirm('Are you sure you want to delete this user?')) {
-      this.usersService.deleteUser(userId).subscribe(
-        (response: any) => {
-          this.snackBar.open('User deleted successfully!', 'Close', { duration: 3000 });
+  deleteUser(): void {
+    this.usersService.deleteUser(this.selectedUserId).subscribe(
+      (response: any) => {
+        this.snackBar.open('User deleted successfully!', 'Close', { duration: 3000 });
 
-          // Remove user from the data source
-          this.dataSource.data = this.dataSource.data.filter(user => user.userId !== userId);
-        },
-        (error: any) => {
-          console.error('Error deleting user', error);
-          this.snackBar.open('Failed to delete user', 'Close', { duration: 3000 });
-        }
-      );
-    }
+        // Remove user from the data source
+        this.dataSource.data = this.dataSource.data.filter(user => user.userId !== this.selectedUserId);
+        this.dialog.closeAll();
+      },
+      (error: any) => {
+        console.error('Error deleting user', error);
+        this.snackBar.open('Failed to delete user', 'Close', { duration: 3000 });
+      }
+    );
   }
 
   getStatusClass(status: string): string {
@@ -137,6 +140,17 @@ export class UsersComponent implements OnInit {
       default:
         return 'status-other';
     }
+  }
+
+  openShareDialog(userId: any) {
+    this.selectedUserId = userId;
+    this.dialog.open(this.deleteUserDetailsDialog, {
+      disableClose: true // Prevent dialog from closing on backdrop click
+    });
+  }
+
+  closeModel() {
+    this.dialog.closeAll();
   }
 
   goToUserNetwork(userId: number): void {
