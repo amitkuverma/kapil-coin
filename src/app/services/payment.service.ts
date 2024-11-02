@@ -26,7 +26,7 @@ export class PaymentService {
         return this.http.get(`${environment.API_URL}/payments`);
     }
 
-    getUserReferrals(userId:any): Observable<any> {                
+    getPaymentReferrals(userId:any): Observable<any> {                
         return this.http.get(`${environment.API_URL}/payment/${userId}`);
     }
     

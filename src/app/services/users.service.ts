@@ -30,6 +30,10 @@ export class UsersService {
         return this.http.put(`${environment.API_URL}/users/${userId}/status`, body);
     }
 
+    getParentReferrals(userId: any): Observable<any> {
+        return this.http.get(`${environment.API_URL}/referral-parents/${userId}`);
+    }
+
     getUserReferrals(userId: any): Observable<any> {
         return this.http.get(`${environment.API_URL}/referrals/${userId}`);
     }

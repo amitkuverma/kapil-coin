@@ -25,7 +25,7 @@ export class FriendsTableComponent implements OnInit {
   }
 
   fetchUserReferrals(): void {
-    this.usersService.getUserReferrals(this.cookies.decodeToken().userId).subscribe(
+    this.usersService.getParentReferrals(this.cookies.decodeToken().userId).subscribe(
       (response: any) => {
         this.dataSource = new MatTableDataSource(response.referrals);
         this.dataSource.paginator = this.paginator;

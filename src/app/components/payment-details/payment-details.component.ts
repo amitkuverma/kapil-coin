@@ -33,7 +33,7 @@ export class PaymentComponent {
   }
 
   getPaymentData() {
-    this.paymentService.getUserReferrals(this.userId).subscribe((data: any) => {
+    this.paymentService.getPaymentReferrals(this.userId).subscribe((data: any) => {
       this.paymentDetails = data;
     });
   }
@@ -50,8 +50,8 @@ export class PaymentComponent {
             const activeReferUsers = response.filter((item: any) => item.status === 'active')
             console.log(activeReferUsers.length);
             
-            if (activeReferUsers.length > 6) {
-              this.paymentService.getUserReferrals(response[7].userId).subscribe((data: any) => {
+            if (activeReferUsers.length === 7) {
+              this.paymentService.getPaymentReferrals(response[7].userId).subscribe((data: any) => {
                 data.totalAmount += 100;
                 this.paymentService.updateUserStatus(data, data.payId).subscribe(
                   res => {

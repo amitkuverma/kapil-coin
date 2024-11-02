@@ -87,7 +87,7 @@ export class CompletePaymentComponent implements OnInit {
 
   loadUserInfo(userId: any) {
     this.loading = true;
-    this.paymentService.getUserReferrals(userId).subscribe(
+    this.paymentService.getPaymentReferrals(userId).subscribe(
       (data) => {
         this.userDetails = data;
         this.loading = false;

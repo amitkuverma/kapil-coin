@@ -80,7 +80,7 @@ export class SendMoneyComponent {
   }
 
   getUserPaymentDetails() {
-    this.paymentService.getUserReferrals(this.paymentInfo.userId).subscribe(
+    this.paymentService.getPaymentReferrals(this.paymentInfo.userId).subscribe(
       (trans) => {
         this.payResult = trans;
       }

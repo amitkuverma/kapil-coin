@@ -77,7 +77,7 @@ export class MoneyTransferComponent {
 
   getUserPayment() {
     const userId = this.cookiesService.decodeToken().userId;
-    this.paymentService.getUserReferrals(userId).subscribe(
+    this.paymentService.getPaymentReferrals(userId).subscribe(
       (res: any) => {
         if (res) {
           this.userPaymentDetails = res;

@@ -28,7 +28,7 @@ export class LayoutComponent {
 
   ngOnInit() {
     if (!this.cookieService.isAdmin()) {
-      this.paymentService.getUserReferrals(this.cookieService.decodeToken().userId).subscribe(
+      this.paymentService.getPaymentReferrals(this.cookieService.decodeToken().userId).subscribe(
         (res) => {
           this.pymentResult = res;
 
