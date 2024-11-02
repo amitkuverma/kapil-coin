@@ -87,8 +87,7 @@ export class PaymentComponent {
   }
 
   addPayment(): void {
-    this.isLoading = true
-    this.paymentDetails.totalAmount = parseInt(this.paymentDetails.totalAmount) + parseInt(this.addAmount);
+    this.isLoading = true;
     this.paymentService.updateUserStatus(this.paymentDetails, this.paymentDetails.payId).subscribe(
       (res: any) => {
         this.isLoading = false;
