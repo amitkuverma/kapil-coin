@@ -49,9 +49,12 @@ export class LoginComponent {
               // User has completed their profile or is an admin, navigate to dashboard
               this.toastr.success('Login successful!', 'Success');
               this.router.navigate(['/dashboard']);
-            } else if (decodedToken && decodedToken.status !== 'active') {
+            } else if(!decodedToken.emailVerified) {
               // User profile is not complete, navigate to the payment page
-              this.router.navigate(['/complete-payment']);
+              this.router.navigate(['/register']);
+            }  else if (decodedToken && decodedToken.status !== 'active'){
+              // Handle case where decodedToken is null/undefined
+              this.router.navigate(['/complete-payment']);  // Redirect back to login or take appropriate action
             } else {
               // Handle case where decodedToken is null/undefined
               this.toastr.error('Invalid token received. Please log in again.', 'Error');

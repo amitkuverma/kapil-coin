@@ -17,10 +17,10 @@ export class RegisterComponent {
   registrationSuccess: boolean = false;
   isLoading: boolean = false;
   hidePassword: boolean = true; // Control visibility of password
-  @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
   @ViewChild('emailVerificationDialog') emailVerificationDialog!: TemplateRef<any>;
   emailOtp: any;
   regUser: any;
+  userInfo: any;
 
   countryCodes = [
     { code: '+1', name: 'USA' },
@@ -97,7 +97,7 @@ export class RegisterComponent {
       },
       { validator: this.checkPasswords }
     );
-
+    this.fatchUser();
     this.route.queryParamMap.subscribe((params) => {
       const referralCode = params.get('referralCode');
       if (referralCode) {
@@ -107,10 +107,39 @@ export class RegisterComponent {
     });
   }
 
+  fatchUser() {
+    this.userService.getUserById(this.cookiesService.decodeToken()?.userId).subscribe(
+      res => {
+        this.userInfo = res
+        if(!res.emailVerified){
+          this.openShareDialog();
+        }
+      }
+    )
+  }
+
+  get passwordError() {
+    const control = this.registerForm.get('password');
+    if (control?.hasError('required')) {
+      return 'Password is required';
+    } else if (control?.hasError('minlength')) {
+      return 'Password must be at least 8 characters long';
+    } else if (control?.hasError('pattern')) {
+      return 'Password must include at least one uppercase letter, one number, and one special character';
+    }
+    return '';
+  }
+
   checkPasswords(group: FormGroup) {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { passwordMismatch: true };
+  }
+
+  // Getter for showing error in the template
+  get passwordMismatchError() {
+    return this.registerForm.hasError('passwordMismatch') &&
+           this.registerForm.get('confirmPassword')?.touched;
   }
 
   onSubmit() {
@@ -119,18 +148,22 @@ export class RegisterComponent {
       this.registerForm.get('referralCode')?.enable();
       const formValue = this.registerForm.value;
       const mobileWithCountryCode = formValue.countryCode + formValue.mobile; // Combine country code with mobile
-      // Modify form data to include the full mobile number
+
+      // Prepare registration data
       const registrationData = {
         ...formValue,
-        mobile: mobileWithCountryCode
-
+        mobile: mobileWithCountryCode,
+        emailVerified: false // Set email verification status initially to false
       };
 
+      // Call the registration service to create the user
       this.authService.register(registrationData).subscribe(
         (response: any) => {
           this.isLoading = false;
-          this.regUser = response;
-          this.dialog.open(this.emailVerificationDialog);
+          this.regUser = response; // Store the response to use for OTP verification
+
+          // Open the OTP dialog
+          this.openShareDialog();
         },
         (error: any) => {
           this.isLoading = false;
@@ -142,14 +175,16 @@ export class RegisterComponent {
 
   verifyOTP() {
     if (this.regUser.otp === this.emailOtp) {
-      this.regUser.emailVerified = true
+      this.regUser.emailVerified = true;
+
+      // Now save the user data only if OTP is verified
       this.userService.updateUser(this.regUser, this.regUser.userId).subscribe(
         res => {
-          this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value}).subscribe(
+          this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value }).subscribe(
             (response: any) => {
               if (response) {
                 this.cookiesService.setCookie('token', response.token, 1);
-                this.toastr.success("OTP Verified");          
+                this.toastr.success("OTP Verified");
                 this.router.navigate(['/complete-payment']);
                 this.dialog.closeAll();
               }
@@ -157,16 +192,16 @@ export class RegisterComponent {
           );
         },
         error => {
-          this.toastr.error("Unable to verify the OTP.")
+          this.toastr.error("Unable to verify the OTP.");
         }
-      )
+      );
     } else {
-      this.toastr.error("OTP not match!!!")
+      this.toastr.error("OTP does not match!!!");
     }
   }
 
   closeModel() {
-    this.userService.deleteUser(this.regUser.userId).subscribe(
+    this.userService.deleteUser(this.regUser?.userId? this.regUser?.userId : this.userInfo?.userId).subscribe(
       res => {
         console.log(res);
         this.dialog.closeAll();
@@ -187,6 +222,8 @@ export class RegisterComponent {
   }
 
   openShareDialog() {
-    this.dialog.open(this.shareDialog);
+    this.dialog.open(this.emailVerificationDialog, {
+      disableClose: true // Prevent dialog from closing on backdrop click
+    });
   }
 }
