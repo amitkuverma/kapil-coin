@@ -81,6 +81,8 @@ export class TransactionsComponent {
       this.fetchAccounts(['buy', 'withdraw']);
     } else if (tab === '7th') {
       this.fetchAccounts('7th');
+    } else if (tab === 'coin') {
+      this.fetchAccounts('coin');
     } 
   }
   onPageChange(event: PageEvent) {

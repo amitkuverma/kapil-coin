@@ -106,6 +106,19 @@ export class PaymentComponent {
     this.isLoading = true;
     this.paymentService.updateUserStatus(this.paymentDetails, this.paymentDetails.payId).subscribe(
       (res: any) => {
+        const body = {
+          userId: this.paymentDetails.userId,
+          userName: this.paymentDetails.name,
+          receiverName: 'admin',
+          paymentType: 'coin',
+          transactionAmount: this.paymentDetails.totalAmount,
+          status: 'completed'
+      }
+      this.transService.createTransaction(body).subscribe(
+        resCreate=>{
+          console.log(resCreate)
+        }
+      )
         this.isLoading = false;
         this.dialog.closeAll();
         this.location.back();

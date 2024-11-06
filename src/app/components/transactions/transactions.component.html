@@ -22,6 +22,11 @@
                   <i class="material-icons">account_balance_wallet</i> 7th Label
                 </a>
               </li>
+              <li class="nav-item">
+                <a mat-button class="nav-link" [class.active]="selectedTab === 'coin'" (click)="selectTab('coin')">
+                  <i class="material-icons">account_balance_wallet</i> Admin Added Coin
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -109,6 +114,42 @@
         </mat-card>
         
         <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === '7th'" class="d-none d-md-block">
+          <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="userName">
+              <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
+              <mat-cell *matCellDef="let payment"> {{payment.userName}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="receiverName">
+              <mat-header-cell *matHeaderCellDef> Receiver Name </mat-header-cell>
+              <mat-cell *matCellDef="let payment"> {{payment.receiverName || 'NA'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="paymentType">
+              <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+              <mat-cell *matCellDef="let payment"> {{payment.paymentType}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="transactionAmount">
+              <mat-header-cell *matHeaderCellDef> Coins </mat-header-cell>
+              <mat-cell *matCellDef="let payment"> {{payment.transactionAmount}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+              <mat-cell *matCellDef="let payment"> {{payment.status}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="receipt">
+              <mat-header-cell *matHeaderCellDef> Receipt </mat-header-cell>
+              <mat-cell *matCellDef="let payment">
+                <a [href]="payment.receipt" target="_blank">{{payment.receipt?'View Receipt':'NA'}}</a>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="createdAt">
+              <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
+              <mat-cell *matCellDef="let payment"> {{payment.createdAt | date:'short'}} </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </mat-card>
+        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'coin'" class="d-none d-md-block">
           <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="userName">
               <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
