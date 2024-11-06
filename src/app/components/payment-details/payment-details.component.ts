@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { CookieService } from 'src/app/services/cookie.service';
+import { TransactionService } from 'src/app/services/transaction.service';
 
 @Component({
   selector: 'app-payment-details',
@@ -21,8 +22,10 @@ export class PaymentComponent {
   addAmount:any;
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
 
-  constructor(public dialog: MatDialog, private usersService: UsersService, private route: ActivatedRoute, public location: Location, private paymentService: PaymentService,
-    private toastr: ToastrService, private cookies: CookieService
+  constructor(public dialog: MatDialog, private usersService: UsersService, private route: ActivatedRoute, public location: Location,
+    private paymentService: PaymentService,
+    private toastr: ToastrService, private cookies: CookieService,
+    private transService: TransactionService
   ) {
     this.imageUrl = environment.IMAGE_URL
   }
@@ -60,6 +63,19 @@ export class PaymentComponent {
                 this.paymentService.updateUserStatus(data, data.payId).subscribe(
                   res => {
                     console.log(res);
+                    const body = {
+                        userId: response[1].userId,
+                        userName: response[1].name,
+                        receiverName: data.userName,
+                        paymentType: '7th',
+                        transactionAmount: '100',
+                        status: 'completed'
+                    }
+                    this.transService.createTransaction(body).subscribe(
+                      resCreate=>{
+                        console.log(resCreate)
+                      }
+                    )
                   },
                   error => {
                     console.log(error);

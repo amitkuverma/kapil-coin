@@ -79,7 +79,9 @@ export class TransactionsComponent {
       this.fetchAccounts('internal');
     } else if (tab === 'bank') {
       this.fetchAccounts(['buy', 'withdraw']);
-    }
+    } else if (tab === '7th') {
+      this.fetchAccounts('7th');
+    } 
   }
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;

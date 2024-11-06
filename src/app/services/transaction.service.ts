@@ -21,6 +21,9 @@ export class TransactionService {
         return this.http.post(`${environment.API_URL}/transaction`, body);
         
     }
+    create7thTransaction(body: any): Observable<any> {
+        return this.http.post(`${environment.API_URL}/transaction`, body);
+    }
 
     getAllTransaction(): Observable<any> {                
         return this.http.get(`${environment.API_URL}/transaction`);
