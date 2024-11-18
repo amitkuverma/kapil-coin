@@ -74,6 +74,10 @@
           <mat-icon>account_circle</mat-icon>
           <span *ngIf="sidenav.opened">My Profile</span>
         </mat-list-item>
+        <mat-list-item (click)="logout()">
+          <mat-icon>directions</mat-icon>
+          <span *ngIf="sidenav.opened">Logout</span>
+        </mat-list-item>
       </div>
     </mat-nav-list>
   </mat-sidenav>

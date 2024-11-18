@@ -100,6 +100,10 @@
           <mat-icon>share</mat-icon>
           <span>User Network</span>
         </button>
+        <button mat-menu-item (click)="updateStatus(user.userId, user.status === 'active' || user.status === 'disabled' ?'enabled':'disabled')">
+          <mat-icon>delete</mat-icon>
+          <span>{{user.status === 'active' || user.status === 'disabled' ?'Enabled':'Disabled'}}</span>
+        </button>
         <button mat-menu-item (click)="openShareDialog(user.userId)">
           <mat-icon>delete</mat-icon>
           <span>Delete</span>
