@@ -17,4 +17,20 @@ export class AuthService {
   register(data: any): Observable<any> {
     return this.http.post(`${environment.API_URL}/register/${data.referralCode}`, data);
   }
+
+  resendOTP(email: string) {
+    return this.http.post(`${environment.API_URL}/resend-otp`, { email });
+  }
+
+  resetPassword(email: string, otp: any, newPassword: any) {
+    return this.http.post(`${environment.API_URL}/reset-password`, { email, otp, newPassword });
+  }
+
+  forgotPassword(email: string) {
+    return this.http.post(`${environment.API_URL}/forgot-password`, { email });
+  }
+
+  verifyOTP(email: string, otp:any) {
+    return this.http.post(`${environment.API_URL}/verify-otp`, { email, otp });
+  }
 }

@@ -1,3 +1,15 @@
+mat-card{
+  max-height: 500px !important;
+  overflow: auto;
+}
+.change{
+  cursor: pointer;
+  text-align: end;
+  width: 100%;
+  position: relative;
+  top: 24px;
+  z-index: 10;
+}
 .submit-page-container {
   max-width: 1000px;
   margin: 0 auto;

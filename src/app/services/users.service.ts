@@ -60,7 +60,7 @@ export class UsersService {
     }
     
     changePassword(data: any): Observable<any> {
-        return this.http.post(`${environment.API_URL}/reset-password`, data);
+        return this.http.post(`${environment.API_URL}/reset-internal-password`, data);
     }
 
     deleteUser(userId: any): Observable<any> {

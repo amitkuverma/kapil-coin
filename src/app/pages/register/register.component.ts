@@ -18,9 +18,15 @@ export class RegisterComponent {
   isLoading: boolean = false;
   hidePassword: boolean = true; // Control visibility of password
   @ViewChild('emailVerificationDialog') emailVerificationDialog!: TemplateRef<any>;
+  @ViewChild('shareDialog') shareDialog!: TemplateRef<any>; // Terms and Conditions Dialog Reference
+
   emailOtp: any;
   regUser: any;
   userInfo: any;
+  isResendingOTP: boolean = false;
+  resendOTPSuccess: boolean = false;
+  resendOTPError: boolean = false;
+  isOptSend: boolean = false;
 
   countryCodes = [
     { code: '+1', name: 'USA' },
@@ -110,9 +116,9 @@ export class RegisterComponent {
   fatchUser() {
     this.userService.getUserById(this.cookiesService.decodeToken()?.userId).subscribe(
       res => {
-        this.userInfo = res
-        if(!res.emailVerified){
-          this.openShareDialog();
+        this.regUser = res
+        if (!res.emailVerified) {
+          this.isOptSend = true;
         }
       }
     )
@@ -130,6 +136,19 @@ export class RegisterComponent {
     return '';
   }
 
+  openTermsDialog() {
+    this.dialog.open(this.shareDialog, {
+      disableClose: false // Allow closing on backdrop click
+    });
+  }
+
+  // Existing OTP dialog method
+  openShareDialog() {
+    this.dialog.open(this.emailVerificationDialog, {
+      disableClose: true // Prevent dialog from closing on backdrop click
+    });
+  }
+
   checkPasswords(group: FormGroup) {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
@@ -139,7 +158,7 @@ export class RegisterComponent {
   // Getter for showing error in the template
   get passwordMismatchError() {
     return this.registerForm.hasError('passwordMismatch') &&
-           this.registerForm.get('confirmPassword')?.touched;
+      this.registerForm.get('confirmPassword')?.touched;
   }
 
   onSubmit() {
@@ -163,7 +182,8 @@ export class RegisterComponent {
           this.regUser = response; // Store the response to use for OTP verification
 
           // Open the OTP dialog
-          this.openShareDialog();
+          // this.openShareDialog();
+          this.isOptSend = true
         },
         (error: any) => {
           this.isLoading = false;
@@ -173,35 +193,78 @@ export class RegisterComponent {
     }
   }
 
-  verifyOTP() {
-    if (this.regUser.otp === this.emailOtp) {
-      this.regUser.emailVerified = true;
+  // verifyOTP() {
+  //   if (this.regUser.otp === this.emailOtp) {
+  //     this.regUser.emailVerified = true;
 
-      // Now save the user data only if OTP is verified
-      this.userService.updateUser(this.regUser, this.regUser.userId).subscribe(
-        res => {
-          this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value }).subscribe(
-            (response: any) => {
-              if (response) {
-                this.cookiesService.setCookie('token', response.token, 1);
-                this.toastr.success("OTP Verified");
-                this.router.navigate(['/complete-payment']);
-                this.dialog.closeAll();
-              }
-            }
-          );
-        },
-        error => {
-          this.toastr.error("Unable to verify the OTP.");
-        }
-      );
-    } else {
-      this.toastr.error("OTP does not match!!!");
-    }
+  //     // Now save the user data only if OTP is verified
+  //     this.userService.updateUser(this.regUser, this.regUser.userId).subscribe(
+  //       res => {
+  //         this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value }).subscribe(
+  //           (response: any) => {
+  //             if (response) {
+  //               this.cookiesService.setCookie('token', response.token, 1);
+  //               this.toastr.success("OTP Verified");
+  //               this.router.navigate(['/complete-payment']);
+  //               this.dialog.closeAll();
+  //             }
+  //           }
+  //         );
+  //       },
+  //       error => {
+  //         this.toastr.error("Unable to verify the OTP.");
+  //       }
+  //     );
+  //   } else {
+  //     this.toastr.error("OTP does not match!!!");
+  //   }
+  // }
+
+  resendOTP() {
+    this.isResendingOTP = true;
+    this.resendOTPSuccess = false;
+    this.resendOTPError = false;
+
+    // Call the AuthService to resend OTP
+    this.authService.resendOTP(this.regUser.email).subscribe(
+      (response: any) => {
+        this.isResendingOTP = false;
+        this.resendOTPSuccess = true;
+        this.toastr.success('OTP has been resent to your email.');
+      },
+      (error: any) => {
+        this.isResendingOTP = false;
+        this.resendOTPError = true;
+        this.toastr.error('Failed to resend OTP. Please try again.');
+        console.error('Resend OTP failed:', error);
+      }
+    );
   }
 
+  verifyOtpUser() {
+    this.authService.verifyOTP(this.regUser.email, this.emailOtp).subscribe(
+      (response: any) => {
+        // this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value }).subscribe(
+        //   (response: any) => {
+        //     if (response) {
+        //       this.cookiesService.setCookie('token', response.token, 1);
+
+        //     }
+        //   }
+        // );
+        this.toastr.success('OTP verify successfully!');
+        this.router.navigate(['/complete-payment']);
+      },
+      (error: any) => {
+        this.toastr.error(error.error.message);
+        console.error('Resend OTP failed:', error);
+      }
+    );
+  }
+
+
   closeModel() {
-    this.userService.deleteUser(this.regUser?.userId? this.regUser?.userId : this.userInfo?.userId).subscribe(
+    this.userService.deleteUser(this.regUser?.userId ? this.regUser?.userId : this.userInfo?.userId).subscribe(
       res => {
         console.log(res);
         this.dialog.closeAll();
@@ -221,9 +284,9 @@ export class RegisterComponent {
     this.router.navigate(['/login']);
   }
 
-  openShareDialog() {
-    this.dialog.open(this.emailVerificationDialog, {
-      disableClose: true // Prevent dialog from closing on backdrop click
-    });
-  }
+  // openShareDialog() {
+  //   this.dialog.open(this.emailVerificationDialog, {
+  //     disableClose: true // Prevent dialog from closing on backdrop click
+  //   });
+  // }
 }

@@ -126,3 +126,9 @@ mat-spinner {
 .term{
   font-size: 12px;
 }
+::ng-deep .mat-mdc-dialog-container{
+  height:380px !important;
+}
+.resend{
+  cursor: pointer;
+}

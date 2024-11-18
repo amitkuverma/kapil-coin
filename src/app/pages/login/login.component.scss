@@ -159,3 +159,7 @@
 .cr_ptr{
   cursor: pointer;
 }
+
+::ng-deep .mat-mdc-dialog-container{
+  height:380px !important;
+}
