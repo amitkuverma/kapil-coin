@@ -149,13 +149,30 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  updateStatus(userId: number, status: string): void {
-    this.usersService.updateUserStatus(userId, status).subscribe(
+  updateStatus(user: any, status: string): void {
+    user.status = status;
+    this.usersService.updateUser(user, user.userId).subscribe(
       (res: any) => {
         this.snackBar.open('User status update successfully!', 'Close', { duration: 3000 });
         this.fetchUsers();
       })
-    }
+  }
+  verifyEmail(user: any, emailVerified: boolean): void {
+    user.emailVerified = emailVerified
+    this.usersService.updateUser(user, user.userId).subscribe(
+      (res: any) => {
+        this.snackBar.open('User status update successfully!', 'Close', { duration: 3000 });
+        this.fetchUsers();
+      })
+  }
+
+  // updateStatus(userId: number, status: string): void {
+  //   this.usersService.updateUserStatus(userId, status).subscribe(
+  //     (res: any) => {
+  //       this.snackBar.open('User status update successfully!', 'Close', { duration: 3000 });
+  //       this.fetchUsers();
+  //     })
+  // }
 
   closeModel() {
     this.dialog.closeAll();

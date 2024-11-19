@@ -100,9 +100,13 @@
           <mat-icon>share</mat-icon>
           <span>User Network</span>
         </button>
-        <button mat-menu-item (click)="updateStatus(user.userId, user.status === 'active' ?'disabled':'active')">
+        <button *ngIf="user.emailVerified" mat-menu-item (click)="updateStatus(user, user.status === 'enabled' ?'disabled':'enabled')">
+          <mat-icon>book</mat-icon>
+          <span>{{user.status === 'enabled' ?'Disabled':'Enabled'}}</span>
+        </button>
+        <button mat-menu-item (click)="verifyEmail(user, true)">
           <mat-icon>explicit</mat-icon>
-          <span>{{user.status === 'active' ?'Disabled':'Active'}}</span>
+          <span>Email Verified</span>
         </button>
         <button mat-menu-item (click)="openShareDialog(user.userId)">
           <mat-icon>delete</mat-icon>
@@ -146,9 +150,13 @@
               <mat-icon>share</mat-icon>
               <span>User Network</span>
             </button>
-            <button mat-menu-item (click)="updateStatus(user.userId, user.status === 'active' || user.status === 'disabled' ?'enabled':'disabled')">
+            <button *ngIf="user.emailVerified" mat-menu-item (click)="updateStatus(user, user.status === 'enabled' ?'disabled':'enabled')">
+              <mat-icon>book</mat-icon>
+              <span>{{user.status === 'enabled' ?'Disabled':'Enabled'}}</span>
+            </button>
+            <button mat-menu-item (click)="verifyEmail(user, true)">
               <mat-icon>explicit</mat-icon>
-              <span>{{user.status === 'active' || user.status === 'disabled' ?'Enabled':'Disabled'}}</span>
+              <span>Email Verified</span>
             </button>
             <button mat-menu-item (click)="openShareDialog(user.userId)">
               <mat-icon>delete</mat-icon>
