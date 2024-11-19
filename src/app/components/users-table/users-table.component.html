@@ -102,7 +102,7 @@
         </button>
         <button mat-menu-item (click)="updateStatus(user.userId, user.status === 'active' ?'disabled':'active')">
           <mat-icon>explicit</mat-icon>
-          <span>{{user.status === 'active' ?'Active':'Disabled'}}</span>
+          <span>{{user.status === 'active' ?'Disabled':'Active'}}</span>
         </button>
         <button mat-menu-item (click)="openShareDialog(user.userId)">
           <mat-icon>delete</mat-icon>

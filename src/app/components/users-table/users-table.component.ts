@@ -153,6 +153,7 @@ export class UsersComponent implements OnInit {
     this.usersService.updateUserStatus(userId, status).subscribe(
       (res: any) => {
         this.snackBar.open('User status update successfully!', 'Close', { duration: 3000 });
+        this.fetchUsers();
       })
     }
 
