@@ -45,7 +45,7 @@ export class LoginComponent {
             // Decode the token and handle null/undefined token cases
             const decodedToken = this.cookiesService.decodeToken();
 
-            if (decodedToken && (decodedToken.status === 'active' || this.cookiesService.isAdmin())) {
+            if (decodedToken && (decodedToken.status === 'active' || decodedToken.status === 'enabled' || this.cookiesService.isAdmin())) {
               // User has completed their profile or is an admin, navigate to dashboard
               this.toastr.success('Login successful!', 'Success');
               this.router.navigate(['/dashboard']);
