@@ -5,7 +5,7 @@
   </div>
 
   <!-- Step 1: Account Details -->
-  <mat-card *ngIf="!loading && currentStep === 1 && accountDetails && !userDetails?.status" class="acc-card">
+  <mat-card *ngIf="!loading && currentStep === 1 && accountDetails">
     <div class="container">
       <div class="row pt-3" *ngIf="selectedMethod === ''">
         <div class="col-12">
@@ -111,7 +111,7 @@
   </mat-card>
 
   <!-- Step 2: Upload Receipt -->
-  <div *ngIf="!loading && currentStep === 2 && paymentSubmitted && userDetails?.status !== 'receipt'"
+  <div *ngIf="!loading && currentStep === 2 && paymentSubmitted"
     class="file-upload-section d-flex">
     <div class="upload-container">
       <mat-card class="p-4">
@@ -128,7 +128,7 @@
   </div>
 
   <!-- Success Message -->
-  <div *ngIf="(!loading && currentStep === 3 && receiptUploaded || userDetails?.status === 'new') || isSkip"
+  <div *ngIf="(!loading && currentStep === 3 && receiptUploaded) || isSkip"
     class="file-upload-section d-flex">
     <mat-card class="p-4">
       <h3>Payment Details uploaded Successfully! 😊</h3>

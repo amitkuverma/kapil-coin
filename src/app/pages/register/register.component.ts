@@ -253,7 +253,7 @@ export class RegisterComponent {
         //     }
         //   }
         // );
-        this.toastr.success('OTP verify successfully!');
+        this.toastr.success(response.message);
         this.router.navigate(['/complete-payment']);
       },
       (error: any) => {

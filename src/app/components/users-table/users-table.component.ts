@@ -137,6 +137,8 @@ export class UsersComponent implements OnInit {
         return 'status-pending';
       case 'admin':
         return 'status-admin';
+      case 'enable':
+        return 'status-enable';
       default:
         return 'status-other';
     }

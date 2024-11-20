@@ -44,6 +44,18 @@ p{
     background-color: red;
   }
 }
+.status-enable {
+  color: rgb(251, 0, 255);
+  .status-indicator {
+    background-color: rgb(251, 0, 255);;
+  }
+}
+.status-disable {
+  color: rgb(251, 0, 255);
+  .status-indicator {
+    background-color: rgb(251, 0, 255);;
+  }
+}
 
 .status-active {
   color: #4daa57;
