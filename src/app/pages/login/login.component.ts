@@ -52,7 +52,10 @@ export class LoginComponent {
             } else if(!decodedToken.emailVerified) {
               // User profile is not complete, navigate to the payment page
               this.router.navigate(['/register']);
-            }  else if (decodedToken && decodedToken.status !== 'active'){
+            }  else if (decodedToken && decodedToken.status === 'disable'){
+              // Handle case where decodedToken is null/undefined
+              this.router.navigate(['/disable']);  // Redirect back to login or take appropriate action
+            } else if (decodedToken && decodedToken.status !== 'active'){
               // Handle case where decodedToken is null/undefined
               this.router.navigate(['/complete-payment']);  // Redirect back to login or take appropriate action
             } else {

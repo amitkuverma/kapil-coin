@@ -31,6 +31,7 @@ import { TransactionsComponent } from './components/transactions/transactions.co
 import { SendMoneyComponent } from './components/send-money/send-money.component';
 import { BuyCoinComponent } from './components/buy-coin/buy-coin.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { DisableComponent } from './pages/disable/disable.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,7 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       { path: 'home', component: HomeComponent },
+      { path: 'disable', component: DisableComponent },
       { path: 'about', component: AboutComponent },
       { path: 'services', component: ServiceComponent },
       { path: 'testimonial', component: TestimonialComponent },

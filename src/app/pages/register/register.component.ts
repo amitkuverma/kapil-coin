@@ -194,32 +194,29 @@ export class RegisterComponent {
     }
   }
 
-  // verifyOTP() {
-  //   if (this.regUser.otp === this.emailOtp) {
-  //     this.regUser.emailVerified = true;
+  verifyOtpUser() {
 
-  //     // Now save the user data only if OTP is verified
-  //     this.userService.updateUser(this.regUser, this.regUser.userId).subscribe(
-  //       res => {
-  //         this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value }).subscribe(
-  //           (response: any) => {
-  //             if (response) {
-  //               this.cookiesService.setCookie('token', response.token, 1);
-  //               this.toastr.success("OTP Verified");
-  //               this.router.navigate(['/complete-payment']);
-  //               this.dialog.closeAll();
-  //             }
-  //           }
-  //         );
-  //       },
-  //       error => {
-  //         this.toastr.error("Unable to verify the OTP.");
-  //       }
-  //     );
-  //   } else {
-  //     this.toastr.error("OTP does not match!!!");
-  //   }
-  // }
+
+    // Now save the user data only if OTP is verified
+    this.userService.updateUser(this.regUser, this.regUser.userId).subscribe(
+      res => {
+        this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value }).subscribe(
+          (response: any) => {
+            if (response) {
+              this.cookiesService.setCookie('token', response.token, 1);
+              this.toastr.success("OTP Verified");
+              this.router.navigate(['/complete-payment']);
+              this.dialog.closeAll();
+            }
+          }
+        );
+      },
+      error => {
+        this.toastr.error("Unable to verify the OTP.");
+      }
+    );
+
+  }
 
   resendOTP() {
     this.isResendingOTP = true;
@@ -242,26 +239,26 @@ export class RegisterComponent {
     );
   }
 
-  verifyOtpUser() {
-    this.authService.verifyOTP(this.regUser.email, this.emailOtp).subscribe(
-      (response: any) => {
-        // this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value }).subscribe(
-        //   (response: any) => {
-        //     if (response) {
-        //       this.cookiesService.setCookie('token', response.token, 1);
+  // verifyOtpUser() {
+  //   this.authService.verifyOTP(this.regUser.email, this.emailOtp).subscribe(
+  //     (response: any) => {
+  //       // this.authService.login({ email: this.regUser.email, password: this.registerForm.get('password')?.value }).subscribe(
+  //       //   (response: any) => {
+  //       //     if (response) {
+  //       //       this.cookiesService.setCookie('token', response.token, 1);
 
-        //     }
-        //   }
-        // );
-        this.toastr.success(response.message);
-        this.router.navigate(['/complete-payment']);
-      },
-      (error: any) => {
-        this.toastr.error(error.error.message);
-        console.error('Resend OTP failed:', error);
-      }
-    );
-  }
+  //       //     }
+  //       //   }
+  //       // );
+  //       this.toastr.success(response.message);
+  //       this.router.navigate(['/complete-payment']);
+  //     },
+  //     (error: any) => {
+  //       this.toastr.error(error.error.message);
+  //       console.error('Resend OTP failed:', error);
+  //     }
+  //   );
+  // }
 
 
   closeModel() {

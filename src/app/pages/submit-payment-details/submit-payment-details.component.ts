@@ -110,7 +110,9 @@ export class CompletePaymentComponent implements OnInit {
       totalAmount: 0,
       paymentMethod: 'bank',
       transactionId: '',
-      status: 'new'
+      status: 'new',      
+      userId: this.cookiesService.decodeToken().userId,      
+      userName: this.cookiesService.decodeToken().userName
     };
     this.loading = true;
 

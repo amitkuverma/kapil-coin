@@ -8,6 +8,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
+import { PaymentService } from 'src/app/services/payment.service';
 
 @Component({
   selector: 'app-users-table',
@@ -27,7 +28,7 @@ export class UsersComponent implements OnInit {
   pageIndex = 0;
   selectedUserId: any;
 
-  constructor(private usersService: UsersService, private router: Router, private snackBar: MatSnackBar,
+  constructor(private usersService: UsersService, private router: Router, private snackBar: MatSnackBar, private paymentService: PaymentService,
     public dialog: MatDialog,
   ) { }
 
@@ -164,6 +165,27 @@ export class UsersComponent implements OnInit {
     this.usersService.updateUser(user, user.userId).subscribe(
       (res: any) => {
         this.snackBar.open('User status update successfully!', 'Close', { duration: 3000 });
+
+
+        const paymentData = {
+          earnAmount: 0,
+          totalAmount: 0,
+          paymentMethod: 'bank',
+          transactionId: '',
+          status: 'new',
+          userId: user.userId,
+          userName: user.name
+        };
+
+        this.paymentService.createPayment(paymentData).subscribe(
+          (response) => {
+          },
+          (error: any) => {
+            console.error('Error creating payment', error);
+          }
+        );
+
+
         this.fetchUsers();
       })
   }

@@ -66,6 +66,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CoinComponent } from './components/coin/coin.component';
 import { PaypalButtonComponent } from './components/paypal-button/paypal-button.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { DisableComponent } from './pages/disable/disable.component';
 
 
 
@@ -106,7 +107,8 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
     BuyCoinComponent,
     CoinComponent,
     PaypalButtonComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    DisableComponent
   ],
   imports: [
     BrowserModule,
