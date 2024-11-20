@@ -24,7 +24,7 @@ export class ManageAccountComponent implements OnInit {
     private accountService: AccountDetailsService,
     private cookies: CookieService,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const decodedToken = this.cookies.decodeToken();
@@ -52,7 +52,7 @@ export class ManageAccountComponent implements OnInit {
         // Use strict equality comparison
         console.log(this.userId);
         console.log(data);
-        
+
         this.accountDetailsList = data.filter(user => user.userId === this.userId);
         this.isLoading = false;
       },
@@ -70,6 +70,10 @@ export class ManageAccountComponent implements OnInit {
 
     this.isLoading = true;
     const accountData = this.accountForm.value;
+
+    if (this.cookies.isAdmin()) {
+      accountData.role = 'admin';
+    }
 
     if (this.isEditing && this.accountDetails) {
       // Update account

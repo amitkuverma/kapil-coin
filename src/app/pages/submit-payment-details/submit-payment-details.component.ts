@@ -75,7 +75,7 @@ export class CompletePaymentComponent implements OnInit {
     this.loading = true; // Start loader
     this.accountService.getAllAccounts().subscribe(
       (data) => {
-        this.accountDetails = data;
+        this.accountDetails = data.filter(item=>item.role === 'admin');
         this.loading = false; // Stop loader
       },
       (error) => {
