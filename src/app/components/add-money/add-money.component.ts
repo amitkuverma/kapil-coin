@@ -29,22 +29,24 @@ export class AddMoneyComponent {
     private transactionService: TransactionService, private cookiesService: CookieService, private uploadService: UploadService) {
   }
   ngOnInit(): void {
-    // this.accountService.getAdminAccount().subscribe(
-    //   (data) => {
-    //     this.accountDetails = data;
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching account details', error.error);
-    //   }
-    // );
+    this.accountService.getAllAccounts().subscribe(
+      (data) => {
+        this.accountDetails = data.filter(item => item.role === 'admin');
+      },
+      (error) => {
+        console.error('Error fetching account details', error.error);
+      }
+    );
 
   }
   onSubmit() {
     const body = {
       userId: this.cookiesService.decodeToken().userId,
       userName: this.cookiesService.decodeToken().userName,
+      receiverName: this.selectedMethod,
       paymentType: 'buy',
-      transactionAmount: 0
+      transactionAmount: 0,      
+      transactionId: this.selectedBank,
     };
     this.transactionService.createTransaction(body).subscribe(
       (res) => {

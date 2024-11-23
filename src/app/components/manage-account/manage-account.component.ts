@@ -68,8 +68,13 @@ export class ManageAccountComponent implements OnInit {
       return;
     }
 
+
+
     this.isLoading = true;
     const accountData = this.accountForm.value;
+
+    accountData.userId = this.userId;
+    accountData.userName = this.userName;
 
     if (this.cookies.isAdmin()) {
       accountData.role = 'admin';

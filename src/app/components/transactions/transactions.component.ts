@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CookieService } from 'src/app/services/cookie.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { TransactionService } from 'src/app/services/transaction.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-transactions',
@@ -15,6 +16,7 @@ export class TransactionsComponent {
     'userName',
     'paymentType',
     'receiverName',
+    'transactionId',
     'transactionAmount',
     'status',
     'receipt',
@@ -27,11 +29,13 @@ export class TransactionsComponent {
   paginatedData: any[] = [];
   pageSize = 100;
   pageIndex = 0;
+  imageUrl: string = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private trancService: TransactionService, private cookies: CookieService) {
     this.fetchAccounts(this.selectedTab); // Default to 'internal' transactions
+    this.imageUrl = environment.IMAGE_URL
   }
 
   fetchAccounts(paymentType: string | string[]) {

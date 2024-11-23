@@ -17,12 +17,12 @@
                   <i class="material-icons">account_balance_wallet</i> Bank
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item label-wid">
                 <a mat-button class="nav-link" [class.active]="selectedTab === '7th'" (click)="selectTab('7th')">
                   <i class="material-icons">account_balance_wallet</i> 7th Label
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item add_coin">
                 <a mat-button class="nav-link" [class.active]="selectedTab === 'coin'" (click)="selectTab('coin')">
                   <i class="material-icons">account_balance_wallet</i> Admin Added Coin
                 </a>
@@ -38,7 +38,8 @@
         <div class="">
 
         </div>
-        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'internal'" class="d-none d-md-block">
+        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'internal'"
+          class="d-none d-md-block">
           <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="userName">
               <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
@@ -63,7 +64,8 @@
             <ng-container matColumnDef="receipt">
               <mat-header-cell *matHeaderCellDef> Receipt </mat-header-cell>
               <mat-cell *matCellDef="let payment">
-                <a [href]="payment.receipt" target="_blank">{{payment.receipt?'View Receipt':'NA'}}</a>
+                <a *ngIf="payment.filepath" class="text-primary" [href]="imageUrl + payment.filepath" target="_blank">{{'View Receipt'}}</a>
+                <a *ngIf="!payment.filepath">{{'NA'}}</a>
               </mat-cell>
             </ng-container>
             <ng-container matColumnDef="createdAt">
@@ -76,32 +78,38 @@
           <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[100, 200, 500]" showFirstLastButtons></mat-paginator>
         </mat-card>
 
-        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'bank'" class="d-none d-md-block">
+        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'bank'"
+          class="d-none d-md-block">
           <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="userName">
               <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
-              <mat-cell *matCellDef="let payment"> {{payment.userName}} </mat-cell>
+              <mat-cell *matCellDef="let payment" class="text-capitalize"> {{payment.userName}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="receiverName">
-              <mat-header-cell *matHeaderCellDef> Receiver Name </mat-header-cell>
-              <mat-cell *matCellDef="let payment"> {{payment.receiverName || 'NA'}} </mat-cell>
+              <mat-header-cell *matHeaderCellDef> {{'Payment Mode'}} </mat-header-cell>
+              <mat-cell *matCellDef="let payment" class="text-capitalize"> {{payment.receiverName || 'NA'}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="paymentType">
               <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
-              <mat-cell *matCellDef="let payment"> {{payment.paymentType}} </mat-cell>
+              <mat-cell *matCellDef="let payment" class="text-capitalize"> {{payment.paymentType}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="transactionAmount">
               <mat-header-cell *matHeaderCellDef> Coins </mat-header-cell>
               <mat-cell *matCellDef="let payment"> {{payment.transactionAmount}} </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="transactionId">
+              <mat-header-cell *matHeaderCellDef> Selected Account </mat-header-cell>
+              <mat-cell *matCellDef="let payment"> {{payment.transactionId || 'NA'}} </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="status">
               <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-              <mat-cell *matCellDef="let payment"> {{payment.status}} </mat-cell>
+              <mat-cell *matCellDef="let payment" class="text-capitalize"> {{payment.status}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="receipt">
               <mat-header-cell *matHeaderCellDef> Receipt </mat-header-cell>
               <mat-cell *matCellDef="let payment">
-                <a [href]="payment.receipt" target="_blank">{{payment.receipt?'View Receipt':'NA'}}</a>
+                <a *ngIf="payment.filepath" class="text-primary" [href]="imageUrl + payment.filepath" target="_blank">{{'View Receipt'}}</a>
+                <a *ngIf="!payment.filepath">{{'NA'}}</a>
               </mat-cell>
             </ng-container>
             <ng-container matColumnDef="createdAt">
@@ -112,8 +120,9 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
         </mat-card>
-        
-        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === '7th'" class="d-none d-md-block">
+
+        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === '7th'"
+          class="d-none d-md-block">
           <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="userName">
               <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
@@ -138,7 +147,8 @@
             <ng-container matColumnDef="receipt">
               <mat-header-cell *matHeaderCellDef> Receipt </mat-header-cell>
               <mat-cell *matCellDef="let payment">
-                <a [href]="payment.receipt" target="_blank">{{payment.receipt?'View Receipt':'NA'}}</a>
+                <a *ngIf="payment.filepath" class="text-primary" [href]="imageUrl + payment.filepath" target="_blank">{{'View Receipt'}}</a>
+                <a *ngIf="!payment.filepath">{{'NA'}}</a>
               </mat-cell>
             </ng-container>
             <ng-container matColumnDef="createdAt">
@@ -149,7 +159,8 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
         </mat-card>
-        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'coin'" class="d-none d-md-block">
+        <mat-card *ngIf="(!dataSource || dataSource.data.length > 0) && selectedTab === 'coin'"
+          class="d-none d-md-block">
           <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="userName">
               <mat-header-cell *matHeaderCellDef> User Name </mat-header-cell>
@@ -174,7 +185,8 @@
             <ng-container matColumnDef="receipt">
               <mat-header-cell *matHeaderCellDef> Receipt </mat-header-cell>
               <mat-cell *matCellDef="let payment">
-                <a [href]="payment.receipt" target="_blank">{{payment.receipt?'View Receipt':'NA'}}</a>
+                <a *ngIf="payment.filepath" class="text-primary" [href]="imageUrl + payment.filepath" target="_blank">{{'View Receipt'}}</a>
+                <a *ngIf="!payment.filepath">{{'NA'}}</a>
               </mat-cell>
             </ng-container>
             <ng-container matColumnDef="createdAt">
@@ -188,7 +200,7 @@
 
         <div *ngFor="let user of paginatedData" class="user-card d-md-none mt-3">
           <mat-card class="mat-elevation-z4">
-            <mat-card-header>
+            <mat-card-header class="p-0">
               <div class="d-flex justify-content-between w-100 mobile-header">
                 <div class="d-flex align-items-center p-2">
                   <mat-card-title class="text-capitalize">{{ user.userName }}</mat-card-title>
@@ -197,21 +209,26 @@
             </mat-card-header>
 
             <mat-card-content>
-              <p *ngIf="selectedTab === 'internal'" class="text-capitalize"><strong>Receiver Name:</strong> {{ user.receiverName }}</p>
+              <p *ngIf="selectedTab === 'internal'" class="text-capitalize"><strong>Receiver Name:</strong> {{
+                user.receiverName }}</p>
+              <p *ngIf="selectedTab === 'bank'" class="text-capitalize"><strong>Payment Mode:</strong> {{
+                user.receiverName || 'NA' }}</p>
               <p class="text-capitalize"><strong>Payment Type:</strong> {{ user.paymentType }}</p>
               <p class="text-capitalize"><strong>Coins:</strong> {{ user.transactionAmount }}</p>
               <p class="text-capitalize"><strong>Status:</strong>
                 <span class="text-cap">
-                  <span class="status-indicator"></span>
+                  <span class="status-indicator text-capitalize"></span>
                   {{ user.status }}
                 </span>
               </p>
-              
-              <p *ngIf="selectedTab === 'bank'"><strong>Receipt:</strong> <a [href]="user.receipt" target="_blank">View Receipt</a></p>
+
+              <p *ngIf="selectedTab === 'bank'"><strong>Receipt:</strong> <a [href]="imageUrl + user.filepath" class="text-primary" target="_blank">View
+                  Receipt</a></p>
             </mat-card-content>
           </mat-card>
         </div>
-        <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[100, 200, 500]" showFirstLastButtons (page)="onPageChange($event)"></mat-paginator>
+        <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[100, 200, 500]" showFirstLastButtons
+          (page)="onPageChange($event)"></mat-paginator>
       </div>
     </div>
   </div>

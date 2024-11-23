@@ -20,7 +20,7 @@ export interface AccountData {
   styleUrls: ['./users-account-table.component.scss']
 })
 export class UsersAccountTableComponent implements OnInit {
-  displayedColumns: string[] = ['userName', 'bankName', 'accountNumber', 'ifscCode', 'branchName', 'accountType', 'accountHolderName'];
+  displayedColumns: string[] = ['userId', 'userName', 'bankName', 'accountNumber', 'ifscCode', 'branchName', 'accountType', 'accountHolderName'];
   dataSource = new MatTableDataSource<AccountData>([]);
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;

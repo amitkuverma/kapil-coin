@@ -64,6 +64,10 @@
         <mat-icon>account_box</mat-icon>
         <span *ngIf="sidenav.opened">Buy Coin</span>
       </mat-list-item>
+      <mat-list-item [routerLink]="'users-account'" (click)="closeSidenav(sidenav)" *ngIf="cookieService.isAdmin()">
+        <mat-icon>account_box</mat-icon>
+        <span *ngIf="sidenav.opened">Users Account</span>
+      </mat-list-item>
       <mat-list-item [routerLink]="'transactions'" (click)="closeSidenav(sidenav)">
         <mat-icon>history</mat-icon>
         <span *ngIf="sidenav.opened">Transactions</span>
