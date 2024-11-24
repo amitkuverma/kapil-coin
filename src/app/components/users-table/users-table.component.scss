@@ -45,15 +45,17 @@ p{
   }
 }
 .status-enable {
-  color: rgb(251, 0, 255);
+  color: #4daa57;
   .status-indicator {
-    background-color: rgb(251, 0, 255);;
+    background-color: #4daa57;
+    animation: circle-pulse-live 2s infinite;
   }
 }
-.status-disable {
-  color: rgb(251, 0, 255);
+.status-other {
+  color: rgb(255, 0, 0);
   .status-indicator {
-    background-color: rgb(251, 0, 255);;
+    background-color: rgb(255, 0, 0);
+    animation: circle-pulse-other 2s infinite;
   }
 }
 
@@ -73,9 +75,6 @@ p{
   }
 }
 
-.status-other .status-indicator {
-  background-color: gray;
-}
 
 /* Keyframes for the pulse animation */
 @keyframes circle-pulse-live {
@@ -106,6 +105,28 @@ p{
     -webkit-transform: scale(0.95);
     transform: scale(0.95);
     -webkit-box-shadow: 0 0 0 0 rgba(170, 127, 77, 0.9);
+    box-shadow: 0 0 0 0 rgba(170, 136, 77, 0.9);
+  }
+
+  50% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-box-shadow: 0 0 0 8px rgba(77, 170, 87, 0);
+    box-shadow: 0 0 0 8px rgba(77, 170, 87, 0);
+  }
+
+  100% {
+    -webkit-transform: scale(0.95);
+    transform: scale(0.95);
+    -webkit-box-shadow: 0 0 0 0 rgba(77, 170, 87, 0);
+    box-shadow: 0 0 0 0 rgba(77, 170, 87, 0);
+  }
+}
+@keyframes circle-pulse-other {
+  0% {
+    -webkit-transform: scale(0.95);
+    transform: scale(0.95);
+    -webkit-box-shadow: 0 0 0 0 rgba(200, 85, 85, 0.9);
     box-shadow: 0 0 0 0 rgba(170, 136, 77, 0.9);
   }
 

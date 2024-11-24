@@ -43,34 +43,31 @@
                 <div class="tab-content">
                     <!-- Edit Profile Tab Content -->
                     <div class="tab-pane active" id="profile">
-
-
-
-                        <mat-card>
-                            <mat-card class="text-center mb-3">
-                                <!-- Show the file input and upload button if image is not uploaded -->
-                                <div *ngIf="!isImageUploaded && !user?.filepath">
-                                    <input type="file" (change)="onFileSelected($event)" />
-                                    <button mat-raised-button color="primary" (click)="upload()"
-                                        [disabled]="!selectedImage">Upload Profile</button>
-                                </div>
+                        <div class="d-md-flex py-3">
+                            <div class="text-center mb-3 profile-pic">
 
                                 <!-- Show the image preview when image is uploaded or selected -->
                                 <div *ngIf="isImageUploaded || imagePreviewUrl || user?.filepath">
                                     <img [src]="imagePreviewUrl ? imagePreviewUrl : imageUrl + user?.filepath"
                                         alt="Profile Image Preview" class="rounded-profile-image" />
                                 </div>
-                            </mat-card>
-                            <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEditProfile()">
-                                <mat-form-field appearance="fill">
+                                
+                                <div class="">
+                                    <input class="w-100 mt-3" type="file" (change)="onFileSelected($event)" />
+                                    <button mat-raised-button color="primary" class="w-100 mt-3" (click)="upload()"
+                                        [disabled]="!selectedImage">Upload Profile</button>
+                                </div>
+                            </div>
+                            <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEditProfile()" class="pl-3">
+                                <mat-form-field appearance="fill" class="w-100">
                                     <mat-label>Name</mat-label>
-                                    <input matInput formControlName="name" placeholder="Enter your name" readonly />
+                                    <input matInput formControlName="name" placeholder="Enter your name" />
                                 </mat-form-field>
 
-                                <mat-form-field appearance="fill">
+                                <mat-form-field appearance="fill" class="w-100">
                                     <mat-label>Email</mat-label>
                                     <input matInput formControlName="email" placeholder="Enter your email"
-                                        type="email" readonly />
+                                        type="email" />
                                     <mat-error
                                         *ngIf="editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.touched">
                                         <span *ngIf="editProfileForm.get('email')?.errors?.['required']">Email is
@@ -80,7 +77,7 @@
                                     </mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field appearance="fill">
+                                <mat-form-field appearance="fill" class="w-100">
                                     <mat-label>Mobile</mat-label>
                                     <input matInput formControlName="mobile" placeholder="Enter your mobile number"
                                         type="tel" />
@@ -90,17 +87,16 @@
                                     </mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field appearance="fill">
+                                <mat-form-field appearance="fill" class="w-100">
                                     <mat-label>Referral Code</mat-label>
                                     <input matInput formControlName="referralCode" readonly
                                         placeholder="Enter referral code (optional)" />
                                 </mat-form-field>
 
-                                <button mat-raised-button color="primary" type="submit"
+                                <button mat-raised-button color="primary" type="submit" class="w-100"
                                     [disabled]="editProfileForm.invalid">Save Changes</button>
                             </form>
-
-                        </mat-card>
+                        </div>
                     </div>
 
                     <!-- Change Password Tab Content -->

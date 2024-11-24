@@ -1,6 +1,9 @@
 <mat-tab-group>
   <mat-tab label="Internal Transfer">
     <mat-card class="transfer-card">
+      <mat-card-header class="p-0 pb-3">
+        <mat-card-title class="txt-clrb7">Share coin with your friends.</mat-card-title>
+      </mat-card-header>
       <mat-card-content>
         <form [formGroup]="internalTransferForm">
           <div class="form-grid">
@@ -38,7 +41,7 @@
 
           <!-- Submit Button -->
           <div class="d-flex justify-content-center">
-            <button mat-raised-button color="primary" (click)="openShareDialog()"
+            <button mat-raised-button color="primary" class="w-100" (click)="openShareDialog()"
               [disabled]="internalTransferForm.invalid || transactionAmountExceeds()">Confirm</button>
           </div>
         </form>
@@ -47,23 +50,32 @@
   </mat-tab>
 
   <mat-tab label="Bank Withdrawal">
-    <mat-card class="button-card">
-      <mat-card-header>
-        <mat-card-title>Convert coin to Money in your Bank Account</mat-card-title>
+    <mat-card class="button-card p-3">
+      <mat-card-header class="p-0 pb-3">
+        <mat-card-title class="txt-clrb7">Convert coin to Money in your Bank Account</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <form [formGroup]="bankTransferForm">
-          <div class="form-grid">
-
             <!-- Coin (Total Amount) -->
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Total Amount</mat-label>
               <input matInput formControlName="totalAmount" type="number" placeholder="Total amount" readonly="true">
             </mat-form-field>
 
-            <!-- Withdrawal Amount -->
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Enter Withdrawal amount</mat-label>
+              <mat-label>Select Bank</mat-label>
+              <mat-select formControlName="receiverName">
+                <mat-option *ngFor="let acc of accountDetails" [value]="acc.bankName">
+                  {{ acc.bankName }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="internalTransferForm.get('receiverName')?.invalid && internalTransferForm.get('receiverName')?.touched">
+                Receiver Bank is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Enter Withdrawal Amount</mat-label>
               <input matInput formControlName="transactionAmount" type="number" placeholder="Enter Withdrawal amount">
               <mat-error *ngIf="bankTransferForm.get('transactionAmount')?.invalid && bankTransferForm.get('transactionAmount')?.touched">
                 Withdrawal amount is required and must be greater than 500.
@@ -72,11 +84,10 @@
                 Withdrawal amount must not exceed total amount.
               </mat-error>
             </mat-form-field>
-          </div>
 
           <!-- Submit Button -->
-          <div class="d-flex justify-content-center">
-            <button mat-raised-button color="primary" (click)="onSubmitWithdrawal()"
+          <div class="d-flex justify-content-center pb-4">
+            <button mat-raised-button color="primary" class="w-100" (click)="onSubmitWithdrawal()"
               [disabled]="bankTransferForm.invalid">Withdrawal</button>
           </div>
         </form>

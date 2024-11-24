@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-send-money',
@@ -14,6 +15,7 @@ export class SendMoneyComponent {
   displayedColumns: string[] = [
     'userName',
     'paymentType',
+    'receiverName',
     'transactionId',
     'transactionAmount',
     'status',
@@ -30,6 +32,7 @@ export class SendMoneyComponent {
   paginatedData: any[] = [];
   pageSize = 100;
   pageIndex = 0;
+  imageUrl: any;
 
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,14 +43,16 @@ export class SendMoneyComponent {
     public dialog: MatDialog
   ) {
     this.fetchAccounts();
+    this.imageUrl = environment.IMAGE_URL;
   }
 
   fetchAccounts() {
     this.trancService.getAllTransaction().subscribe({
       next: (payments: any[]) => {
-        const buyers = payments.filter(pay => pay.paymentType === 'withdraw' && pay.status === 'pending');
+        const buyers = payments.filter(pay => pay.paymentType === 'withdraw');
         this.dataSource = new MatTableDataSource<any>(buyers);
         this.dataSource.paginator = this.paginator;
+        this.updatePaginatedData();
       },
       error: (error: any) => {
         console.error('Error fetching accounts:', error);
@@ -94,9 +99,11 @@ export class SendMoneyComponent {
     )
   }
 
-  sendCoin() {
-    this.payResult.totalAmount -= this.transResult.transactionAmount;
-    this.transResult.status = 'approved';
+  actionCoinRequest(status:any) {
+    if(status === 'rejected'){
+      this.payResult.totalAmount -= this.transResult.transactionAmount;
+    }
+    this.transResult.status = status;
 
     this.paymentService.updateUserStatus(this.payResult, this.payResult.payId).subscribe(
       (payUpdate) => {
@@ -122,5 +129,6 @@ export class SendMoneyComponent {
     const startIndex = this.pageIndex * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.paginatedData = this.dataSource.filteredData.slice(startIndex, endIndex);
+    console.log(this.paginatedData)
   }
 }

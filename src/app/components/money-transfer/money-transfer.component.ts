@@ -6,6 +6,7 @@ import { PaymentService } from '../../services/payment.service';
 import { CookieService } from '../../services/cookie.service';
 import { TransactionService } from '../../services/transaction.service';
 import { ToastrService } from 'ngx-toastr';
+import { AccountDetailsService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-money-transfer',
@@ -22,7 +23,7 @@ export class MoneyTransferComponent {
   payResult: any;
   transResult: any;
   userPaymentInfo: any;
-
+  accountDetails: any;
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
 
   constructor(
@@ -32,7 +33,8 @@ export class MoneyTransferComponent {
     private paymentService: PaymentService,
     public cookiesService: CookieService,
     private trancService: TransactionService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private accountService: AccountDetailsService
   ) {
     this.getAllUserPaymentDetails();
     this.getUserPayment();
@@ -42,11 +44,13 @@ export class MoneyTransferComponent {
     });
 
     this.bankTransferForm = this.fb.group({
+      receiverName: ['', Validators.required],
       totalAmount: ['', Validators.required],
       transactionAmount: ['', [Validators.required, Validators.min(500)]],
     }, { validators: this.validateTransactionAmount });
 
     this.loadUsers();
+    this.loadAccounts();
     this.getUserPayment();
   }
 
@@ -54,6 +58,18 @@ export class MoneyTransferComponent {
     this.userService.getUsers().subscribe(
       (res: any) => {
         this.userDetails = res.filter((item: any) => item.status !== 'admin' && item.userId !== this.cookiesService.decodeToken().userId);
+      },
+      (error: any) => {
+        this.toastr.error('Failed to load user details.', 'Error');
+        console.error('Error fetching users:', error);
+      }
+    );
+  }
+
+  loadAccounts() {
+    this.accountService.getAllAccounts().subscribe(
+      (res: any) => {
+        this.accountDetails = res.filter((item: any) => item.userId === this.cookiesService.decodeToken().userId);
       },
       (error: any) => {
         this.toastr.error('Failed to load user details.', 'Error');
@@ -197,13 +213,26 @@ export class MoneyTransferComponent {
 
     const data = {
       paymentType: 'withdraw',
-      transactionAmount: transactionAmount
+      transactionAmount: transactionAmount,
+      receiverName: this.bankTransferForm.get('receiverName')?.value
     };
 
     this.trancService.createTransaction(data).subscribe(
       (res: any) => {
-        this.bankTransferForm.get('transactionAmount')?.setValue('');
-        this.toastr.success('Withdrawal request sent successfully!', 'Success');
+        const payUser = this.userPaymentInfo.find((user: any) => user.userId === this.cookiesService.decodeToken().userId);
+
+        payUser.totalAmount -= transactionAmount
+        
+        this.paymentService.updateUserStatus(payUser, payUser.payId).subscribe(
+          response=>{
+            this.toastr.success('Withdrawal request sent successfully!', 'Success');
+            this.bankTransferForm.get('receiverName')?.setValue('');
+            this.bankTransferForm.get('transactionAmount')?.setValue('');
+          },
+          (err:any)=>{
+            this.toastr.error(err.error.message)
+          }
+        );
       },
       (error: any) => {
         this.toastr.error('Unable to send withdrawal request!', 'Error');

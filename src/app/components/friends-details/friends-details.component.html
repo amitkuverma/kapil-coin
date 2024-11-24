@@ -1,10 +1,8 @@
-<mat-card class="button-card">
-  <mat-card-content>
-    <div class="button-container">
-      <button mat-raised-button color="primary" [routerLink]="'/friends-table'" class="half-width-button">Friends
-        Details</button>
-      <button mat-raised-button color="accent" [routerLink]="'/friends-network/' + cookiesService.decodeToken().userId"
-        class="half-width-button">Friends Tree</button>
-    </div>
-  </mat-card-content>
-</mat-card>
+<mat-card-content>
+  <div class="button-container mt-4">
+    <button mat-raised-button color="primary" [routerLink]="'/friends-table'" class="half-width-button mb-3">Friends
+      Details</button>
+    <button mat-raised-button color="accent" [routerLink]="'/friends-network/' + cookiesService.decodeToken().userId"
+      class="half-width-button">Friends Tree</button>
+  </div>
+</mat-card-content>

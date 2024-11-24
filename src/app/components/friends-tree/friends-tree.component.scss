@@ -3,11 +3,17 @@
   flex-direction: row;
   align-items: flex-start;
 }
+.header-tree{
+  background-color: #673ab7;
+}
 
 .user-network-tree {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  overflow: auto;
+  @media (min-width:991px) {
+    justify-content: center;    
+  }
   width: 100%;
 
   .user-node {

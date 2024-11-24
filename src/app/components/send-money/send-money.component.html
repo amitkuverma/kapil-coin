@@ -23,6 +23,11 @@
       <mat-cell *matCellDef="let payment"> {{payment.paymentType}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="receiverName">
+      <mat-header-cell *matHeaderCellDef> Selected Bank </mat-header-cell>
+      <mat-cell *matCellDef="let payment"> {{payment.receiverName}} </mat-cell>
+    </ng-container>
+
     <!-- Transaction ID Column -->
     <ng-container matColumnDef="transactionId">
       <mat-header-cell *matHeaderCellDef> TransactionID </mat-header-cell>
@@ -38,14 +43,15 @@
     <!-- Status Column -->
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-      <mat-cell *matCellDef="let payment"> {{payment.status}} </mat-cell>
+      <mat-cell class="text-capitalize" *matCellDef="let payment"> {{payment.status}} </mat-cell>
     </ng-container>
 
     <!-- Receipt Column -->
     <ng-container matColumnDef="receipt">
       <mat-header-cell *matHeaderCellDef> Receipt </mat-header-cell>
       <mat-cell *matCellDef="let payment">
-        <a [href]="payment.receipt" target="_blank">View Receipt</a>
+        <a *ngIf="payment.filepath" class="text-primary" [href]="imageUrl + payment.filepath" target="_blank">{{'View Receipt'}}</a>
+        <a *ngIf="!payment.filepath">{{'NA'}}</a>
       </mat-cell>
     </ng-container>
 
@@ -94,6 +100,7 @@
 
       <mat-card-content>
         <p><strong>Date:</strong> {{ user.createdAt | date:'short'}} </p>
+        <p class="text-capitalize"><strong>Selected Bank:</strong> {{ user.receiverName }}</p>
         <p class="text-capitalize"><strong>PaymentType:</strong> {{ user.paymentType }}</p>
         <p><strong>Requested coin:</strong> {{ user.transactionAmount }}</p>
         <p class="text-capitalize"><strong>Status:</strong> {{ user.status }} </p>
@@ -109,7 +116,7 @@
   <h2 mat-dialog-title>Confirmation</h2>
   <mat-dialog-content>Are you sure you want to perform this action?</mat-dialog-content>
   <mat-dialog-actions class="d-flex justify-content-end">
-    <button mat-button (click)="dialog.closeAll()" class="mr-2">Cancel</button>
-    <button mat-button color="primary" (click)="sendCoin()">Confirm</button>
+    <button mat-button color="warn" (click)="actionCoinRequest('rejected')" class="mr-2">Rejected</button>
+    <button mat-button color="primary" (click)="actionCoinRequest('approved')">Approved</button>
   </mat-dialog-actions>
 </ng-template>

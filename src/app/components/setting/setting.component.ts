@@ -6,6 +6,7 @@ import { CookieService } from 'src/app/services/cookie.service';
 import { UploadService } from 'src/app/services/uploadfile.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-setting',
@@ -28,7 +29,8 @@ export class SettingComponent implements OnInit {
     private snackBar: MatSnackBar,
     private cookies: CookieService,
     private router: Router,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -68,10 +70,10 @@ export class SettingComponent implements OnInit {
   // Submit profile changes
   onSubmitEditProfile() {
     if (this.editProfileForm.valid) {
-      // this.userService.updateUserProfile(this.editProfileForm.value).subscribe(
-      //   () => this.snackBar.open('Profile updated successfully!', 'Close', { duration: 3000 }),
-      //   (error) => this.snackBar.open('Error updating profile.', 'Close', { duration: 3000 })
-      // );
+      this.userService.updateUser(this.editProfileForm.value, this.cookies.decodeToken().userId).subscribe(
+        (res) => this.toastr.success('Profile updated successfully!'),
+        (error) => this.toastr.error('Error updating profile.')
+      );
     }
   }
 
@@ -97,11 +99,11 @@ export class SettingComponent implements OnInit {
       this.uploadService.uploadFile(this.selectedImage, this.cookies.decodeToken().userId, 'user')
         .subscribe(
           response => {
-            console.log('File uploaded successfully', response);
+            this.toastr.success('File uploaded successfully', 'Success');
             this.isImageUploaded = true; // Mark image as uploaded
           },
           error => {
-            console.error('Error uploading file', error);
+            this.toastr.error('Error uploading file', 'Error');
           }
         );
     }
@@ -117,14 +119,14 @@ export class SettingComponent implements OnInit {
       if (newPassword === confirmPassword) {
         this.userService.changePassword(data).subscribe(
           (res) => {
-            this.snackBar.open('Password changed successfully!', 'Close', { duration: 3000 });
+            this.toastr.success('Password changed successfully!');
             this.changePasswordForm.reset();
             this.router.navigate(['/login']); 
           },
-          (error) => this.snackBar.open('Error changing password.', 'Close', { duration: 3000 })
+          (error) => this.toastr.error('Error changing password.')
         );
       } else {
-        this.snackBar.open('Passwords do not match.', 'Close', { duration: 3000 });
+        this.toastr.warning('Passwords do not match.');
       }
     }
   }
