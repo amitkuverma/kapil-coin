@@ -22,9 +22,9 @@ export class AccountDetailsService {
     return this.http.get<any[]>(`${environment.API_URL}/account`);
   }
 
-  // getAdminAccount(): Observable<any[]> {
-  //   return this.http.get<any[]>(`${environment.API_URL}/account/1`);
-  // }
+  getAccountById(accId: any): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.API_URL}/account/${accId}`);
+  }
 
   // getAccountById(): Observable<any[]> {
   //   return this.http.get<any[]>(`${environment.API_URL}/account/${this.cookiesService.decodeToken().userId}`);

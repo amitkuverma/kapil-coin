@@ -5,6 +5,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
+import { AccountDetailsService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-send-money',
@@ -33,6 +34,7 @@ export class SendMoneyComponent {
   pageSize = 100;
   pageIndex = 0;
   imageUrl: any;
+  accountDetails: any;
 
   @ViewChild('shareDialog') shareDialog!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,7 +42,8 @@ export class SendMoneyComponent {
   constructor(
     private trancService: TransactionService,
     private paymentService: PaymentService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private accountService: AccountDetailsService
   ) {
     this.fetchAccounts();
     this.imageUrl = environment.IMAGE_URL;
@@ -78,7 +81,14 @@ export class SendMoneyComponent {
   openConfirmationDialog(payment: any) {
     const dialogRef = this.dialog.open(this.shareDialog);
     this.paymentInfo = payment;
-    console.log(payment);
+    this.accountService.getAccountById(payment.transactionId).subscribe({
+      next: (transactions: any) => {
+        this.accountDetails = transactions
+      },
+      error: (error: any) => {
+        console.error('Error fetching transactions:', error);
+      }
+    });
     this.getUserPaymentDetails();
     this.getUserTransactionDetails()
 

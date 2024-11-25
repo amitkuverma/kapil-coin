@@ -211,10 +211,15 @@ export class MoneyTransferComponent {
       return;
     }
 
+    const parts = this.bankTransferForm.get('receiverName')?.value.split('accId'); // Split the value based on 'accId'
+    const bankName = parts[0]; // First part is bankName
+    const accId = parts[1]; // Second part is accId
+
     const data = {
       paymentType: 'withdraw',
       transactionAmount: transactionAmount,
-      receiverName: this.bankTransferForm.get('receiverName')?.value
+      receiverName: bankName,
+      transactionId: accId,
     };
 
     this.trancService.createTransaction(data).subscribe(
@@ -228,6 +233,7 @@ export class MoneyTransferComponent {
             this.toastr.success('Withdrawal request sent successfully!', 'Success');
             this.bankTransferForm.get('receiverName')?.setValue('');
             this.bankTransferForm.get('transactionAmount')?.setValue('');
+            this.getUserPayment();
           },
           (err:any)=>{
             this.toastr.error(err.error.message)

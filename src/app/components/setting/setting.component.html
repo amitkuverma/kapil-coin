@@ -67,7 +67,7 @@
                                 <mat-form-field appearance="fill" class="w-100">
                                     <mat-label>Email</mat-label>
                                     <input matInput formControlName="email" placeholder="Enter your email"
-                                        type="email" />
+                                        type="email" readonly />
                                     <mat-error
                                         *ngIf="editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.touched">
                                         <span *ngIf="editProfileForm.get('email')?.errors?.['required']">Email is

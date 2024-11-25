@@ -25,29 +25,29 @@
             <mat-card-title>Account Details</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <table>
+            <table class="w-100">
               <tr>
-                <td>Bank Name:</td>
+                <td><b>Bank Name:</b></td>
                 <td>{{ account.bankName }}</td>
               </tr>
               <tr>
-                <td>Account Number:</td>
+                <td><b>Account Number:</b></td>
                 <td>{{ account.accountNumber }}</td>
               </tr>
               <tr>
-                <td>Branch Name:</td>
+                <td><b>Branch Name:</b></td>
                 <td>{{ account.branchName }}</td>
               </tr>
               <tr>
-                <td>Account Type:</td>
+                <td><b>Account Type:</b></td>
                 <td>{{ account.accountType }}</td>
               </tr>
               <!-- Add other fields as necessary -->
             </table>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button color="primary" (click)="editAccount(account)">Edit</button>
             <button mat-raised-button color="warn" (click)="deleteAccount(account.accId)">Delete</button>
+            <button mat-raised-button color="primary" (click)="editAccount(account)">Edit</button>
           </mat-card-actions>
         </mat-card>
       </div>
@@ -100,13 +100,13 @@
 
         <!-- Form buttons -->
         <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit" class="mr-2">{{ formType }}</button>
           <button mat-raised-button color="warn" type="button" (click)="cancelEdit()">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" class="mr-2">Save</button>
         </mat-card-actions>
       </form>
     </mat-card-content>
   </div>
-  <div class="add-account-container">
+  <div class="add-account-container mt-3">
     <button mat-raised-button color="primary" (click)="addNewAccount()">Add Account</button>
   </div>
 </div>

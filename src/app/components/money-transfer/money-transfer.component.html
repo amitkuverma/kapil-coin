@@ -65,7 +65,7 @@
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Select Bank</mat-label>
               <mat-select formControlName="receiverName">
-                <mat-option *ngFor="let acc of accountDetails" [value]="acc.bankName">
+                <mat-option *ngFor="let acc of accountDetails" [value]="acc.bankName + 'accId' + acc.accId">
                   {{ acc.bankName }}
                 </mat-option>
               </mat-select>

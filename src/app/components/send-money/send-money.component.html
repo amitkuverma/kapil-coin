@@ -113,8 +113,47 @@
 
 <!-- Confirmation Dialog -->
 <ng-template #shareDialog>
-  <h2 mat-dialog-title>Confirmation</h2>
-  <mat-dialog-content>Are you sure you want to perform this action?</mat-dialog-content>
+  <div class="d-flex justify-content-between">
+    <div>
+      <h2 mat-dialog-title>Confirmation</h2>
+      <mat-dialog-content>Are you sure you want to perform this action?</mat-dialog-content>
+    </div>
+    <button mat-icon-button mat-dialog-close class="close-button d-flex">
+      <mat-icon>close</mat-icon>
+  </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="account-card col-12">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title class="txt-clrb7">Account Details</mat-card-title>
+          </mat-card-header>          
+          <mat-card-content>
+            <table class="w-100">
+              <tr>
+                <td><b>Bank Name:</b></td>
+                <td>{{ accountDetails.bankName }}</td>
+              </tr>
+              <tr>
+                <td><b>Account Number:</b></td>
+                <td>{{ accountDetails.accountNumber }}</td>
+              </tr>
+              <tr>
+                <td><b>Branch Name:</b></td>
+                <td>{{ accountDetails.branchName }}</td>
+              </tr>
+              <tr>
+                <td><b>Account Type:</b></td>
+                <td>{{ accountDetails.accountType }}</td>
+              </tr>
+              <!-- Add other fields as necessary -->
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
   <mat-dialog-actions class="d-flex justify-content-end">
     <button mat-button color="warn" (click)="actionCoinRequest('rejected')" class="mr-2">Rejected</button>
     <button mat-button color="primary" (click)="actionCoinRequest('approved')">Approved</button>
