@@ -69,7 +69,8 @@ export class RegisterComponent {
     { code: '+94', name: 'Sri Lanka' },
     { code: '+92', name: 'Pakistan' },
     { code: '+880', name: 'Bangladesh' },
-    { code: '+852', name: 'Hongkong' }
+    { code: '+852', name: 'Hongkong' },
+    { code: '+974', name: 'Qatar' },
     // You can add more countries as per your requirements
   ];
 
