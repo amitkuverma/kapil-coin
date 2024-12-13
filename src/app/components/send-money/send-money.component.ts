@@ -86,6 +86,7 @@ export class SendMoneyComponent {
         this.accountDetails = transactions
       },
       error: (error: any) => {
+        this.accountDetails = null
         console.error('Error fetching transactions:', error);
       }
     });

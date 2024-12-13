@@ -154,7 +154,7 @@
       </div>
     </div>
   </div>
-  <mat-dialog-actions class="d-flex justify-content-end" *ngIf="accountDetails?.status !== 'approved' && accountDetails?.status !== 'rejected'">
+  <mat-dialog-actions class="d-flex justify-content-end" *ngIf="accountDetails?.status === 'approved' || accountDetails?.status === 'rejected'">
     <button mat-button color="warn" (click)="actionCoinRequest('rejected')" class="mr-2">Rejected</button>
     <button mat-button color="primary" (click)="actionCoinRequest('approved')">Approved</button>
   </mat-dialog-actions>
