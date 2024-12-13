@@ -133,19 +133,19 @@
             <table class="w-100">
               <tr>
                 <td><b>Bank Name:</b></td>
-                <td>{{ accountDetails.bankName }}</td>
+                <td>{{ accountDetails?.bankName }}</td>
               </tr>
               <tr>
                 <td><b>Account Number:</b></td>
-                <td>{{ accountDetails.accountNumber }}</td>
+                <td>{{ accountDetails?.accountNumber }}</td>
               </tr>
               <tr>
                 <td><b>Branch Name:</b></td>
-                <td>{{ accountDetails.branchName }}</td>
+                <td>{{ accountDetails?.branchName }}</td>
               </tr>
               <tr>
                 <td><b>Account Type:</b></td>
-                <td>{{ accountDetails.accountType }}</td>
+                <td>{{ accountDetails?.accountType }}</td>
               </tr>
               <!-- Add other fields as necessary -->
             </table>
@@ -154,7 +154,7 @@
       </div>
     </div>
   </div>
-  <mat-dialog-actions class="d-flex justify-content-end">
+  <mat-dialog-actions class="d-flex justify-content-end" *ngIf="accountDetails?.status !== 'approved' && accountDetails?.status !== 'rejected'">
     <button mat-button color="warn" (click)="actionCoinRequest('rejected')" class="mr-2">Rejected</button>
     <button mat-button color="primary" (click)="actionCoinRequest('approved')">Approved</button>
   </mat-dialog-actions>
