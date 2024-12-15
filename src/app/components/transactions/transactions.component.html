@@ -52,6 +52,10 @@
             <ng-container matColumnDef="paymentType">
               <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
               <mat-cell *matCellDef="let payment"> {{payment.paymentType}} </mat-cell>
+            </ng-container>            
+            <ng-container matColumnDef="transactionId">
+              <mat-header-cell *matHeaderCellDef> Selected Account </mat-header-cell>
+              <mat-cell *matCellDef="let payment"> {{payment?.transactionId || 'NA'}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="transactionAmount">
               <mat-header-cell *matHeaderCellDef> Coin </mat-header-cell>
@@ -99,7 +103,7 @@
             </ng-container>
             <ng-container matColumnDef="transactionId">
               <mat-header-cell *matHeaderCellDef> Selected Account </mat-header-cell>
-              <mat-cell *matCellDef="let payment"> {{payment.transactionId || 'NA'}} </mat-cell>
+              <mat-cell *matCellDef="let payment"> {{payment?.transactionId || 'NA'}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="status">
               <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
@@ -173,6 +177,10 @@
             <ng-container matColumnDef="paymentType">
               <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
               <mat-cell *matCellDef="let payment"> {{payment.paymentType}} </mat-cell>
+            </ng-container>            
+            <ng-container matColumnDef="transactionId">
+              <mat-header-cell *matHeaderCellDef> Selected Account </mat-header-cell>
+              <mat-cell *matCellDef="let payment"> {{payment?.transactionId || 'NA'}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="transactionAmount">
               <mat-header-cell *matHeaderCellDef> Coins </mat-header-cell>
