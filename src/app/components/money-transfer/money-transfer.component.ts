@@ -16,7 +16,9 @@ import { AccountDetailsService } from 'src/app/services/account.service';
 export class MoneyTransferComponent {
   internalTransferForm: FormGroup;
   bankTransferForm: FormGroup;
-  userDetails: any = [];
+  userDetails: any[] = []; // List of users
+  receiverName: string = ''; // Holds the receiver's name
+  userNotFound: boolean = false; 
   userPaymentDetails: any;
   selectedUser: any;
   paymentInfo: any;
@@ -39,7 +41,7 @@ export class MoneyTransferComponent {
     this.getAllUserPaymentDetails();
     this.getUserPayment();
     this.internalTransferForm = this.fb.group({
-      receiverName: ['', Validators.required],
+      receiverUserId: ['', Validators.required],
       transactionAmount: ['', [Validators.required, Validators.min(1)]],
     });
 
@@ -57,7 +59,11 @@ export class MoneyTransferComponent {
   loadUsers() {
     this.userService.getUsers().subscribe(
       (res: any) => {
-        this.userDetails = res.filter((item: any) => item.status !== 'admin' && item.userId !== this.cookiesService.decodeToken().userId);
+        this.userDetails = res.filter(
+          (item: any) =>
+            item.status !== 'admin' &&
+            item.userId !== this.cookiesService.decodeToken().userId
+        );
       },
       (error: any) => {
         this.toastr.error('Failed to load user details.', 'Error');
@@ -121,8 +127,8 @@ export class MoneyTransferComponent {
   }
 
   openShareDialog() {
-    const selectedUserId = this.internalTransferForm.get('receiverName')?.value;
-    this.selectedUser = this.userDetails.find((user: any) => user.userId === selectedUserId);
+    const userId = this.internalTransferForm.get('receiverUserId')?.value;
+    this.selectedUser = this.userDetails.find((u) => u.userId === Number(userId));
     this.dialog.open(this.shareDialog);
   }
 
@@ -138,6 +144,18 @@ export class MoneyTransferComponent {
     );
   }
 
+  validateUserId() {
+    const userId = this.internalTransferForm.get('receiverUserId')?.value;
+    const user = this.userDetails.find((u) => u.userId === Number(userId));
+    if (user) {
+      this.receiverName = user.name;
+      this.userNotFound = false; // User is found
+    } else {
+      this.receiverName = '';
+      this.userNotFound = true; // User not found
+    }
+  }
+
   onInternalSubmit() {
     const totalAmount = this.userPaymentDetails?.totalAmount || 0;
     const transactionAmount = this.internalTransferForm.get('transactionAmount')?.value;
@@ -150,12 +168,12 @@ export class MoneyTransferComponent {
     const body = {
       userId: this.cookiesService.decodeToken().userId,
       userName: this.cookiesService.decodeToken().userName,
-      receiverName: this.internalTransferForm.get('receiverName')?.value,
+      receiverName: this.receiverName,
       paymentType: 'internal',
       transactionAmount: transactionAmount
     };
 
-    const selectedUserId = this.internalTransferForm.get('receiverName')?.value;
+    const selectedUserId = this.internalTransferForm.get('receiverUserId')?.value;
     const senderUser = this.userPaymentInfo.find((user: any) => user.userId === this.cookiesService.decodeToken().userId);
     const receiverUser = this.userPaymentInfo.find((user: any) => user.userId === selectedUserId);
 

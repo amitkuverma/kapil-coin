@@ -15,16 +15,25 @@
 
             <!-- Receiver User (Dropdown) -->
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Receiver Name</mat-label>
-              <mat-select formControlName="receiverName">
-                <mat-option *ngFor="let user of userDetails" [value]="user.userId">
-                  {{ user.name }}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="internalTransferForm.get('receiverName')?.invalid && internalTransferForm.get('receiverName')?.touched">
-                Receiver User is required.
+              <mat-label>Enter Receiver User ID</mat-label>
+              <input 
+                matInput 
+                formControlName="receiverUserId" 
+                (input)="validateUserId()" 
+                placeholder="Enter User ID"
+              />
+              <mat-error *ngIf="internalTransferForm.get('receiverUserId')?.invalid && internalTransferForm.get('receiverUserId')?.touched">
+                Receiver User ID is required.
+              </mat-error>
+              <mat-error *ngIf="userNotFound">
+                User not found or invalid User ID.
               </mat-error>
             </mat-form-field>
+            
+            <div *ngIf="receiverName">
+              <p>Receiver Name: <strong>{{ receiverName }}</strong></p>
+            </div>
+            
 
             <!-- Coin (Amount) -->
             <mat-form-field appearance="fill" class="full-width">
