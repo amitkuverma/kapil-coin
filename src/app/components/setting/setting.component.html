@@ -46,6 +46,7 @@
                         <div class="d-md-flex py-3">
                             <div class="text-center mb-3 profile-pic">
 
+                                <h2 class="mb-2">Profile</h2>
                                 <!-- Show the image preview when image is uploaded or selected -->
                                 <div *ngIf="isImageUploaded || imagePreviewUrl || user?.filepath">
                                     <img [src]="imagePreviewUrl ? imagePreviewUrl : imageUrl + user?.filepath"
@@ -61,6 +62,8 @@
                                 
 
                                 <!-- Show the image preview when image is uploaded or selected -->
+                                 
+                                <h2 class="mb-2">Identity Verification</h2>
                                 <div *ngIf="isDocUploaded || docPreviewUrl || user?.docpath">
                                     <img [src]="docPreviewUrl ? docPreviewUrl : imageUrl + user?.docpath"
                                         alt="document Image Preview" class="" />
