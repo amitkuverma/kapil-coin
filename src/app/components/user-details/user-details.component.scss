@@ -5,6 +5,15 @@
     color: #3f51b5;
   }
 
+  .rounded-profile-image {
+    max-width: 150px;
+    height: 150px;
+    border-radius: 50%; /* This makes the image rounded */
+    object-fit: cover; /* Ensures the image covers the entire area */
+    margin-top: 10px;
+    border: 2px solid #ccc; /* Optional: Add a border for a better visual appearance */
+  }
+  
   .user-info {
     display: flex;
     flex-direction: column;

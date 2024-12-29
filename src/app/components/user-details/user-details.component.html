@@ -1,21 +1,29 @@
 <div class="d-flex">
-  <button mat-button (click)="location.back()" class="mb-2"><mat-icon>arrow_back</mat-icon>Back</button>
+  <button mat-button (click)="location.back()" class="mb-2">
+    <mat-icon>arrow_back</mat-icon>Back
+  </button>
 </div>
 <div class="user-details-container">
-  <mat-card *ngIf="!user ">
+  <!-- No Account Found -->
+  <mat-card *ngIf="!user">
     <mat-card-header>
       <mat-card-title>No Account Found</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <p>No account details are available. Please add a new account.</p>
     </mat-card-content>
-    <!-- <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="addNewAccount()">Add Account</button>
-    </mat-card-actions> -->
   </mat-card>
+
+  <!-- User Account Details -->
   <mat-card *ngIf="user">
     <mat-card-header>
       <mat-card-title class="txt-clrb7">Welcome {{ user.name | uppercase }}</mat-card-title>
+      <mat-card-avatar>
+        <div *ngIf="user?.filepath" class="profile"  >
+          <img [src]="imageUrl + user?.filepath"
+              alt="Profile Image Preview" class="rounded-profile-image" />
+        </div>
+      </mat-card-avatar>
     </mat-card-header>
 
     <mat-card-content>
@@ -44,6 +52,14 @@
           <tr>
             <td>Status</td>
             <td class="text-capitalize">{{ user.status }}</td>
+          </tr>
+          <tr>
+            <td>Gov ID</td>
+            <td>
+              <a class="text-primary" *ngIf="user.docpath" [href]="imageUrl+user.docpath" target="_blank">
+                View Uploaded Gov ID
+              </a>
+            </td>
           </tr>
         </tbody>
       </table>
