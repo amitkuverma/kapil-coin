@@ -18,9 +18,12 @@ export class SettingComponent implements OnInit {
   changePasswordForm!: FormGroup;
   user!: any; // User information
   imagePreviewUrl: any;
+  docPreviewUrl: any;
   selectedImage: any;
+  selectedDoc: any;
   imageUrl:any;
   isImageUploaded:boolean = false;
+  isDocUploaded:boolean = false;
 
 
   constructor(
@@ -92,6 +95,21 @@ export class SettingComponent implements OnInit {
       this.editProfileForm.get('image')?.updateValueAndValidity();
     }
   }
+  onDocFileSelected(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      this.selectedDoc = target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.docPreviewUrl = reader.result;
+      };
+      reader.readAsDataURL(this.selectedDoc);
+
+      // Update form control for image
+      this.editProfileForm.patchValue({ document: this.selectedDoc });
+      this.editProfileForm.get('document')?.updateValueAndValidity();
+    }
+  }
 
   // Handle the upload action
   upload(type:any): void {
@@ -100,7 +118,7 @@ export class SettingComponent implements OnInit {
         .subscribe(
           response => {
             this.toastr.success('File uploaded successfully', 'Success');
-            this.isImageUploaded = true; // Mark image as uploaded
+            this.isDocUploaded = true; // Mark image as uploaded
           },
           error => {
             this.toastr.error('Error uploading file', 'Error');

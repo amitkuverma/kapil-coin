@@ -57,7 +57,22 @@
                                     <button mat-raised-button color="primary" class="w-100 mt-3" (click)="upload('user')"
                                         [disabled]="!selectedImage">Upload Profile</button>
                                 </div>
+                                <hr />
+                                
+
+                                <!-- Show the image preview when image is uploaded or selected -->
+                                <div *ngIf="isDocUploaded || docPreviewUrl || user?.docpath">
+                                    <img [src]="docPreviewUrl ? docPreviewUrl : imageUrl + user?.docpath"
+                                        alt="document Image Preview" class="" />
+                                </div>
+                                
+                                <div class="">
+                                    <input class="w-100 mt-3" type="file" (change)="onDocFileSelected($event)" />
+                                    <button mat-raised-button color="primary" class="w-100 mt-3" (click)="upload('document')"
+                                        [disabled]="!selectedDoc">Verify Your Identity with a Government ID</button>
+                                </div>
                             </div>
+                            
                             <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEditProfile()" class="pl-3">
                                 <mat-form-field appearance="fill" class="w-100">
                                     <mat-label>Name</mat-label>
@@ -96,20 +111,6 @@
                                 <button mat-raised-button color="primary" type="submit" class="w-100"
                                     [disabled]="editProfileForm.invalid">Save Changes</button>
                             </form>
-                            <div class="text-center mb-3 document-file">
-
-                                <!-- Show the image preview when image is uploaded or selected -->
-                                <div *ngIf="isImageUploaded || imagePreviewUrl || user?.filepath">
-                                    <img [src]="imagePreviewUrl ? imagePreviewUrl : imageUrl + user?.filepath"
-                                        alt="Profile Image Preview" class="" />
-                                </div>
-                                
-                                <div class="">
-                                    <input class="w-100 mt-3" type="file" (change)="onFileSelected($event)" />
-                                    <button mat-raised-button color="primary" class="w-100 mt-3" (click)="upload('document')"
-                                        [disabled]="!selectedImage">Verify Your Identity with a Government ID</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
