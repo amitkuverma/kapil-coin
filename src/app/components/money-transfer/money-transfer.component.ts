@@ -175,7 +175,8 @@ export class MoneyTransferComponent {
 
     const selectedUserId = this.internalTransferForm.get('receiverUserId')?.value;
     const senderUser = this.userPaymentInfo.find((user: any) => user.userId === this.cookiesService.decodeToken().userId);
-    const receiverUser = this.userPaymentInfo.find((user: any) => user.userId === selectedUserId);
+    const receiverUser = this.userPaymentInfo.find((user: any) => user.userId === Number(selectedUserId));
+      console.log(receiverUser)
 
     body.receiverName = receiverUser.userName;
     this.trancService.createTransaction(body).subscribe(
