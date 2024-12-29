@@ -124,6 +124,17 @@ export class SettingComponent implements OnInit {
             this.toastr.error('Error uploading file', 'Error');
           }
         );
+    }else{
+      this.uploadService.uploadFile(this.selectedDoc, this.cookies.decodeToken().userId, type)
+        .subscribe(
+          response => {
+            this.toastr.success('File uploaded successfully', 'Success');
+            this.isDocUploaded = true; // Mark image as uploaded
+          },
+          error => {
+            this.toastr.error('Error uploading file', 'Error');
+          }
+        );
     }
   }
 

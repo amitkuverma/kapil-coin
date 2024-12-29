@@ -204,7 +204,7 @@ export class MoneyTransferComponent {
         this.paymentService.updateUserStatus(receiverUser, receiverUser.payId).subscribe(
           () => {
             this.getUserPayment();
-            this.dialog.closeAll();
+            this.dialog?.closeAll();
             this.toastr.success('Internal transfer successful!', 'Success');
             this.internalTransferForm.get('transactionAmount')?.setValue('');
           },
