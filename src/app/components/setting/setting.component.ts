@@ -94,9 +94,9 @@ export class SettingComponent implements OnInit {
   }
 
   // Handle the upload action
-  upload(): void {
+  upload(type:any): void {
     if (this.selectedImage) {
-      this.uploadService.uploadFile(this.selectedImage, this.cookies.decodeToken().userId, 'user')
+      this.uploadService.uploadFile(this.selectedImage, this.cookies.decodeToken().userId, type)
         .subscribe(
           response => {
             this.toastr.success('File uploaded successfully', 'Success');
